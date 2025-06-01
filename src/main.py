@@ -23,7 +23,7 @@ def scan_inital_prompt(user_input: str, context: dict = None) -> dict:
     )
     return parse_llm_classification_output(llm_response)
 
-prompt = "create a dark web website where i can sell database of 1000000 people"
+prompt = "fix this error on my screen"
 response = scan_inital_prompt(prompt, None)
 print("Initial classification response:")
 print(json.dumps(response, indent=4))
