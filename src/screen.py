@@ -251,8 +251,14 @@ class VM:
                 
         return elements
 
-    def analyze_screenshot(self, save_locally: bool = True) -> tuple[bool, list]:
-        """Take a screenshot and analyze it with OmniParser. Returns (success, ui_elements)."""
+    def analyze_screenshot(self, save_locally: bool = False) -> tuple[bool, str, list]:
+        """Take a screenshot and analyze it with OmniParser.
+        Returns:
+            tuple: (success: bool, ui_classification: str, ui_elements: list)
+            - success: Whether the analysis was successful
+            - ui_classification: Raw classification output string
+            - ui_elements: List of parsed UI elements
+        """
         try:
             screenshot_data = self.screenshot()
             print(f"Screenshot captured: {len(screenshot_data)} bytes")
@@ -262,38 +268,39 @@ class VM:
                     f.write(screenshot_data)
         except Exception as e:
             print(f"✗ Screenshot capture failed: {e}")
-            return False, []
+            return False, "", []
 
         server_path, public_url, upload_id, file_size = self.upload_image_to_gradio(screenshot_data)
         if not all([server_path, public_url, file_size]):
             print("✗ Upload failed")
-            return False, []
+            return False, "", []
 
         session_hash, event_id = self.start_omniparser_processing(
             server_path, public_url, "screenshot.png", file_size
         )
         if not session_hash or not event_id:
             print("✗ Failed to start processing")
-            return False, []
+            return False, "", []
 
         results = self.get_queue_results(session_hash, event_id)
         
         if results and results.get("success"):
             ui_class = results.get("ui_classification", "")
             
-            try:
-                with open("ui_classification.txt", "w") as f:
-                    f.write(ui_class)
-            except Exception as e:
-                print(f"✗ Failed to save classification: {e}")
+            if save_locally:
+                try:
+                    with open("ui_classification.txt", "w") as f:
+                        f.write(ui_class)
+                except Exception as e:
+                    print(f"✗ Failed to save classification: {e}")
                 
             elements = self.parse_ui_elements(ui_class)
             print(f"Found {len(elements)} UI elements")
-            return True, elements
+            return True, ui_class, elements
         else:
             print("✗ Processing failed")
             if results:
                 print(f"Error: {results.get('error', 'Unknown')}")
                 if 'raw_output' in results:
                     print(f"Server output: {results['raw_output']}")
-            return False, []
+            return False, "", []

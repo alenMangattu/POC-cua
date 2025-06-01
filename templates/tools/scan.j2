@@ -1,0 +1,16 @@
+{% macro screen_context(ui_screen) %}
+## SCREEN CONTEXT
+
+Here is the current screen state detected by UI classification and OCR:
+{{ ui_screen }}
+
+Based on this screen context, classify the user's request into HTN, SIMPLE, or REFUSED.
+Your output **MUST NOT** be SCAN when screen context is provided.
+{% endmacro %}
+
+{% macro scan_response_format() %}
+For requests needing screen anlysis first, respond with JSON in this format:
+{
+    "classification": "SCAN"
+}
+{% endmacro %}
