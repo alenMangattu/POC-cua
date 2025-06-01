@@ -20,3 +20,7 @@ def analyse_genesis_classification(context=None):
         scan=scan_value,
         ui_screen=ui_screen_value
     )
+    
+def get_vision_model_prompt():
+    template = env.get_template("tools/vision_model.j2")
+    return template.render()

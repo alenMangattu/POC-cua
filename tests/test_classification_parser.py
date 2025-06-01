@@ -12,7 +12,7 @@ if _SRC_DIR not in sys.path:
     sys.path.insert(0, _SRC_DIR)
 
 # Now, the import should work correctly as `calling_tools` is in `_SRC_DIR`
-from calling_tools.classificaition import parse_llm_classification_output
+from calling_tools.classificaition_parser import parse_llm_classification_output
 
 class TestClassificationParser(unittest.TestCase):
 

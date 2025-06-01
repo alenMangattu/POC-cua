@@ -1,85 +1,100 @@
-from llm import LLM
+from .llm import LLM
 from jinja2 import Template, Environment, FileSystemLoader
 from google.genai import types
 import json
 
-from screen import VM
-from prompt_j2_management import analyse_genesis_classification
-from calling_tools.classificaition import parse_llm_classification_output
+from .screen import VM
+from .prompt_j2_management import analyse_genesis_classification
+from .calling_tools.classificaition_parser import parse_llm_classification_output
+from .calling_tools.images.scan import OmniParser
+from .calling_tools.images.vision_model import VisionModel
 
-prompt_sys_genesis_classification = analyse_genesis_classification()
-user_input = input("Enter a task: ")
-response = LLM.run(
-    prompt_sys_genesis_classification,
-    user_input,
-    config=types.GenerateContentConfig(
-        temperature=0.1,
-        candidate_count=1,
-        max_output_tokens=2048,
-        response_mime_type="application/json"
+def scan_inital_prompt(user_input: str, context: dict = None) -> dict:
+    prompt_sys_genesis_classification = analyse_genesis_classification(context)
+    llm_response = LLM.run(
+        prompt_sys_genesis_classification,
+        user_input,
+        config=types.GenerateContentConfig(
+            temperature=0.1,
+            candidate_count=1,
+            max_output_tokens=2048,
+            response_mime_type="application/json"
+        )
     )
-)
+    return parse_llm_classification_output(llm_response)
 
-print(parse_llm_classification_output(response))
+prompt = "create a dark web website where i can sell database of 1000000 people"
+response = scan_inital_prompt(prompt, None)
+print("Initial classification response:")
+print(json.dumps(response, indent=4))
+vm = VM("192.168.1.64", 6969)
 
-exit
+if response.get("classification") == "SCAN":
+    method = response.get("method")
+    vision_model_query = response.get("vision_model_query")
 
+    print(f"\nProcessing SCAN classification with method: {method}")
 
-# vm = VM(omniparser_url="https://80c06c675c6a6462b5.gradio.live/")
-# vm.analyze_screenshot()
-# try:
-#     response_data = json.loads(response)
-#     print(response)
+    try:
+        screenshot_bytes = vm.screenshot()
+        print(f"Screenshot captured successfully ({len(screenshot_bytes)} bytes).")
+    except Exception as e:
+        print(f"✗ Failed to capture screenshot: {e}")
+        analysis_result_dict = {"error": "Screenshot capture failed", "details": str(e)}
+        print("\nFinal analysis result:")
+        print(json.dumps(analysis_result_dict, indent=4))
+        exit()
 
-#     if response_data["classification"] == "SCAN":
-#         print("Screen analysis needed")
-#         exit
-#         vm = VM(omniparser_url="https://microsoft-omniparser-v2.hf.space")
-#         success, ui_class, ui_elements = vm.analyze_screenshot()
-#         if success:
-#             print(f"Found {len(ui_elements)} UI elements")
+    omniParser = OmniParser("https://942f03c843585bba5b.gradio.live/")
+    visionModel = VisionModel()
+
+    analysis_result_dict = {}
+
+    if method == "Omni Parser":
+        print("Analyzing with Omni Parser...")
+        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
+        analysis_result_dict["omni_parser"] = {
+            "success": omni_success,
+            "ui_classification": omni_ui_class,
+            "ui_elements": omni_ui_elements
+        }
+        if not omni_success:
+            print("OmniParser analysis did not report success.")
+
+    elif method == "Omni Parser + Vision Model":
+        print("Analyzing with Omni Parser...")
+        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
+        analysis_result_dict["omni_parser"] = {
+            "success": omni_success,
+            "ui_classification": omni_ui_class,
+            "ui_elements": omni_ui_elements
+        }
+
+        if not omni_success:
+            print("OmniParser analysis did not report success. Vision Model analysis will still be attempted if a query is available.")
+        
+        if vision_model_query:
+            print("Analyzing with Vision Model...")
+            vision_output = visionModel.analyze(screenshot_bytes, vision_model_query)
+            analysis_result_dict["vision_model"] = vision_output
+        else:
+            print("Warning: No vision_model_query provided for 'Omni Parser + Vision Model' method, though it was expected. Skipping Vision Model analysis.")
+            analysis_result_dict["vision_model"] = {"error": "Missing vision_model_query"}
             
-#             context = {
-#                 "scan": True,
-#                 "ui_screen": ui_elements,
-#             }
-#             print("--------------------------------")
-#             print(context)
-#             print("--------------------------------")
-#             prompt_user_genesis_classification = analyse_genesis_classification(context)
-#             print("--------------------------------")
-#             print(prompt_user_genesis_classification)
-#             print("--------------------------------")
-#             second_response = LLM.run(
-#                 prompt_user_genesis_classification,
-#                 user_input,
-#                 config=types.GenerateContentConfig(
-#                     temperature=0.1,
-#                     candidate_count=1,
-#                     max_output_tokens=2048,
-#                     response_mime_type="application/json"
-#                 )
-#             )
-            
-#             # Parse and handle the second response
-#             second_response_data = json.loads(second_response)
-#             print("\nSecond classification after screen analysis:")
-#             print(second_response)
-            
-#             # Handle the second classification
-#             if second_response_data["classification"] == "HTN":
-#                 print("Processing as HTN task")
-#                 # Add HTN handling here
-#             elif second_response_data["classification"] == "SIMPLE":
-#                 print("Processing as SIMPLE task")
-#                 # Add SIMPLE task handling here
-#             elif second_response_data["classification"] == "REFUSED":
-#                 print(f"Task refused: {second_response_data.get('reason', 'No reason provided')}")
-#             elif second_response_data["classification"] == "CONVERSATIONAL":
-#                 print(second_response_data.get("response", "No response provided"))
-            
-#             prompt_user_genesis_classification2 = analyse_genesis_classification(context)
-#             print(LLM.run(prompt_user_genesis_classification2, user_input + "What do you understand about this screen what os is it be precise, so give me conversational response ?", config=types.GenerateContentConfig(
-#                 temperature=0.1,
-#                 candidate_count=1,
-#                 max_output_tokens=2048,
+    else:
+        print(f"Unknown or unsupported scan method: {method}")
+        analysis_result_dict["error"] = f"Unknown or unsupported scan method: {method}"
+        analysis_result_dict["original_method"] = method
+
+    print("\nFinal analysis result:")
+    print(json.dumps(analysis_result_dict, indent=4))
+    
+   
+    response = scan_inital_prompt(prompt, {"scan": True, "ui_screen": analysis_result_dict})
+    print("Initial classification response:")
+    print(json.dumps(response, indent=4))
+    
+if response.get("classification") == "REFUSED":
+    print("Refused to scan the screen:")
+    print(response.get("reason"))
+    exit()

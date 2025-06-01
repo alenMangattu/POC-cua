@@ -35,6 +35,7 @@ Choose one of the following methods:
     - Interpreting visual attributes like colors, styles, or layouts in a subjective way.
     - Understanding emotions or scenes depicted.
     - Questions about things not easily described by standard UI tags.
+    - When the user asks to fix an error on the screen.
 
    The Omni Parser will first identify UI elements and icons. Then, your `vision_model_query` will be sent to a separate Vision Model along with the screen image.
 
@@ -60,7 +61,7 @@ Choose one of the following methods:
    {
        "classification": "SCAN",
        "method": "Omni Parser + Vision Model",
-       "vision_model_query": "Your specific, self-contained question for the Vision Model about the screen image."
+       "vision_model_query": "Your specific, self-contained questions for the Vision Model about the screen image."
    }
    ```
 
