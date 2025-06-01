@@ -3,14 +3,13 @@ from jinja2 import Template, Environment, FileSystemLoader
 from google.genai import types
 import json
 
-env = Environment(loader=FileSystemLoader(searchpath="./templates"))
-template = env.get_template("sys_gensis_classification.j2")
+from screen import VM
+from prompt_headers import analyse_genesis_classification
 
-LLM.initialize()
-
+prompt_headers = analyse_genesis_classification(3)
 user_input = input("Enter a task: ")
 response = LLM.run(
-    template.render(),
+    prompt_headers,
     user_input,
     config=types.GenerateContentConfig(
         temperature=0.1,
@@ -20,6 +19,8 @@ response = LLM.run(
     )
 )
 
+# vm = VM(omniparser_url="https://80c06c675c6a6462b5.gradio.live/")
+# vm.analyze_screenshot()
 try:
     response_data = json.loads(response)
     print(response)
