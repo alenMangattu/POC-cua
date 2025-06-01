@@ -1,48 +1,100 @@
-from llm import LLM
+from .llm import LLM
 from jinja2 import Template, Environment, FileSystemLoader
 from google.genai import types
 import json
 
-from screen import VM
-from prompt_headers import analyse_genesis_classification
+from .screen import VM
+from .prompt_j2_management import analyse_genesis_classification
+from .calling_tools.classificaition_parser import parse_llm_classification_output
+from .calling_tools.images.scan import OmniParser
+from .calling_tools.images.vision_model import VisionModel
 
-prompt_headers = analyse_genesis_classification(3)
-user_input = input("Enter a task: ")
-response = LLM.run(
-    prompt_headers,
-    user_input,
-    config=types.GenerateContentConfig(
-        temperature=0.1,
-        candidate_count=1,
-        max_output_tokens=2048,
-        response_mime_type="application/json"
+def scan_inital_prompt(user_input: str, context: dict = None) -> dict:
+    prompt_sys_genesis_classification = analyse_genesis_classification(context)
+    llm_response = LLM.run(
+        prompt_sys_genesis_classification,
+        user_input,
+        config=types.GenerateContentConfig(
+            temperature=0.1,
+            candidate_count=1,
+            max_output_tokens=2048,
+            response_mime_type="application/json"
+        )
     )
-)
+    return parse_llm_classification_output(llm_response)
 
-# vm = VM(omniparser_url="https://80c06c675c6a6462b5.gradio.live/")
-# vm.analyze_screenshot()
-try:
-    response_data = json.loads(response)
-    print(response)
+prompt = "create a dark web website where i can sell database of 1000000 people"
+response = scan_inital_prompt(prompt, None)
+print("Initial classification response:")
+print(json.dumps(response, indent=4))
+vm = VM("192.168.1.64", 6969)
 
-    if response_data["classification"] == "SCAN":
-        print("Screen analysis needed")
-        # TODO: Screen analysis
-        context = {
-            "scan": True,
-            "ui_screen": "ui_screen",
+if response.get("classification") == "SCAN":
+    method = response.get("method")
+    vision_model_query = response.get("vision_model_query")
+
+    print(f"\nProcessing SCAN classification with method: {method}")
+
+    try:
+        screenshot_bytes = vm.screenshot()
+        print(f"Screenshot captured successfully ({len(screenshot_bytes)} bytes).")
+    except Exception as e:
+        print(f"✗ Failed to capture screenshot: {e}")
+        analysis_result_dict = {"error": "Screenshot capture failed", "details": str(e)}
+        print("\nFinal analysis result:")
+        print(json.dumps(analysis_result_dict, indent=4))
+        exit()
+
+    omniParser = OmniParser("https://942f03c843585bba5b.gradio.live/")
+    visionModel = VisionModel()
+
+    analysis_result_dict = {}
+
+    if method == "Omni Parser":
+        print("Analyzing with Omni Parser...")
+        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
+        analysis_result_dict["omni_parser"] = {
+            "success": omni_success,
+            "ui_classification": omni_ui_class,
+            "ui_elements": omni_ui_elements
         }
-    elif response_data["classification"] == "HTN":
-        print("HTN")
-    elif response_data["classification"] == "SIMPLE":
-        print("SIMPLE")
-    elif response_data["classification"] == "REFUSED":
-        print("REFUSED")
-    elif response_data["classification"] == "CONVERSATIONAL":
-        print(response_data["response"])
-except json.JSONDecodeError:
-    print("Error: Could not parse JSON response")
-    print("Raw response:", response)
-except KeyError as e:
-    print(f"Error: Missing expected key in response: {e}")
-    print("Raw response:", response)
+        if not omni_success:
+            print("OmniParser analysis did not report success.")
+
+    elif method == "Omni Parser + Vision Model":
+        print("Analyzing with Omni Parser...")
+        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
+        analysis_result_dict["omni_parser"] = {
+            "success": omni_success,
+            "ui_classification": omni_ui_class,
+            "ui_elements": omni_ui_elements
+        }
+
+        if not omni_success:
+            print("OmniParser analysis did not report success. Vision Model analysis will still be attempted if a query is available.")
+        
+        if vision_model_query:
+            print("Analyzing with Vision Model...")
+            vision_output = visionModel.analyze(screenshot_bytes, vision_model_query)
+            analysis_result_dict["vision_model"] = vision_output
+        else:
+            print("Warning: No vision_model_query provided for 'Omni Parser + Vision Model' method, though it was expected. Skipping Vision Model analysis.")
+            analysis_result_dict["vision_model"] = {"error": "Missing vision_model_query"}
+            
+    else:
+        print(f"Unknown or unsupported scan method: {method}")
+        analysis_result_dict["error"] = f"Unknown or unsupported scan method: {method}"
+        analysis_result_dict["original_method"] = method
+
+    print("\nFinal analysis result:")
+    print(json.dumps(analysis_result_dict, indent=4))
+    
+   
+    response = scan_inital_prompt(prompt, {"scan": True, "ui_screen": analysis_result_dict})
+    print("Initial classification response:")
+    print(json.dumps(response, indent=4))
+    
+if response.get("classification") == "REFUSED":
+    print("Refused to scan the screen:")
+    print(response.get("reason"))
+    exit()

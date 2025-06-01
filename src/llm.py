@@ -77,4 +77,6 @@ class LLM:
             contents=contents,
             config=generation_config
         )
+        print("--------------------------------")
+        print(response)
         return response.text
