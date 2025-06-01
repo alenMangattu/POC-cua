@@ -9,8 +9,66 @@ Your output **MUST NOT** be SCAN when screen context is provided.
 {% endmacro %}
 
 {% macro scan_response_format() %}
-For requests needing screen anlysis first, respond with JSON in this format:
-{
-    "classification": "SCAN"
-}
+When the user's request requires understanding the screen content to proceed, you must respond with a JSON object to trigger the appropriate screen analysis method. 
+
+**Important Note on Efficiency:** The "Omni Parser + Vision Model" method is more computationally expensive. Use it **only when strictly necessary** for the task. Prefer the "Omni Parser" alone if the request can be satisfied by UI element and text recognition.
+
+Choose one of the following methods:
+
+**1. Standard Screen Analysis (Omni Parser)**
+
+   Use this method if the request *only* requires identifying and understanding standard UI elements, icons, and text on the screen.
+   Examples: "Click the login button", "What does the error message say?", "Find the search bar".
+
+   Respond with this JSON format:
+   ```json
+   {
+       "classification": "SCAN",
+       "method": "Omni Parser"
+   }
+   ```
+
+**2. Advanced Visual Analysis (Omni Parser + Vision Model)**
+
+   Use this method if the request requires more than just UI element recognition. This is for tasks that need deeper visual interpretation of non-UI content, such as:
+    - Analyzing images or complex graphics.
+    - Interpreting visual attributes like colors, styles, or layouts in a subjective way.
+    - Understanding emotions or scenes depicted.
+    - Questions about things not easily described by standard UI tags.
+
+   The Omni Parser will first identify UI elements and icons. Then, your `vision_model_query` will be sent to a separate Vision Model along with the screen image.
+
+   **Important Details for `vision_model_query`:**
+   *   It must be a specific question *you* (the AI agent) formulate for the Vision Model.
+   *   It must be answerable by looking **only** at the provided screen image.
+   *   The Vision Model receives **only** this query and the image. It does **NOT** have access to the original user prompt, conversational history, or any other external context.
+   *   Remember, this method has higher computational costs, so ensure the visual query is truly essential for task completion.
+
+   **Good `vision_model_query` Examples (answerable from image alone):**
+     - "What is the dominant color of the background image?"
+     - "Is the person in the photo on the left smiling?"
+     - "Describe the style of the drawing in the center of the screen."
+     - "Are there any handwritten notes visible in the top-right quadrant of the image?"
+
+   **Bad `vision_model_query` Examples (rely on external context):**
+     - "What text is the user referring to?" (Vision Model doesn't know the user's original reference)
+     - "Is this the button the user wanted to click?" (Vision Model doesn't know user's intent)
+     - "Find the element mentioned earlier." (Vision Model has no memory of "earlier")
+
+   Respond with this JSON format:
+   ```json
+   {
+       "classification": "SCAN",
+       "method": "Omni Parser + Vision Model",
+       "vision_model_query": "Your specific, self-contained question for the Vision Model about the screen image."
+   }
+   ```
+
+**Parameter Explanation:**
+
+*   `"classification": "SCAN"`: Indicates that screen analysis is needed.
+*   `"method"`:
+    *   `"Omni Parser"`: For UI element and text recognition. (Lower computational cost)
+    *   `"Omni Parser + Vision Model"`: For UI recognition plus deeper visual analysis via a separate query. (Higher computational cost - use judiciously)
+*   `"vision_model_query"` (Only for "Omni Parser + Vision Model" method): Your direct, self-contained question to the vision model about the screen image.
 {% endmacro %}
