@@ -1,17 +1,17 @@
-{% macro screen_context(ui_screen) %}
+{% macro screen_context(ui_screen, method) %}
 ## SCREEN CONTEXT
 
-Here is the current screen state detected by UI classification and OCR:
+Here is the current screen state detected by {{ method }}:
 {{ ui_screen }}
 
-Based on this screen context, classify the user's request into HTN, SIMPLE, or REFUSED.
-Your output **MUST NOT** be SCAN when screen context is provided.
 {% endmacro %}
 
 {% macro scan_response_format() %}
+**OUTPUT FORMAT**
+Use this only if necessary and when you want to confirm something or need some context from the screen.
 When the user's request requires understanding the screen content to proceed, you must respond with a JSON object to trigger the appropriate screen analysis method. 
 
-**Important Note on Efficiency:** The "Omni Parser + Vision Model" method is more computationally expensive. Use it **only when strictly necessary** for the task. Prefer the "Omni Parser" alone if the request can be satisfied by UI element and text recognition.
+**Important Note on Efficiency:** All screen analysis methods have computational costs. The "Vision Model" and "Omni Parser" methods are computationally expensive, while the "Omni Parser + Vision Model" combined method is the most computationally intensive. Use each method only when necessary for your task, when they can satisfy the requirements. The "Omni Parser" alone is sufficient for basic UI element and text recognition, the "Vision Model" for pure visual analysis, and reserve the combined method only for cases requiring both capabilities. Use the area parameter to specify the region of the screen to analyze.
 
 Choose one of the following methods:
 
@@ -24,26 +24,58 @@ Choose one of the following methods:
    ```json
    {
        "classification": "SCAN",
-       "method": "Omni Parser"
+       "method": "Omni Parser",
+       "area": {
+           "type": "full",          // Or "region", "window". See full 'area' definition below.
+           "coordinates": [],
+           "window_id": ""
+       }
    }
    ```
 
-**2. Advanced Visual Analysis (Omni Parser + Vision Model)**
+**2. Visual Analysis (Vision Model)**
 
-   Use this method if the request requires more than just UI element recognition. This is for tasks that need deeper visual interpretation of non-UI content, such as:
-    - Analyzing images or complex graphics.
-    - Interpreting visual attributes like colors, styles, or layouts in a subjective way.
-    - Understanding emotions or scenes depicted.
-    - Questions about things not easily described by standard UI tags.
-    - When the user asks to fix an error on the screen.
+   Use this method when you need to ask specific questions about visual content without needing UI element recognition. This is suitable for:
+    - Direct questions about images or graphics
+    - Visual interpretation tasks
+    - Understanding visual attributes or scenes
+    - Analyzing colors, styles, or layouts
+
+   **Important Details for `vision_model_query`:**
+   *   It must be a specific question that can be answered by looking at the image alone
+   *   The Vision Model only receives the query and image, with no other context
+   *   Make queries clear, specific, and self-contained
+
+   Respond with this JSON format:
+   ```json
+   {
+       "classification": "SCAN",
+       "method": "Vision Model",
+       "vision_model_query": "Your specific question about what you see in the image.",
+       "area": {
+           "type": "full",          // Or "region", "window". See full 'area' definition below.
+           "coordinates": [],
+           "window_id": ""
+       }
+   }
+   ```
+
+**3. Advanced Visual Analysis (Omni Parser + Vision Model)**
+
+   Use this method if the request requires both UI element recognition AND deeper visual interpretation, such as:
+    - Analyzing images or complex graphics
+    - Interpreting visual attributes like colors, styles, or layouts in a subjective way
+    - Understanding emotions or scenes depicted
+    - Questions about things not easily described by standard UI tags
+    - When the user asks to fix an error on the screen
 
    The Omni Parser will first identify UI elements and icons. Then, your `vision_model_query` will be sent to a separate Vision Model along with the screen image.
 
    **Important Details for `vision_model_query`:**
-   *   It must be a specific question *you* (the AI agent) formulate for the Vision Model.
-   *   It must be answerable by looking **only** at the provided screen image.
-   *   The Vision Model receives **only** this query and the image. It does **NOT** have access to the original user prompt, conversational history, or any other external context.
-   *   Remember, this method has higher computational costs, so ensure the visual query is truly essential for task completion.
+   *   It must be a specific question *you* (the AI agent) formulate for the Vision Model
+   *   It must be answerable by looking **only** at the provided screen image
+   *   The Vision Model receives **only** this query and the image. It does **NOT** have access to the original user prompt, conversational history, or any other external context
+   *   Remember, this method has higher computational costs, so ensure the visual query is truly essential for task completion
 
    **Good `vision_model_query` Examples (answerable from image alone):**
      - "What is the dominant color of the background image?"
@@ -61,15 +93,71 @@ Choose one of the following methods:
    {
        "classification": "SCAN",
        "method": "Omni Parser + Vision Model",
-       "vision_model_query": "Your specific, self-contained questions for the Vision Model about the screen image."
+       "vision_model_query": "Your specific, self-contained questions for the Vision Model about the screen image.",
+       "area": {
+           "type": "full",          // Or "region", "window". See full 'area' definition below.
+           "coordinates": [],
+           "window_id": ""
+       }
    }
    ```
+
+**Parameter Validation Rules:**
+*   `area.type`: Must be one of:
+    *   `"region"`: Requires `coordinates` to be set, `window_id` must be empty
+    *   `"window"`: Requires `window_id` to be set, `coordinates` must be empty
+    *   `"full"`: Both `coordinates` and `window_id` must be empty
+*   `area.coordinates`: Array [x, y, width, height] - Required when type is "region", must be empty for other types
+*   `area.window_id`: String - Required when type is "window", must be empty for other types
 
 **Parameter Explanation:**
 
 *   `"classification": "SCAN"`: Indicates that screen analysis is needed.
 *   `"method"`:
     *   `"Omni Parser"`: For UI element and text recognition. (Lower computational cost)
+    *   `"Vision Model"`: For direct visual interpretation without UI element recognition.
     *   `"Omni Parser + Vision Model"`: For UI recognition plus deeper visual analysis via a separate query. (Higher computational cost - use judiciously)
-*   `"vision_model_query"` (Only for "Omni Parser + Vision Model" method): Your direct, self-contained question to the vision model about the screen image.
+*   `"vision_model_query"` (Applicable for "Vision Model" and "Omni Parser + Vision Model" methods): Your direct, self-contained question to the vision model about the screen image.
+*   `"area"`: Required. Specifies the region of the screen to analyze. The wmctrl output will be provided in the user's request to help determine valid window IDs and coordinates. Example wmctrl output:
+    ```
+    0x01000034  0 -5463 1    1364 753  archLinux QEMU
+    0x0340002c  0 -5463 1    1364 753  archLinux Chat | Google AI Studio — Mozilla Firefox
+    ```
+    The area object has the following structure:
+    ```json
+    "area": {
+        "type": "region",           // Must be "region", "full", or "window"
+        "coordinates": [x, y, width, height],  // Required for type="region". For type="full", must be empty []. Must be empty for type="window".
+                                              // Coordinates should be derived from wmctrl output or through vision model analysis
+        "window_id": ""             // Required for type="window". Must be a valid window ID from wmctrl output (first column).
+                                   // Must be empty "" for type="region" or type="full".
+    }
+    ```
+
+    **Important Notes on Area Specification:**
+    - For `window` type: The `window_id` MUST match a valid window ID from the wmctrl output (first column, e.g., "0x01000034")
+    - For `region` type: Coordinates are tricky and require context. They can be derived from:
+      1. The wmctrl output (columns 3-6 provide x, y, width, height)
+      2. Vision model analysis of the screen
+      3. Other contextual information provided in the request
+    - For `full` type: No additional parameters needed, both coordinates and window_id should be empty
+    
+    **Coordinate Validation Rules:**
+    - All coordinate values (x, y) and dimensions (width, height) MUST be non-negative integers
+    - If wmctrl output shows negative values (e.g., x=-5463), this indicates an invalid window position
+    - Width and height MUST be greater than 0
+    - Invalid coordinate examples that should NOT be used:
+      ```
+      "coordinates": [-5463, 1, 1364, 753]    // Negative x coordinate - INVALID
+      "coordinates": [0, -100, 800, 600]      // Negative y coordinate - INVALID
+      "coordinates": [100, 100, 0, 500]       // Zero width - INVALID
+      "coordinates": [100, 100, -800, 500]    // Negative width - INVALID
+      ```
+    - Valid coordinate examples:
+      ```
+      "coordinates": [0, 0, 1920, 1080]       // Full screen dimensions
+      "coordinates": [475, 111, 991, 642]     // Positive values from wmctrl
+      ```
+
+    Refer to **Parameter Validation Rules** above for detailed conditions on `type`, `coordinates`, and `window_id`.
 {% endmacro %}

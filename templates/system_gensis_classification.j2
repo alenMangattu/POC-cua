@@ -32,7 +32,7 @@ Use SIMPLE for requests that follow normal human computer interaction:
 - Simple application usage (editing in existing software)
 - Basic file operations
 - Single-step or few-step actions
-- Tasks that mirror typical human computer usage
+- Tasks that mirror typical human computer usage that can be done in less than 15 minutes
 
 Examples:
 - "Get today's weather forecast"
@@ -75,12 +75,15 @@ If the user input is conversational rather than a task request, respond normally
 - Greetings: "hi", "hello", "hey"  
 - Identity questions: "who are you?", "what are you?"
 - Capability questions: "what can you do?", "help me"
-- General chat or questions without specific tasks
+- General chat
+- Asking something that is not a task
 
 For these inputs, provide brief, friendly responses without mentioning your classification role.
 
 {% if scan %}
-{{ screen_context(ui_screen) }}
+{{ screen_context(ui_screen, method) }}
+Based on this screen context, classify the user's request into HTN, SIMPLE, or REFUSED.
+Your output **MUST NOT** be SCAN when screen context is provided.
 {% else %}
 ## SCREEN ANALYSIS NEEDS
 
