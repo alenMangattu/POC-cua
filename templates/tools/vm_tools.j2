@@ -1,0 +1,207 @@
+{%- if not is_scan_managed | default(false) %}
+{%- from "tools/scan.j2" import scan_response_format, screen_context -%}
+{%- set is_scan_managed = true %}
+{%- endif %}
+
+{% macro vm_tools_context() %}
+## VM TOOLS CONTEXT
+
+The VM Tools provide a set of API endpoints for interacting with the virtual machine's screen, mouse, keyboard, and window management. These tools allow you to:
+- Capture screenshots
+- Control mouse movement
+- Send keyboard input
+- Manage window focus
+- Get window information
+
+{% endmacro %}
+
+{% macro max_operations() %}5{% endmacro %}
+
+{% macro vm_tools_response_format() %}
+**OUTPUT FORMAT**
+When you need to interact with the VM, respond with a JSON object that specifies a sequence of operations. This allows for stacking multiple actions and inserting delays. The `classification` field helps distinguish this command from other tool commands (e.g., screen scanning).
+
+While you can stack multiple operations, avoid an excessive number in a single request (e.g., maximum of {{ max_operations() }} operations) to ensure reliable execution.
+{% if scan and is_scan_managed %}
+When visual information or UI element details from the screen are needed to decide the next VM operations, ensure you have used a `SCAN` request recently. This `VM_TOOLS` output should only contain the direct interaction steps.
+Here is the screen context:
+{{ screen_context(ui_screen, method) }}
+{% else %}
+To gather information about the screen (e.g., UI elements, window details) before deciding on VM operations, you will need to issue a request using the screen scanning tool. Its classification is `SCAN`.
+{{ scan_response_format() if not is_scan_managed }}
+{% endif %}
+
+```json
+{
+    "classification": "VM_TOOLS",
+    "operations": [
+        {
+            "type": "action",       // "action" or "sleep"
+            "action_name": "moveto", // e.g., "moveto", "input", "scroll" (if type is "action")
+            "parameters": {         // Action-specific parameters (if type is "action")
+                "x": 100,
+                "y": 200
+            }
+        },
+        {
+            "type": "sleep",
+            "duration_ms": 500      // Duration in milliseconds (if type is "sleep")
+        }
+        // ... more operations can be added here
+    ]
+}
+```
+
+**1. Available VM Actions (for `type: "action"`)**
+
+   Each action is defined as an object within the `operations` array with `type: "action"`.
+
+   **1.1 Absolute Mouse Movement (moveto)**
+   Moves the cursor to specific coordinates.
+   Example operation:
+   ```json
+   {
+       "type": "action",
+       "action_name": "moveto",
+       "parameters": {
+           "x": 100,           // Required: target x-coordinate
+           "y": 200            // Required: target y-coordinate
+       }
+   }
+   ```
+
+   **1.2 Relative Mouse Movement (moverel)**
+   Moves the cursor relative to its current position.
+   Example operation:
+   ```json
+   {
+       "type": "action",
+       "action_name": "moverel",
+       "parameters": {
+           "direction": "up",  // Required: "up", "down", "left", "right", "upleft", "upright", "downleft", "downright"
+           "pixels": 10        // Optional: number of pixels to move (default: 10)
+       }
+   }
+   ```
+
+   **1.3 Keyboard Input (input)**
+   Types text or sends key combinations.
+   Example operations:
+   - Text input:
+     ```json
+     {
+         "type": "action",
+         "action_name": "input",
+         "parameters": {
+             "type": "text",     // Required: "text" or "hotkey"
+             "content": "Hello World", // Required: string for text, string/array for hotkey
+             "interval": 0.1     // Optional: delay between keystrokes (default: 0.1)
+         }
+     }
+     ```
+   - Single hotkey:
+     ```json
+     {
+         "type": "action",
+         "action_name": "input",
+         "parameters": {
+             "type": "hotkey",
+             "content": "enter"
+         }
+     }
+     ```
+   - Hotkey combination:
+     ```json
+     {
+         "type": "action",
+         "action_name": "input",
+         "parameters": {
+             "type": "hotkey",
+             "content": ["ctrl", "c"]
+         }
+     }
+     ```
+
+   **1.4 Scrolling (scroll)**
+   Scrolls the window up or down.
+   Example operation:
+   ```json
+   {
+       "type": "action",
+       "action_name": "scroll",
+       "parameters": {
+           "direction": "up",  // Required: "up" or "down"
+           "clicks": 1         // Optional: number of scroll clicks (default: 1)
+       }
+   }
+   ```
+
+   **1.5 Change Window Focus (changewmctrlinfo)**
+   Focuses a specific window.
+   Example operation:
+   ```json
+   {
+       "type": "action",
+       "action_name": "changewmctrlinfo",
+       "parameters": {
+           "window_id": "0x01000034"  // Required: window ID in hex format
+       }
+   }
+   ```
+
+**2. Sleep Operation (`type: "sleep"`)**
+   Pauses execution for a specified duration. This is defined as an object within the `operations` array with `type: "sleep"`.
+   Example operation:
+   ```json
+   {
+       "type": "sleep",
+       "duration_ms": 500  // Required: duration in milliseconds, positive integer
+   }
+   ```
+
+**Example: Stacked Actions with Sleep**
+This example moves the mouse, waits 200ms, types "Example", and then presses Enter.
+```json
+{
+    "classification": "VM_TOOLS",
+    "operations": [
+        {
+            "type": "action",
+            "action_name": "moveto",
+            "parameters": {"x": 500, "y": 300}
+        },
+        {
+            "type": "sleep",
+            "duration_ms": 200
+        },
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {"type": "text", "content": "Example"}
+        },
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {"type": "hotkey", "content": "enter"}
+        }
+    ]
+}
+```
+
+**Parameter Validation Rules:**
+- `classification` must be the string "VM_TOOLS".
+- `operations` must be a non-empty array of operation objects, with a recommended maximum of {{ max_operations() }} operations per request.
+- Each operation object in the `operations` array must have a `type` field, which is either "action" or "sleep".
+  - If `type` is "action":
+    - It must have an `action_name` field specifying the VM action (e.g., "moveto", "input").
+    - It must have a `parameters` object containing the specific parameters for that `action_name`.
+    - The parameters within the `parameters` object are subject to their original validation rules:
+        - All numeric parameters (`x`, `y`, `pixels`, `clicks`) must be positive integers.
+        - Window IDs must be hexadecimal strings starting with "0x".
+        - `direction` parameters must match their specified allowed values.
+        - Input `type` must be either "text" or "hotkey".
+        - `interval` must be a positive float.
+  - If `type` is "sleep":
+    - It must have a `duration_ms` field, which must be a positive integer.
+
+{% endmacro %}

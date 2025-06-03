@@ -5,13 +5,17 @@ from google.genai import types
 import getpass
 from typing import Optional, Union, Iterator, List
 import sys
+import re
+
+def filter_string(s: str) -> str:
+    return ''.join(re.findall(r'[a-zA-Z0-9.,]', s))
 
 class LLM:
     _model_name = "gemini-2.0-flash"
     _client = None
 
     @classmethod
-    def initialize(cls, model_name: str = "gemini-2.0-flash-exp"):
+    def initialize(cls, model_nme: str = "gemini-2.0-flash-exp"):
         load_dotenv()
         api_key = os.getenv("GOOGLE_API_KEY")
         
@@ -20,7 +24,7 @@ class LLM:
             print("\nEnter Google API key for in-memory temporary use: ", file=sys.stderr)
             api_key = getpass.getpass("")
             
-        cls._model_name = model_name
+        cls._model_name = "gemini-2.0-flash-exp"
         cls._client = genai.Client(api_key=api_key)
 
     @classmethod
@@ -51,8 +55,15 @@ class LLM:
         if not user_prompt:
             print("No user prompt provided", file=sys.stderr)
             return
-        
+       
+        system_prompt = filter_string(system_prompt)
+        # user_prompt = filter_string(user_prompt)
+       
+        print(f"System prompt: {system_prompt}")
+        print(f"User prompt: {user_prompt}")
+
         contents.append(user_prompt)
+
         
         if image is not None:
             contents.append(image)
@@ -63,6 +74,7 @@ class LLM:
         else:
             generation_config = config
             generation_config.system_instruction = system_prompt
+
 
         if stream:
             response = cls._client.models.generate_content_stream(

@@ -1,4 +1,7 @@
-{% from "tools/scan.j2" import scan_response_format, screen_context %}
+{%- if not is_scan_managed | default(false) %}
+{%- from "tools/scan.j2" import scan_response_format, screen_context -%}
+{%- set is_scan_managed = true %}
+{%- endif %}
 
 # Task Planning System
 
@@ -228,7 +231,7 @@ Task Analysis: Check for Firefox installation and remove if present.
 - Specify exact UI element names to click
 - All responses must be valid JSON objects with steps and end marker
 
-{% if scan %}
+{% if scan and is_scan_managed %}
 {{ screen_context(ui_screen, method) }}
 You can use this reference for you to plan the steps:
 Here is the the output of the wmctrlinfo tool:
@@ -236,7 +239,38 @@ Here is the the output of the wmctrlinfo tool:
 {% else %}
 Here is the the output of the wmctrlinfo tool:
 {{ wmctrlinfo }}
-{{ scan_response_format() }}
+{{ scan_response_format() if not is_scan_managed }}
 {% endif %}
 
+{% if htn %} 
+This is the high-level prompt that was originally given by the user:
+{{ original_prompt }}
+
+# HTN Context
+Current task level: {{ htn_level }}
+Parent task: {{ parent_task }}
+
+Related tasks in current decomposition:
+Previous sibling task: {{ prev_sibling_task if prev_sibling_task else "None" }}
+Next sibling task: {{ next_sibling_task if next_sibling_task else "None" }}
+Dependent tasks: {{ dependent_tasks if dependent_tasks else "[]" }}
+Prerequisites: {{ prerequisite_tasks if prerequisite_task else "[]" }}
+
+# IMPORTANT: Scope Constraint
+You MUST stay strictly within the scope of the parent task. Do not:
+- Add functionality beyond the parent task's requirements
+- Skip or modify prerequisites defined by the parent
+- Make assumptions that contradict the parent task's context
+- Introduce dependencies not specified in the HTN decomposition
+
+This is the current sub-task from the HTN decomposition:
+{{ task }}
+
+# Note: This template will handle the leaf-level executable tasks from the HTN decomposition.
+# Each leaf task should map to concrete, executable steps as shown in the examples above.
+# Consider dependencies and relationships with neighboring tasks when planning steps.
+{% else %}
 Here is the request:
+{{ task }}
+
+{% endif %}

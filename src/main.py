@@ -28,6 +28,7 @@ prompt = input("Enter your prompt: ")
 response = scan_inital_prompt(prompt, None)
 print("Initial classification response:")
 print(json.dumps(response, indent=4))
+exit()
 vm = VM("192.168.1.64", 6969)
 
 if response.get("classification") == "SCAN":
