@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 import os
+from .screen import VM
 
 # Setup Jinja2 environment
 template_dir = os.path.join(os.path.dirname(__file__), '../templates')
@@ -8,7 +9,9 @@ env = Environment(loader=FileSystemLoader(template_dir), trim_blocks=True, lstri
 def analyse_genesis_classification(context=None):
     if context is None:
         context = {} # Ensure context is always a dict
-    
+   
+    vm = VM("192.168.1.64", 6969)
+    wmctrlinfo = vm.get_wmctrl_info()
     template = env.get_template("system_gensis_classification.j2")
     
     # Ensure 'scan' and 'ui_screen' have defaults if not in context for rendering
@@ -18,7 +21,8 @@ def analyse_genesis_classification(context=None):
     
     return template.render(
         scan=scan_value,
-        ui_screen=ui_screen_value
+        ui_screen=ui_screen_value,
+        wmctrlinfo=wmctrlinfo
     )
     
 def get_vision_model_prompt():

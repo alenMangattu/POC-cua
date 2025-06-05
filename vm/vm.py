@@ -137,10 +137,102 @@ def scroll():
 @app.route('/wmctrlinfo', methods=['GET'])
 def get_wmctrl_info():
     try:
-        result = subprocess.run(['wmctrl', '-lG'], capture_output=True, text=True, check=True)
-        return {'success': True, 'output': result.stdout}
+        # Get general window info
+        wmctrl_result = subprocess.run(['wmctrl', '-lG'], capture_output=True, text=True, check=True)
+        
+        # Get active window info
+        active_window_cmd = "xdotool getactivewindow"
+        active_window_id_raw = subprocess.run(active_window_cmd, shell=True, capture_output=True, text=True, check=True).stdout.strip()
+        active_window_id = f"0x{int(active_window_id_raw, 10):08x}" if active_window_id_raw else ""
+        
+        active_window_info = ""
+        if active_window_id:
+            active_window_lookup_cmd = f"wmctrl -lG | grep {active_window_id}"
+            active_window_lookup_result = subprocess.run(active_window_lookup_cmd, shell=True, capture_output=True, text=True)
+            active_window_info = active_window_lookup_result.stdout.strip()
+
+        # Get default applications
+        default_apps_cmd = '''for mime in text/html x-scheme-handler/mailto text/calendar audio/mpeg video/mp4 image/jpeg; do
+                               echo "$mime: $(xdg-mime query default $mime)"
+                           done'''
+        default_apps_result = subprocess.run(default_apps_cmd, shell=True, capture_output=True, text=True)
+
+        # Get system information
+        uname_result = subprocess.run(['uname', '-a'], capture_output=True, text=True, check=True)
+        lscpu_result = subprocess.run(['lscpu'], capture_output=True, text=True, check=True)
+        free_result = subprocess.run(['free', '-h'], capture_output=True, text=True, check=True)
+        
+        # Parse window_list
+        parsed_window_list = []
+        for line in wmctrl_result.stdout.strip().split('\n'):
+            if line:
+                parts = line.split(None, 8)  # Split by whitespace, max 8 splits
+                if len(parts) >= 8:
+                    try:
+                        window_id = parts[0]
+                        desktop = int(parts[1])
+                        geometry_x = int(parts[2])
+                        geometry_y = int(parts[3])
+                        geometry_width = int(parts[4])
+                        geometry_height = int(parts[5])
+                        # hostname = parts[6] # Removed as per user request
+                        title = parts[7]
+                        if 0 <= desktop <= 10:
+                            parsed_window_list.append({
+                                'id': window_id,
+                                'desktop': desktop,
+                                'geometry': {'x': geometry_x, 'y': geometry_y, 'width': geometry_width, 'height': geometry_height},
+                                # 'hostname': hostname, # Removed as per user request
+                                'title': title
+                            })
+                    except ValueError:
+                        # Handle cases where parsing fails for a line
+                        continue
+        
+        # Parse active_window
+        parsed_active_window = {}
+        if active_window_info:
+            parts = active_window_info.split(None, 8)
+            if len(parts) >= 8:
+                try:
+                    window_id = parts[0]
+                    desktop = int(parts[1])
+                    geometry_x = int(parts[2])
+                    geometry_y = int(parts[3])
+                    geometry_width = int(parts[4])
+                    geometry_height = int(parts[5])
+                    # hostname = parts[6] # Removed as per user request
+                    title = parts[7]
+                    parsed_active_window = {
+                        'id': window_id,
+                        'desktop': desktop,
+                        'geometry': {'x': geometry_x, 'y': geometry_y, 'width': geometry_width, 'height': geometry_height},
+                        # 'hostname': hostname, # Removed as per user request
+                        'title': title
+                    }
+                except ValueError:
+                    pass # Keep as empty if parsing fails
+
+        # Parse default_applications
+        parsed_default_apps = []
+        for line in default_apps_result.stdout.strip().split('\n'):
+            if ': ' in line:
+                mime, app = line.split(': ', 1)
+                parsed_default_apps.append({'mime_type': mime, 'application': app})
+        
+        return {
+            'success': True, 
+            'window_list': parsed_window_list,
+            'active_window': parsed_active_window,
+            'default_applications': parsed_default_apps,
+            'system_info': {
+                'uname': uname_result.stdout.strip(),
+                'lscpu': "\n".join(lscpu_result.stdout.strip().split('\n')[:20]),
+                'free': free_result.stdout.strip()
+            }
+        }
     except subprocess.CalledProcessError as e:
-        return {'error': f"wmctrl command failed: {str(e)}"}, 500
+        return {'error': f"Command failed: {e.cmd} - {e.stderr.strip()}"}, 500
     except Exception as e:
         return {'error': str(e)}, 500
  

@@ -70,9 +70,9 @@ Example of BAD question (technical clarification - NEVER ASK):
 {% macro ask_user_for_input_format() %}
 ## REQUESTING USER INPUT FOR WEB FORMS
 
-**IMPORTANT:  Ask for personal information unless explicitly provided in the task context. This helps maintain real human interaction and prevents contributing to automated/fake data.**
+**IMPORTANT:  Only request personal information when it is strictly required for the task and not already provided in context.**
 
-ALWAYS ASK FOR (unless provided in context):
+REQUEST INPUT WHEN REQUIRED FOR:
 1. Names (real human names)
 2. Phone numbers (real contact info)
 3. Addresses (real locations)
@@ -161,7 +161,7 @@ Example of GOOD use of context:
 ```
 
 **REMEMBER:**
-- Ask for real personal information by default
+- Request personal information only when it is essential and not already provided
 - Only auto-fill if explicitly provided in context
 - Avoid generating fake personal data
 - Always explain why real input is needed

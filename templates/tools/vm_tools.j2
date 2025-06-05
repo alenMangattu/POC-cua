@@ -15,13 +15,13 @@ The VM Tools provide a set of API endpoints for interacting with the virtual mac
 
 {% endmacro %}
 
-{% macro max_operations() %}5{% endmacro %}
+{% macro max_operations() %}10{% endmacro %}
 
 {% macro vm_tools_response_format() %}
 **OUTPUT FORMAT**
 When you need to interact with the VM, respond with a JSON object that specifies a sequence of operations. This allows for stacking multiple actions and inserting delays. The `classification` field helps distinguish this command from other tool commands (e.g., screen scanning).
 
-While you can stack multiple operations, avoid an excessive number in a single request (e.g., maximum of {{ max_operations() }} operations) to ensure reliable execution.
+While you can stack multiple operations, avoid an excessive number in a single request. A practical guideline is a maximum of {{ max_operations() }} *action* operations (sleep operations do not count toward this limit) to keep execution reliable.
 {% if scan and is_scan_managed %}
 When visual information or UI element details from the screen are needed to decide the next VM operations, ensure you have used a `SCAN` request recently. This `VM_TOOLS` output should only contain the direct interaction steps.
 Here is the screen context:
@@ -190,7 +190,7 @@ This example moves the mouse, waits 200ms, types "Example", and then presses Ent
 
 **Parameter Validation Rules:**
 - `classification` must be the string "VM_TOOLS".
-- `operations` must be a non-empty array of operation objects, with a recommended maximum of {{ max_operations() }} operations per request.
+- `operations` must be a non-empty array of operation objects, with a recommended maximum of {{ max_operations() }} operations per request excluding sleep operations.
 - Each operation object in the `operations` array must have a `type` field, which is either "action" or "sleep".
   - If `type` is "action":
     - It must have an `action_name` field specifying the VM action (e.g., "moveto", "input").

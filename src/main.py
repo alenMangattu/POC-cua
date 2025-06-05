@@ -2,6 +2,8 @@ from .llm import LLM
 from jinja2 import Template, Environment, FileSystemLoader
 from google.genai import types
 import json
+import os
+from dotenv import load_dotenv
 
 from .screen import VM
 from .prompt_j2_management import analyse_genesis_classification
@@ -15,10 +17,10 @@ def scan_inital_prompt(user_input: str, context: dict = None) -> dict:
         prompt_sys_genesis_classification,
         user_input,
         config=types.GenerateContentConfig(
-            temperature=0.1,
+            temperature=1,
             candidate_count=1,
-            max_output_tokens=2048,
-            response_mime_type="application/json"
+            max_output_tokens=8192,
+            top_p=0.95,
         )
     )
     return parse_llm_classification_output(llm_response)
@@ -28,8 +30,14 @@ prompt = input("Enter your prompt: ")
 response = scan_inital_prompt(prompt, None)
 print("Initial classification response:")
 print(json.dumps(response, indent=4))
-exit()
 vm = VM("192.168.1.64", 6969)
+
+load_dotenv()
+omniparser_url = os.getenv("OMNI_URL")
+omniParser = OmniParser(omniparser_url)
+visionModel = VisionModel()
+
+analysis_result_dict = {}
 
 if response.get("classification") == "SCAN":
     method = response.get("method")
@@ -37,40 +45,40 @@ if response.get("classification") == "SCAN":
 
     # print(f"\nProcessing SCAN classification with method: {method}")
 
-    # try:
-    #     screenshot_bytes = vm.screenshot()
-    #     print(f"Screenshot captured successfully ({len(screenshot_bytes)} bytes).")
-    # except Exception as e:
-    #     print(f"✗ Failed to capture screenshot: {e}")
-    #     analysis_result_dict = {"error": "Screenshot capture failed", "details": str(e)}
-    #     print("\nFinal analysis result:")
-    #     print(json.dumps(analysis_result_dict, indent=4))
-    #     exit()
+    try:
+        screenshot_bytes = vm.screenshot()
+        print(f"Screenshot captured successfully ({len(screenshot_bytes)} bytes).")
+    except Exception as e:
+        print(f"✗ Failed to capture screenshot: {e}")
+        analysis_result_dict = {"error": "Screenshot capture failed", "details": str(e)}
+        print("\nFinal analysis result:")
+        print(json.dumps(analysis_result_dict, indent=4))
+        exit()
 
-    # omniParser = OmniParser("https://942f03c843585bba5b.gradio.live/")
-    # visionModel = VisionModel()
+    omniParser = OmniParser(omniparser_url)
+    visionModel = VisionModel()
 
     analysis_result_dict = {}
 
-    if method == "Omni Parser":
+    if method == "OmniParser":
         print("Analyzing with Omni Parser...")
-        # omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
-        # analysis_result_dict["omni_parser"] = {
-        #     "success": omni_success,
-        #     "ui_classification": omni_ui_class,
-        #     "ui_elements": omni_ui_elements
-        # }
+        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
+        analysis_result_dict["omni_parser"] = {
+            "success": omni_success,
+            "ui_classification": omni_ui_class,
+            "ui_elements": omni_ui_elements
+        }
         
-        analysis_result_dict["omni_parser"] = "blank ubuntu screen"
-        # if not omni_success:
-        #     print("OmniParser analysis did not report success.")
+        # analysis_result_dict["omni_parser"] = "blank ubuntu screen"
+        if not omni_success:
+            print("OmniParser analysis did not report success.")
 
-    elif method == "Vision Model":
+    elif method == "VisionModel":
         print("Analyzing with Vision Model...")
         vision_output = visionModel.analyze(screenshot_bytes, vision_model_query)
         analysis_result_dict["vision_model"] = vision_output
 
-    elif method == "Omni Parser + Vision Model":
+    elif method == "OmniParserVisionModel":
         print("Analyzing with Omni Parser...")
         omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
         analysis_result_dict["omni_parser"] = {
