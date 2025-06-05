@@ -137,19 +137,63 @@ def scroll():
 @app.route('/wmctrlinfo', methods=['GET'])
 def get_wmctrl_info():
     try:
-        # Get general window info
-        wmctrl_result = subprocess.run(['wmctrl', '-lG'], capture_output=True, text=True, check=True)
-        
-        # Get active window info
+        # Get window info with full titles from wmctrl -l
+        wmctrl_l_result = subprocess.run(['wmctrl', '-l'], capture_output=True, text=True, check=True)
+        # Get window info with geometry from wmctrl -lG
+        wmctrl_lG_result = subprocess.run(['wmctrl', '-lG'], capture_output=True, text=True, check=True)
+
+        titles_by_id = {}
+        for line in wmctrl_l_result.stdout.strip().split('\n'):
+            if line:
+                # wmctrl -l output format: <window ID> <desktop ID> <client machine> <title>
+                # Split by whitespace, max 3 splits to get 4 parts (ID, desktop, client, title)
+                parts = line.split(None, 3)
+                if len(parts) >= 4:
+                    window_id = parts[0]
+                    # The title is the last part, which contains spaces
+                    title = parts[3].strip()
+                    titles_by_id[window_id] = title
+
+        # Get active window ID
         active_window_cmd = "xdotool getactivewindow"
         active_window_id_raw = subprocess.run(active_window_cmd, shell=True, capture_output=True, text=True, check=True).stdout.strip()
         active_window_id = f"0x{int(active_window_id_raw, 10):08x}" if active_window_id_raw else ""
-        
-        active_window_info = ""
-        if active_window_id:
-            active_window_lookup_cmd = f"wmctrl -lG | grep {active_window_id}"
-            active_window_lookup_result = subprocess.run(active_window_lookup_cmd, shell=True, capture_output=True, text=True)
-            active_window_info = active_window_lookup_result.stdout.strip()
+
+        parsed_window_list = []
+        parsed_active_window = {}
+
+        # Parse wmctrl -lG output for geometry and desktop, then merge titles
+        for line in wmctrl_lG_result.stdout.strip().split('\n'):
+            if line:
+                # wmctrl -lG output format: <window ID> <desktop ID> <x> <y> <width> <height> <client machine> <title (potentially truncated)>
+                # Split by whitespace, max 6 splits to get the first 7 parts (ID to client machine)
+                parts = line.split(None, 6)
+                if len(parts) >= 7:
+                    try:
+                        window_id = parts[0]
+                        desktop = int(parts[1])
+                        geometry_x = int(parts[2])
+                        geometry_y = int(parts[3])
+                        geometry_width = int(parts[4])
+                        geometry_height = int(parts[5])
+
+                        # Get the full title from the titles_by_id map
+                        title = titles_by_id.get(window_id, "N/A") # Default to "N/A" if title not found
+
+                        window_data = {
+                            'id': window_id,
+                            'desktop': desktop,
+                            'geometry': {'x': geometry_x, 'y': geometry_y, 'width': geometry_width, 'height': geometry_height},
+                            'title': title
+                        }
+
+                        if 0 <= desktop <= 10:
+                            parsed_window_list.append(window_data)
+
+                        if window_id == active_window_id:
+                            parsed_active_window = window_data
+                    except ValueError:
+                        continue # Skip malformed lines
 
         # Get default applications
         default_apps_cmd = '''for mime in text/html x-scheme-handler/mailto text/calendar audio/mpeg video/mp4 image/jpeg; do
@@ -161,57 +205,6 @@ def get_wmctrl_info():
         uname_result = subprocess.run(['uname', '-a'], capture_output=True, text=True, check=True)
         lscpu_result = subprocess.run(['lscpu'], capture_output=True, text=True, check=True)
         free_result = subprocess.run(['free', '-h'], capture_output=True, text=True, check=True)
-        
-        # Parse window_list
-        parsed_window_list = []
-        for line in wmctrl_result.stdout.strip().split('\n'):
-            if line:
-                parts = line.split(None, 8)  # Split by whitespace, max 8 splits
-                if len(parts) >= 8:
-                    try:
-                        window_id = parts[0]
-                        desktop = int(parts[1])
-                        geometry_x = int(parts[2])
-                        geometry_y = int(parts[3])
-                        geometry_width = int(parts[4])
-                        geometry_height = int(parts[5])
-                        # hostname = parts[6] # Removed as per user request
-                        title = parts[7]
-                        if 0 <= desktop <= 10:
-                            parsed_window_list.append({
-                                'id': window_id,
-                                'desktop': desktop,
-                                'geometry': {'x': geometry_x, 'y': geometry_y, 'width': geometry_width, 'height': geometry_height},
-                                # 'hostname': hostname, # Removed as per user request
-                                'title': title
-                            })
-                    except ValueError:
-                        # Handle cases where parsing fails for a line
-                        continue
-        
-        # Parse active_window
-        parsed_active_window = {}
-        if active_window_info:
-            parts = active_window_info.split(None, 8)
-            if len(parts) >= 8:
-                try:
-                    window_id = parts[0]
-                    desktop = int(parts[1])
-                    geometry_x = int(parts[2])
-                    geometry_y = int(parts[3])
-                    geometry_width = int(parts[4])
-                    geometry_height = int(parts[5])
-                    # hostname = parts[6] # Removed as per user request
-                    title = parts[7]
-                    parsed_active_window = {
-                        'id': window_id,
-                        'desktop': desktop,
-                        'geometry': {'x': geometry_x, 'y': geometry_y, 'width': geometry_width, 'height': geometry_height},
-                        # 'hostname': hostname, # Removed as per user request
-                        'title': title
-                    }
-                except ValueError:
-                    pass # Keep as empty if parsing fails
 
         # Parse default_applications
         parsed_default_apps = []
@@ -219,9 +212,9 @@ def get_wmctrl_info():
             if ': ' in line:
                 mime, app = line.split(': ', 1)
                 parsed_default_apps.append({'mime_type': mime, 'application': app})
-        
+
         return {
-            'success': True, 
+            'success': True,
             'window_list': parsed_window_list,
             'active_window': parsed_active_window,
             'default_applications': parsed_default_apps,
