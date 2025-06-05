@@ -85,9 +85,56 @@ class VM:
         return response.json()
 
     @retry_api_call()
-    def change_wmctrl_info(self, window_id: str) -> dict:
+    def change_wmctrl_info(self, id: str) -> dict:
         """Change the focus to a specific window using its ID."""
-        data = {'window_id': window_id}
+        data = {'id': id}
         response = requests.post(f"{self.vm_server}/changewmctrlinfo", json=data)
         response.raise_for_status()
         return response.json()
+
+    def run_operations(self, operations: list) -> list:
+        """Execute a list of VM_TOOLS operations."""
+        results = []
+        for op in operations:
+            op_type = op.get("type")
+            # Parameters are now under 'parameters' key, not 'args'
+            parameters = op.get("parameters", {}) 
+            result = {"type": op_type, "success": False, "details": ""}
+            try:
+                if op_type == "action":
+                    action_name = op.get("action_name")
+                    if action_name == "moveto":
+                        self.move_to(**parameters)
+                    elif action_name == "moverel":
+                        self.move_relative(**parameters)
+                    elif action_name == "input":
+                        # Map 'type' from parameters to 'input_type' for the method call
+                        input_type_val = parameters.get("type")
+                        content_val = parameters.get("content")
+                        interval_val = parameters.get("interval", 0.1)
+                        self.input(input_type=input_type_val, content=content_val, interval=interval_val)
+                    elif action_name == "scroll":
+                        self.scroll(**parameters)
+                    elif action_name == "changewmctrlinfo":
+                        self.change_wmctrl_info(**parameters)
+                    elif action_name == "screenshot": # Although screenshots are usually not actions, handling for completeness
+                        screenshot_bytes = self.screenshot(**parameters)
+                        result["details"] = f"Captured screenshot of {len(screenshot_bytes)} bytes"
+                    else:
+                        result["details"] = f"Unknown action_name: {action_name}"
+                        results.append(result)
+                        continue # Skip to next operation if action_name is unknown
+                    result["success"] = True
+                elif op_type == "sleep":
+                    duration_ms = op.get("duration_ms")
+                    if duration_ms is not None and duration_ms > 0:
+                        time.sleep(duration_ms / 1000) # Convert ms to seconds for time.sleep
+                        result["success"] = True
+                    else:
+                        result["details"] = f"Invalid or missing duration_ms for sleep operation: {duration_ms}"
+                else:
+                    result["details"] = f"Unknown operation type: {op_type}"
+            except Exception as e:
+                result["details"] = f"Failed to execute {op_type} ({op.get('action_name', '')}): {str(e)}"
+            results.append(result)
+        return results

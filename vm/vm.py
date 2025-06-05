@@ -98,16 +98,19 @@ def handle_input():
         if input_type == 'text':
             # Handle regular text typing
             pyautogui.write(content, interval=interval)
+            print(f"Typed text: {content}")
             return {'success': True, 'type': 'text', 'typed': content}
  
         elif input_type == 'hotkey':
             # Handle hotkey combinations
             if isinstance(content, list):
                 pyautogui.hotkey(*content)
+                print(f"Pressed hotkey: {content}")
                 return {'success': True, 'type': 'hotkey', 'keys_pressed': content}
             else:
                 # Single key press
                 pyautogui.press(content)
+                print(f"Pressed key: {content}")
                 return {'success': True, 'type': 'hotkey', 'key_pressed': content}
  
         else:
@@ -127,8 +130,10 @@ def scroll():
  
         if direction == 'up':
             pyautogui.scroll(clicks)
+            print(f"Scrolled up by {clicks} clicks")
         else:
             pyautogui.scroll(-clicks)
+            print(f"Scrolled down by {clicks} clicks")
  
         return {'success': True, 'direction': direction, 'clicks': clicks}
     except Exception as e:
@@ -233,13 +238,13 @@ def get_wmctrl_info():
 def change_wmctrl_info():
     try:
         data = request.get_json()
-        window_id = data.get('window_id')
+        window_id = data.get('id')
 
         if not window_id:
-            return {'error': 'window_id is required'}, 400
+            return {'error': 'id is required'}, 400
 
         if not isinstance(window_id, str) or not window_id.startswith('0x') or not len(window_id) >= 3:
-            return {'error': 'Invalid window_id format. Must be a hexadecimal string starting with 0x'}, 400
+            return {'error': 'Invalid id format. Must be a hexadecimal string starting with 0x'}, 400
 
         try:
             int(window_id[2:], 16)

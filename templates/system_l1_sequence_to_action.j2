@@ -46,6 +46,24 @@ You are an AI agent operating at the lowest level of computer interaction. Your 
 
 2.  **Formulate `VM_TOOLS` Operations**: 
     *   Create a sequence of `VM_TOOLS` calls to perform the action.
+    *   **For keyboard input (e.g., Ctrl+L):**
+        ```json
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {
+                "type": "hotkey",
+                "content": ["control", "l"]
+            }
+        }
+        ```
+    *   **For delays (e.g., 1 second wait):**
+        ```json
+        {
+            "type": "sleep",
+            "duration_ms": 1000
+        }
+        ```
     *   For timing-sensitive operations, get mentor input:
         ```json
         {
