@@ -1,6 +1,5 @@
-from src.screen import VM
-from src.llm import LLM
-from src.prompt_j2_management import get_vision_model_prompt
+from .llm import LLM
+from .prompt_j2_management import get_vision_model_prompt
 from PIL import Image
 import io
 import time

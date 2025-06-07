@@ -280,7 +280,30 @@ def change_wmctrl_info():
         return {'error': f"wmctrl command failed: {str(e)}"}, 500
     except Exception as e:
         return {'error': str(e)}, 500
- 
+
+@app.route('/click', methods=['POST'])
+def click():
+    try:
+        data = request.get_json()
+        x = data.get('x', type=int)
+        y = data.get('y', type=int)
+        button = data.get('button', 'left') # left, middle, right
+        clicks = data.get('clicks', 1)
+        interval = data.get('interval', 0.0) # interval between clicks for multi-clicks
+
+        if x is None or y is None:
+            return {'error': 'x and y coordinates are required'}, 400
+        if button not in ['left', 'middle', 'right']:
+            return {'error': 'Invalid button. Must be left, middle, or right'}, 400
+        if not isinstance(clicks, int) or clicks < 1:
+            return {'error': 'Clicks must be a positive integer'}, 400
+
+        pyautogui.click(x=x, y=y, button=button, clicks=clicks, interval=interval)
+        print(f"Clicked at {x},{y} with {button} button, {clicks} times.")
+        return {'success': True, 'x': x, 'y': y, 'button': button, 'clicks': clicks}
+    except Exception as e:
+        return {'error': str(e)}, 500
+
 @app.route('/')
 def index():
     return {
@@ -292,9 +315,10 @@ def index():
             '/input': 'POST - Type text or send key combinations (body: {"type": "text|hotkey", "content": string|array, "interval": float})',
             '/scroll': 'GET - Scroll up or down (params: direction, clicks)',
             '/wmctrlinfo': 'GET - Get wmctrl -lG output',
-            '/changewmctrlinfo': 'POST - Change window focus'
+            '/changewmctrlinfo': 'POST - Change window focus',
+            '/click': 'POST - Click at specific coordinates with optional button and clicks'
         }
     }
- 
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=6969)

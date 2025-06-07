@@ -5,17 +5,14 @@ import string
 import time
 import json
 import os
-from typing import TYPE_CHECKING
 from dotenv import load_dotenv
 
-if TYPE_CHECKING:
-    from src.screen import VM # For type hinting to avoid circular import
 
 class OmniParser:
     def __init__(self, omniparser_url: str = None):
         # OmniParser configuration
         load_dotenv()
-        self.omniparser_url = omniparser_url.rstrip('/') if omniparser_url else os.getenv("OMNI_URL", "https://d2e4c8ed4c4b79d4b9.gradio.live/").rstrip('/')
+        self.omniparser_url = omniparser_url.rstrip('/') if omniparser_url else os.getenv("OMNI_URL", "").rstrip('/')
         self.session = requests.Session()
         
         # OmniParser default parameters
@@ -270,20 +267,3 @@ class OmniParser:
                 else:
                     print("Max retries reached for OmniParser analysis. Failing...")
                     return False, "", []
-
-    def analyze_screenshot(self, vm_instance: 'VM', save_locally: bool = False) -> tuple[bool, str, list]:
-        """Take a screenshot using the provided VM instance and analyze it with OmniParser.
-        Args:
-            vm_instance: An instance of the VM class.
-            save_locally: Whether to save intermediate files locally.
-        Returns:
-            tuple: (success: bool, ui_classification: str, ui_elements: list)
-        """
-        try:
-            screenshot_data = vm_instance.screenshot()
-            print(f"Screenshot captured: {len(screenshot_data)} bytes")
-        except Exception as e:
-            print(f"✗ Screenshot capture failed: {e}")
-            return False, "", []
-
-        return self.analyze_screenshot_data(screenshot_data, save_locally)

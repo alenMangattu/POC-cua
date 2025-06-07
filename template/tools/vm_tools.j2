@@ -149,6 +149,23 @@ To gather information about the screen (e.g., UI elements, window details) befor
    }
    ```
 
+   **1.6 Click (click)**
+   Performs a mouse click at specified coordinates.
+   Example operation:
+   ```json
+   {
+       "type": "action",
+       "action_name": "click",
+       "parameters": {
+           "x": 100,           // Required: target x-coordinate
+           "y": 200,            // Required: target y-coordinate
+           "button": "left",    // Optional: "left", "middle", or "right" (default: "left")
+           "clicks": 1,         // Optional: number of clicks (default: 1)
+           "interval": 0.0      // Optional: interval between clicks for multi-clicks (default: 0.0)
+       }
+   }
+   ```
+
 **2. Sleep Operation (`type: "sleep"`)**
    Pauses execution for a specified duration. This is defined as an object within the `operations` array with `type: "sleep"`.
    Example operation:
@@ -193,7 +210,7 @@ This example moves the mouse, waits 200ms, types "Example", and then presses Ent
 - `operations` must be a non-empty array of operation objects, with a recommended maximum of {{ max_operations() }} operations per request excluding sleep operations.
 - Each operation object in the `operations` array must have a `type` field, which is either "action" or "sleep".
   - If `type` is "action":
-    - It must have an `action_name` field specifying the VM action (e.g., "moveto", "input").
+    - It must have an `action_name` field specifying the VM action (e.g., "moveto", "input", "click").
     - It must have a `parameters` object containing the specific parameters for that `action_name`.
     - The parameters within the `parameters` object are subject to their original validation rules:
         - All numeric parameters (`x`, `y`, `pixels`, `clicks`) must be positive integers.
@@ -201,6 +218,7 @@ This example moves the mouse, waits 200ms, types "Example", and then presses Ent
         - `direction` parameters must match their specified allowed values.
         - Input `type` must be either "text" or "hotkey".
         - `interval` must be a positive float.
+        - For `click` action: `button` must be "left", "middle", or "right".
   - If `type` is "sleep":
     - It must have a `duration_ms` field, which must be a positive integer.
 

@@ -1,21 +1,21 @@
 from jinja2 import Environment, FileSystemLoader
 import os
-from .screen import VM
 
 # Setup Jinja2 environment
-template_dir = os.path.join(os.path.dirname(__file__), '../templates')
+template_dir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')), 'template')
 env = Environment(loader=FileSystemLoader(template_dir), trim_blocks=True, lstrip_blocks=True)
 
-def local_get_wmctrl_info(vm_instance: VM):
-    if vm_instance is None:
-        raise ValueError("VM instance is required")
-    return vm_instance.get_wmctrl_info()
+def local_get_wmctrl_info(wmctrlinfo):
+    if wmctrlinfo is None:
+        raise ValueError("wmctrlinfo is required")
+    return wmctrlinfo
 
-def analyse_genesis_classification(context=None, vm_instance: VM = None):
+def analyse_genesis_classification(context=None, wmctrlinfo=None):
     if context is None:
         context = {} # Ensure context is always a dict
     
-    wmctrlinfo = local_get_wmctrl_info(vm_instance)
+    # Use the passed wmctrlinfo directly
+    wmctrlinfo_data = local_get_wmctrl_info(wmctrlinfo)
     template = env.get_template("system_gensis_classification.j2")
     
     scan_value = context.get("scan", False)
@@ -24,7 +24,7 @@ def analyse_genesis_classification(context=None, vm_instance: VM = None):
     return template.render(
         scan=scan_value,
         ui_screen=ui_screen_value,
-        wmctrlinfo=wmctrlinfo
+        wmctrlinfo=wmctrlinfo_data
     )
    
 def get_vision_model_prompt(context=None):
@@ -57,3 +57,14 @@ def get_system_l2_prompt(context=None):
         wmctrlinfo=context.get("wmctrlinfo", {}),
         htn=False # Explicitly set htn to False for L2 tasks
     )
+
+def get_planner_prompt(context=None):
+    if context is None:
+        context = {}
+        
+    template = env.get_template("planner.j2")
+    return template.render(
+        wmctrlinfo=context.get("wmctrlinfo", {}),
+        htn=False # Explicitly set htn to False for L2 tasks
+    )
+

@@ -17,7 +17,7 @@ class LLM:
     _client = None
 
     @classmethod
-    def initialize(cls, model_name: str = "gemini-2.5-flash-preview-05-20"):
+    def initialize(cls, model_name: str = "gemini-2.0-flash-exp"):
         load_dotenv()
         api_key = os.getenv("GOOGLE_API_KEY")
         
@@ -55,7 +55,7 @@ class LLM:
 
         # Prepare contents with user prompt and optional image
         contents = []
-        
+        print(f"DEBUG: LLM.run received user_prompt: '{user_prompt}'")
         if not user_prompt:
             print("No user prompt provided", file=sys.stderr)
             return
