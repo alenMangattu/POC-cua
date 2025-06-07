@@ -102,16 +102,39 @@ def handle_input():
             return {'success': True, 'type': 'text', 'typed': content}
  
         elif input_type == 'hotkey':
-            # Handle hotkey combinations
+            # Define a mapping for common key name variations
+            key_name_map = {
+                "control": "ctrl",
+                "alt": "alt",
+                "shift": "shift",
+                "caps lock": "capslock",
+                "escape": "esc",
+                "return": "enter",
+                "pagedown": "pgdn",
+                "pageup": "pgup",
+                "printscreen": "prntscrn",
+                "spacebar": "space",
+                "super": "win",
+                "windows": "win",
+                "command": "win", # For macOS command key
+                "option": "alt" # For macOS option key
+            }
+
+            def normalize_key(key):
+                return key_name_map.get(key.lower(), key.lower())
+
             if isinstance(content, list):
-                pyautogui.hotkey(*content)
-                print(f"Pressed hotkey: {content}")
-                return {'success': True, 'type': 'hotkey', 'keys_pressed': content}
+                # Normalize hotkey combinations
+                normalized_content = [normalize_key(key) for key in content]
+                pyautogui.hotkey(*normalized_content)
+                print(f"Pressed hotkey: {normalized_content}")
+                return {'success': True, 'type': 'hotkey', 'keys_pressed': normalized_content}
             else:
-                # Single key press
-                pyautogui.press(content)
-                print(f"Pressed key: {content}")
-                return {'success': True, 'type': 'hotkey', 'key_pressed': content}
+                # Normalize single key press
+                normalized_content = normalize_key(content)
+                pyautogui.press(normalized_content)
+                print(f"Pressed key: {normalized_content}")
+                return {'success': True, 'type': 'hotkey', 'key_pressed': normalized_content}
  
         else:
             return {'error': 'Invalid input type. Must be either "text" or "hotkey"'}, 400

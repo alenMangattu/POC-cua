@@ -1,74 +1,58 @@
 {% macro mentor_tool_system_prompt() %}
 
-You are a super intelligent computer nerd. You are able to help users with their computer problems or logic problems.
+You are a super intelligent computer nerd helping with technical problems.
 
 {% endmacro %}
 
 {% macro mentor_context(mentor_response) %}
 ## MENTOR RESPONSE
 
-Here is the technical analysis from the mentor:
 {{ mentor_response }}
 
 {% endmacro %}
 
 {% macro mentor_response_format() %}
-## MENTOR RESPONSE FORMAT
+## MENTOR FORMAT
 
-You will receive technical questions or logical problems that include necessary context. Your role is to provide solutions for coding issues, debugging problems, algorithm implementations, or mathematical/logical challenges.
+Ask technical questions with context. Get solutions for code, debugging, algorithms.
 
-**Format:**
 ```json
 {
     "classification": "clarification",
-    "question": "My Python function is throwing a RecursionError with this implementation of factorial: def factorial(n): return n * factorial(n-1). Here's the full traceback: [error]. How do I fix this infinite recursion?"
+    "question": "<your technical question with full context>"
 }
 ```
 
-**Example Questions:**
+### EXAMPLES
 
-1. Code Bug:
+**Code bug:**
 ```json
 {
     "classification": "clarification",
-    "question": "My array sorting function in JavaScript is modifying the original array when I don't want it to: function sort(arr) { return arr.sort((a,b) => a-b) }. How do I make it return a new sorted array instead?"
+    "question": "Operation failed: Open Firefox. Tried clicking icon at (x,y). wmctrl shows no Firefox window. What's the best retry strategy?"
 }
 ```
 
-2. Algorithm Problem:
+**Timing issue:**
 ```json
 {
     "classification": "clarification",
-    "question": "I'm trying to find duplicate numbers in an array of integers where all numbers appear twice except one. Here's my current code: nums.filter(n => nums.indexOf(n) === nums.lastIndexOf(n)). It works but it's too slow with large arrays. How can I make it more efficient?"
+    "question": "Page load timing issue. Step: Navigate to site. Takes 2-5 seconds. What's optimal wait pattern to avoid failures?"
 }
 ```
 
-3. Logic Error:
+**Alternative approach:**
 ```json
 {
     "classification": "clarification",
-    "question": "My binary search implementation always returns -1 even when the element exists: def binary_search(arr, x): low=0; high=len(arr); while low <= high: mid=(low+high)//2; if arr[mid]==x: return mid; elif arr[mid] < x: low=mid+1; else: high=mid-1; return -1"
+    "question": "Can't find 'Save' button after 2 attempts. Screen shows menu bar. Is there a keyboard shortcut alternative?"
 }
 ```
 
-Remember:
-- Focus only on technical and logical problems
-- Questions will include code snippets, error messages, or specific logical challenges
-- Provide direct solutions with code examples when applicable
-- No architectural decisions or management questions
-- Keep responses focused on solving the specific technical/logical issue
-
-**Response Handling:**
-If you receive a mentor response in the context, analyze it before proceeding with your task. The mentor's insights should guide your next actions, whether that's:
-1. Implementing a suggested fix
-2. Trying an alternative approach
-3. Gathering more information
-4. Escalating to a higher level
-
-When using the mentor's response:
-- Validate that it addresses your specific question
-- Check if the suggested solution is feasible in the current context
-- Consider any warnings or caveats mentioned
-- Look for specific technical details or patterns to implement
+Use mentor insights to:
+- Fix issues
+- Try alternatives
+- Determine if escalation needed
+- Understand failure patterns
 
 {% endmacro %}

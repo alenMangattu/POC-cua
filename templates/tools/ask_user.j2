@@ -1,190 +1,91 @@
 {% macro ask_user_while_planning_format() %}
-## ASKING USER DURING PLANNING - STRICT GUIDELINES
+## USER QUERY FORMAT (Planning Phase)
 
-**IMPORTANT: Asking clarifying questions shows incompetence. You should be able to figure out technical details yourself.**
-
-Only ask the user questions in these specific scenarios:
-1. Critical business/management decisions that CANNOT be inferred from context
-2. Personal preferences that have no technical "right answer"
-3. Absolute blockers where NO information exists to make progress
-
-When you MUST ask a question:
-1. Format it as a JSON object
-2. Make it specific and actionable
-3. Provide clear options when possible
-4. NEVER ask for technical clarification
+Only ask for business decisions, preferences, or absolute blockers. NEVER ask technical questions.
 
 ```json
 {
     "classification": "USER_QUERY",
     "question": {
-        "type": "decision",           // Must be: "decision", "preference", or "blocker"
-        "content": "Clear question?",  // The actual question
-        "options": [                   // Optional: array of possible choices
-            "Option A",
-            "Option B"
-        ],
-        "context": "Why this needs user input", // Required: justify why AI cannot decide
-        "impact": "What this affects"    // Required: consequences of the decision
+        "type": "decision",         // "decision", "preference", or "blocker"
+        "content": "Question?",
+        "options": ["A", "B"],      // Optional
+        "context": "Why AI can't decide",
+        "impact": "What this affects"
     }
 }
 ```
 
-Example of GOOD question (management decision):
-```json
-{
-    "classification": "USER_QUERY",
-    "question": {
-        "type": "decision",
-        "content": "Should this feature be accessible to all users or only administrators?",
-        "options": [
-            "All users",
-            "Administrators only"
-        ],
-        "context": "This is a business policy decision about access control",
-        "impact": "Affects security model and user permissions throughout the system"
-    }
-}
-```
+✓ GOOD: "Should this be admin-only?" (business rule)
+✗ BAD: "Which database to use?" (technical - you decide)
 
-Example of BAD question (technical clarification - NEVER ASK):
-```json
-{
-    "classification": "USER_QUERY",
-    "question": {
-        "type": "clarification",  // WRONG! Never ask for technical clarification
-        "content": "Which database should I use?", // WRONG! This is a technical decision
-        "context": "Need to know for implementation", // WRONG! You should know this
-        "impact": "Affects system architecture"
-    }
-}
-```
-
-**REMEMBER:**
-- Asking for technical clarification = FAILURE
-- You should be able to make all technical decisions
-- Only ask about business rules, user preferences, or complete blockers
-- If you're asking a question, you better have a VERY good reason
 {% endmacro %}
 
 {% macro ask_user_for_input_format() %}
-## REQUESTING USER INPUT FOR WEB FORMS
+## INPUT REQUEST FORMAT (Execution Phase)
 
-**IMPORTANT:  Only request personal information when it is strictly required for the task and not already provided in context.**
-
-REQUEST INPUT WHEN REQUIRED FOR:
-1. Names (real human names)
-2. Phone numbers (real contact info)
-3. Addresses (real locations)
-4. Usernames (personal preference)
-5. Any personal identifiable information
-6. Any information that represents a real person
-
-AUTO-FILL ONLY:
-1. Temporary/test fields (clearly marked as such)
-2. Fields where task context explicitly provides the value
-3. Non-personal technical fields
-4. Fields marked "example" or "demo"
-
-WHEN TO REQUEST INPUT:
-1. CAPTCHA/2FA challenges (always ask)
-2. Personal information (unless in context)
-3. User preferences
-4. Fields where wrong input could cause issues
-5. Fields with NO context and NO safe default
+Request personal info, CAPTCHAs, or preferences. Check context first.
 
 ```json
 {
     "classification": "INPUT_REQUEST",
     "input_needed": {
-        "type": "form_field",         // Must be: "form_field", "captcha", "2fa", "preference"
-        "field_name": "Field label",  // What appears on the form
-        "current_page": "URL or page description", // Where this field appears
-        "format": "Expected format",  // Required format if any
-        "example": "Example value",   // Optional: example of valid input
-        "reason": "Why real human input is needed", // Required: justify why this needs real data
-        "context_provided": false,    // Whether this info exists in task context
-        "default": null              // Only if provided in context
+        "type": "form_field",       // "form_field", "captcha", "2fa", "preference"
+        "field_name": "Label",
+        "current_page": "Where",
+        "format": "Expected format",
+        "reason": "Why real input needed",
+        "context_provided": false,   // Is it in task context?
+        "default": null             // Value if in context
     }
 }
 ```
 
-Example of GOOD input request (personal info):
+### RULES
+
+**REQUEST INPUT FOR:**
+- Personal info (names, phones, addresses)
+- CAPTCHAs/2FA
+- User preferences
+- Fields with no safe default
+
+**AUTO-FILL ONLY:**
+- Test/demo fields
+- Technical fields (non-personal)
+- Fields with context values
+
+### EXAMPLES
+
+**Personal info:**
 ```json
 {
     "classification": "INPUT_REQUEST",
     "input_needed": {
         "type": "form_field",
         "field_name": "Full Name",
-        "current_page": "Account Registration",
+        "current_page": "Registration",
         "format": "First Last",
-        "example": "Jane Smith",
-        "reason": "Need real person's name for account creation - avoiding automated/fake data",
+        "reason": "Real name needed for account",
         "context_provided": false,
         "default": null
     }
 }
 ```
 
-Example of GOOD input request (CAPTCHA):
-```json
-{
-    "classification": "INPUT_REQUEST",
-    "input_needed": {
-        "type": "captcha",
-        "field_name": "Security Check",
-        "current_page": "Booking Confirmation",
-        "format": "Text shown in image",
-        "example": "5kP9nX",
-        "reason": "CAPTCHA requires human verification",
-        "context_provided": false,
-        "default": null
-    }
-}
-```
-
-Example of GOOD use of context:
+**Using context:**
 ```json
 {
     "classification": "INPUT_REQUEST",
     "input_needed": {
         "type": "form_field",
-        "field_name": "Delivery Address",
-        "current_page": "Shipping Information",
-        "format": "Street, City, State, ZIP",
-        "example": "123 Main St, City, ST 12345",
-        "reason": "Using address provided in task context",
+        "field_name": "Email",
+        "current_page": "Contact Form",
+        "format": "email@domain.com",
+        "reason": "Using email from task context",
         "context_provided": true,
-        "default": "424 Park Ave, New York, NY 10022"
+        "default": "user@example.com"
     }
 }
 ```
 
-**REMEMBER:**
-- Request personal information only when it is essential and not already provided
-- Only auto-fill if explicitly provided in context
-- Avoid generating fake personal data
-- Always explain why real input is needed
-- Include whether info exists in context
-
-**WHEN IN DOUBT:**
-1. Is it personal information? → Ask user
-2. Is it provided in context? → Use provided value
-3. Is it a security challenge? → Always ask
-4. Is it clearly marked as test/demo? → Can auto-fill
-5. Could it represent a real person? → Ask user
-
-**WHY THIS MATTERS:**
-- Maintains authentic human interaction
-- Prevents contribution to fake/automated data
-- Respects personal identity
-- Ensures meaningful form submissions
-- Supports real user engagement
-
-**CONTEXT CHECKING:**
-1. Check task description for provided information
-2. Look for explicit user preferences
-3. Review previous interactions for context
-4. Verify if information was previously provided
-5. Confirm if test/demo mode is specified
 {% endmacro %}
