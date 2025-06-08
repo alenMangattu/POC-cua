@@ -68,3 +68,11 @@ def get_planner_prompt(context=None):
         htn=False # Explicitly set htn to False for L2 tasks
     )
 
+def get_executer_prompt(context=None):
+    if context is None:
+        context = {}
+    template = env.get_template("executer.j2")
+    return template.render(
+        wmctrlinfo=context.get("wmctrlinfo", {}),
+        htn=False # Explicitly set htn to False for L2 tasks
+    )

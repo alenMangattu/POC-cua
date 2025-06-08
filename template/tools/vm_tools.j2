@@ -13,6 +13,12 @@ The VM Tools provide a set of API endpoints for interacting with the virtual mac
 - Manage window focus
 - Get window information
 
+When generating VM_TOOLS actions:
+- For `moveto`, `moverel`, `input`, `scroll`, `change_wmctrl_info`, `click`, and `screenshot` (if needed as an action, though typically used internally by `scan_screen`), classify as `EXECUTE_PRIMITIVE`.
+- For `scan_screen` or `get_wmctrl_info`, classify as `GATHER_INFORMATION`.
+- Ensure all required parameters for the chosen action are included in the `parameters` dictionary within the `details` section.
+- The `action_name` in `VM_TOOLS` operations should directly correspond to the method name in the VM class (e.g., `click` for `self.click`).
+
 {% endmacro %}
 
 {% macro max_operations() %}10{% endmacro %}
@@ -30,6 +36,32 @@ Here is the screen context:
 To gather information about the screen (e.g., UI elements, window details) before deciding on VM operations, you will need to issue a request using the screen scanning tool. Its classification is `SCAN`.
 {{ scan_response_format() if not is_scan_managed }}
 {% endif %}
+
+Available VM_TOOLS actions and their parameters:
+
+- **moveto**: Moves the mouse cursor to absolute position.
+  - Parameters: `x` (int), `y` (int)
+
+- **moverel**: Moves the mouse cursor relative to current position.
+  - Parameters: `direction` (str, e.g., "up", "down", "left", "right"), `pixels` (int, default: 10)
+
+- **input**: Sends keyboard input (text or hotkeys).
+  - Parameters: `type` (str, "text" or "hotkey"), `content` (str or list of str), `interval` (float, default: 0.1)
+
+- **scroll**: Scrolls the mouse wheel.
+  - Parameters: `direction` (str, "up", "down"), `clicks` (int, default: 1)
+
+- **get_wmctrl_info**: Gets detailed window manager information.
+  - Parameters: None
+
+- **change_wmctrl_info**: Changes focus to a specific window using its ID.
+  - Parameters: `id` (str)
+
+- **click**: Performs a mouse click at specified coordinates.
+  - Parameters: `x` (int), `y` (int), `button` (str, "left", "right", "middle", default: "left"), `clicks` (int, default: 1), `interval` (float, default: 0.0)
+
+- **scan_screen**: Performs a screen scan using specified method and area.
+  - Parameters: `method` (str, "Omni Parser", "Vision Model", or "Omni Parser + Vision Model"), `area_type` (str, "full", "window", "region"), `coordinates` (list of int, e.g., `[x, y, width, height]` for "region"), `window_id` (str for "window"), `vision_model_query` (str for "Vision Model" or "Omni Parser + Vision Model")
 
 ```json
 {
