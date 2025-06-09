@@ -283,8 +283,10 @@ def change_wmctrl_info():
 
 @app.route('/click', methods=['POST'])
 def click():
+    print("[/click] Endpoint hit!")
     try:
         data = request.get_json()
+        print(f"[/click] Received data: {data}")
         x = data.get('x', type=int)
         y = data.get('y', type=int)
         button = data.get('button', 'left') # left, middle, right
@@ -292,16 +294,20 @@ def click():
         interval = data.get('interval', 0.0) # interval between clicks for multi-clicks
 
         if x is None or y is None:
+            print("[/click] Error: x or y coordinates are missing.")
             return {'error': 'x and y coordinates are required'}, 400
         if button not in ['left', 'middle', 'right']:
+            print(f"[/click] Error: Invalid button: {button}")
             return {'error': 'Invalid button. Must be left, middle, or right'}, 400
         if not isinstance(clicks, int) or clicks < 1:
+            print(f"[/click] Error: Invalid clicks: {clicks}")
             return {'error': 'Clicks must be a positive integer'}, 400
 
         pyautogui.click(x=x, y=y, button=button, clicks=clicks, interval=interval)
-        print(f"Clicked at {x},{y} with {button} button, {clicks} times.")
+        print(f"[/click] Clicked at {x},{y} with {button} button, {clicks} times.")
         return {'success': True, 'x': x, 'y': y, 'button': button, 'clicks': clicks}
     except Exception as e:
+        print(f"[/click] Exception: {e}")
         return {'error': str(e)}, 500
 
 @app.route('/')

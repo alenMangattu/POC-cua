@@ -1,5 +1,6 @@
 from jinja2 import Environment, FileSystemLoader
 import os
+from src.utils import task_to_json_dict # Import the helper function from utils.py
 
 # Setup Jinja2 environment
 template_dir = os.path.join(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')), 'template')
@@ -75,4 +76,19 @@ def get_executer_prompt(context=None):
     return template.render(
         wmctrlinfo=context.get("wmctrlinfo", {}),
         htn=False # Explicitly set htn to False for L2 tasks
+    )
+
+def get_implementation_planner_prompt(context=None):
+    if context is None:
+        context = {}
+    template = env.get_template("implementation_planner.j2")
+    task_data = context.get("task", {})
+    # Ensure the task object is JSON-serializable before passing to the template
+    processed_task = task_to_json_dict(task_data)
+
+    return template.render(
+        wmctrlinfo=context.get("wmctrlinfo", {}),
+        task=processed_task,
+        available_outputs=context.get("available_outputs", {}),
+        current_screen_state=context.get("current_screen_state", None)
     )

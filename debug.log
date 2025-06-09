@@ -1,0 +1,934 @@
+DEBUG: LLM.run received user_prompt: 'Open firefox'
+User prompt: Open firefox
+--------------------------------
+DEBUG: LLM prompt: ['Open firefox']
+DEBUG: LLM response: {
+  "analysis": {
+    "request_type": "implementation",
+    "clarification_needed": false,
+    "research_required": [],
+    "complexity_assessment": "low",
+    "estimated_total_time": "2 minutes"
+  },
+  "htn": {
+    "root_task": {
+      "id": "open_firefox",
+      "description": "Open Firefox browser.",
+      "subtasks": []
+    }
+  },
+  "dag": [
+    {
+      "id": "check_firefox_installation",
+      "type": "implementation",
+      "description": "Check if Firefox is installed",
+      "inputs": [],
+      "outputs": [
+        "firefox_installed"
+      ],
+      "depends_on": [],
+      "estimated_time": "1 minute",
+      "complexity": "low",
+      "tools_needed": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "Verify that Firefox is detected as installed."
+      ]
+    },
+    {
+      "id": "open_firefox_browser",
+      "type": "implementation",
+      "description": "Open Firefox browser",
+      "inputs": [
+        "firefox_installed"
+      ],
+      "outputs": [],
+      "depends_on": [
+        "check_firefox_installation"
+      ],
+      "estimated_time": "1 minute",
+      "complexity": "low",
+      "tools_needed": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "Verify that Firefox browser window is opened."
+      ]
+    }
+  ],
+  "execution_strategy": {
+    "parallel_tracks": [],
+    "critical_path": [
+      "check_firefox_installation",
+      "open_firefox_browser"
+    ],
+    "risk_mitigation": []
+  }
+}
+--------------------------------
+LLM responded with valid JSON (after 0 JSON retries).
+Executing task: check_firefox_installation - Check if Firefox is installed (Depth: 0, Type: implementation)
+Formatted context for LLM:
+End Goal / User Prompt: Open firefox
+
+Current Task that needs to be executed:
+ID: check_firefox_installation
+Description: Check if Firefox is installed
+Type: implementation
+Status: in_progress
+Inputs: []
+Outputs: ['firefox_installed']
+Depends On: []
+Parent ID: None
+Depth: 0
+
+Preceding Siblings (up to 2):
+None
+
+Succeeding Siblings (up to 2):
+[
+  {
+    "id": "open_firefox_browser",
+    "description": "Open Firefox browser",
+    "type": "implementation",
+    "status": "pending",
+    "inputs": [
+      "firefox_installed"
+    ],
+    "outputs": [],
+    "depends_on": [
+      "check_firefox_installation"
+    ],
+    "parent_id": null,
+    "depth": 0,
+    "retry_count": 0,
+    "error_message": null,
+    "result": null,
+    "validation_criteria": [
+      "Verify that Firefox browser window is opened."
+    ],
+    "estimated_time": "1 minute",
+    "complexity": "low",
+    "tools_needed": [
+      "terminal"
+    ]
+  }
+]
+
+Parent Task:
+None
+
+Task check_firefox_installation is IMPLEMENTATION. Decomposing into primitive steps...
+DEBUG: LLM.run received user_prompt: 'Generate a detailed plan of primitive steps for this implementation task, including success indicators and error recovery.'
+User prompt: Generate a detailed plan of primitive steps for this implementation task, including success indicators and error recovery.
+--------------------------------
+DEBUG: LLM prompt: ['Generate a detailed plan of primitive steps for this implementation task, including success indicators and error recovery.']
+DEBUG: LLM response: {
+  "steps": [
+    {
+      "step_id": "scan_for_firefox_window",
+      "description": "Check if Firefox is already running by scanning for its window title.",
+      "action": {
+        "type": "SCAN",
+        "details": {
+          "classification": "SCAN",
+          "method": "Omni Parser",
+          "area": {
+            "type": "full"
+          },
+          "target_elements": [],
+          "target_text": "Firefox"
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "text_on_screen",
+          "details": {
+            "text_to_find": "Firefox"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "ui_element_not_found",
+          "recovery_action": "Firefox window not found. Proceed to launch Firefox.",
+          "recovery_steps": [
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "scan_for_firefox_icon",
+      "description": "Check if Firefox icon is present to avoid launching if already present.",
+      "action": {
+        "type": "SCAN",
+        "details": {
+          "classification": "SCAN",
+          "method": "Omni Parser + Vision Model",
+          "area": {
+            "type": "full"
+          },
+          "target_elements": [
+            {
+              "type": "icon",
+              "text": "firefox"
+            }
+          ],
+          "vision_model_query": "Identify Firefox icon, if present."
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "ui_element_visible",
+          "details": {
+            "element_description": "Firefox Icon"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "ui_element_not_found",
+          "recovery_action": "Firefox icon not found. Proceed to launch Firefox via launcher.",
+          "recovery_steps": []
+        }
+      ]
+    },
+    {
+      "step_id": "activate_application_launcher",
+      "description": "Activate the application launcher by pressing the Super key.",
+      "action": {
+        "type": "VM_TOOLS",
+        "details": {
+          "classification": "VM_TOOLS",
+          "operations": [
+            {
+              "type": "action",
+              "action_name": "input",
+              "parameters": {
+                "type": "hotkey",
+                "content": "super"
+              }
+            }
+          ]
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "ui_element_visible",
+          "details": {
+            "element_description": "Search bar in application launcher"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "unexpected_state",
+          "recovery_action": "Launcher activation failed. Try again.",
+          "recovery_steps": [
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "input",
+                      "parameters": {
+                        "type": "hotkey",
+                        "content": "super"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "type_firefox_into_launcher",
+      "description": "Type 'firefox' into the application launcher search bar.",
+      "action": {
+        "type": "VM_TOOLS",
+        "details": {
+          "classification": "VM_TOOLS",
+          "operations": [
+            {
+              "type": "action",
+              "action_name": "input",
+              "parameters": {
+                "type": "text",
+                "content": "firefox",
+                "post_delay": 500
+              }
+            }
+          ]
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "text_on_screen",
+          "details": {
+            "text_to_find": "firefox"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "unexpected_state",
+          "recovery_action": "Typing 'firefox' failed. Retry.",
+          "recovery_steps": [
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "input",
+                      "parameters": {
+                        "type": "text",
+                        "content": "firefox",
+                        "post_delay": 500
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "press_enter_to_launch_firefox",
+      "description": "Press Enter to launch Firefox from the search results.",
+      "action": {
+        "type": "VM_TOOLS",
+        "details": {
+          "classification": "VM_TOOLS",
+          "operations": [
+            {
+              "type": "action",
+              "action_name": "input",
+              "parameters": {
+                "type": "hotkey",
+                "content": "enter"
+              }
+            }
+          ]
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "window_appeared",
+          "details": {
+            "window_title_contains": "Firefox"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "unexpected_state",
+          "recovery_action": "Firefox launch failed. Retry.",
+          "recovery_steps": [
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "input",
+                      "parameters": {
+                        "type": "hotkey",
+                        "content": "enter"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "step_id": "scan_for_firefox_after_launch",
+      "description": "Verify that Firefox is launched and ready by scanning for its window title.",
+      "action": {
+        "type": "SCAN",
+        "details": {
+          "classification": "SCAN",
+          "method": "Omni Parser",
+          "area": {
+            "type": "full"
+          },
+          "target_elements": [],
+          "target_text": "Firefox"
+        }
+      },
+      "expected_success_indicators": [
+        {
+          "type": "text_on_screen",
+          "details": {
+            "text_to_find": "Firefox"
+          }
+        }
+      ],
+      "error_recovery_strategies": [
+        {
+          "error_type": "ui_element_not_found",
+          "recovery_action": "Firefox did not launch successfully. Attempt to relaunch.",
+          "recovery_steps": [
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "press_key",
+                      "parameters": {
+                        "key": "f4",
+                        "modifiers": [
+                          "alt"
+                        ]
+                      }
+                    },
+                    {
+                      "type": "action",
+                      "action_name": "press_key",
+                      "parameters": {
+                        "key": "enter"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "input",
+                      "parameters": {
+                        "type": "text",
+                        "content": "firefox",
+                        "post_delay": 500
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "action": {
+                "type": "VM_TOOLS",
+                "details": {
+                  "classification": "VM_TOOLS",
+                  "operations": [
+                    {
+                      "type": "action",
+                      "action_name": "input",
+                      "parameters": {
+                        "type": "hotkey",
+                        "content": "enter"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "final_validation": [
+    {
+      "type": "text_on_screen",
+      "details": {
+        "text_to_find": "Firefox"
+      }
+    }
+  ]
+}
+--------------------------------
+LLM responded with valid JSON (after 0 JSON retries).
+Parsed response for implementation task check_firefox_installation: {'steps': [{'step_id': 'scan_for_firefox_window', 'description': 'Check if Firefox is already running by scanning for its window title.', 'action': {'type': 'SCAN', 'details': {'classification': 'SCAN', 'method': 'Omni Parser', 'area': {'type': 'full'}, 'target_elements': [], 'target_text': 'Firefox'}}, 'expected_success_indicators': [{'type': 'text_on_screen', 'details': {'text_to_find': 'Firefox'}}], 'error_recovery_strategies': [{'error_type': 'ui_element_not_found', 'recovery_action': 'Firefox window not found. Proceed to launch Firefox.', 'recovery_steps': []}]}, {'step_id': 'scan_for_firefox_icon', 'description': 'Check if Firefox icon is present to avoid launching if already present.', 'action': {'type': 'SCAN', 'details': {'classification': 'SCAN', 'method': 'Omni Parser + Vision Model', 'area': {'type': 'full'}, 'target_elements': [{'type': 'icon', 'text': 'firefox'}], 'vision_model_query': 'Identify Firefox icon, if present.'}}, 'expected_success_indicators': [{'type': 'ui_element_visible', 'details': {'element_description': 'Firefox Icon'}}], 'error_recovery_strategies': [{'error_type': 'ui_element_not_found', 'recovery_action': 'Firefox icon not found. Proceed to launch Firefox via launcher.', 'recovery_steps': []}]}, {'step_id': 'activate_application_launcher', 'description': 'Activate the application launcher by pressing the Super key.', 'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'hotkey', 'content': 'super'}}]}}, 'expected_success_indicators': [{'type': 'ui_element_visible', 'details': {'element_description': 'Search bar in application launcher'}}], 'error_recovery_strategies': [{'error_type': 'unexpected_state', 'recovery_action': 'Launcher activation failed. Try again.', 'recovery_steps': [{'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'hotkey', 'content': 'super'}}]}}}]}]}, {'step_id': 'type_firefox_into_launcher', 'description': "Type 'firefox' into the application launcher search bar.", 'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'text', 'content': 'firefox', 'post_delay': 500}}]}}, 'expected_success_indicators': [{'type': 'text_on_screen', 'details': {'text_to_find': 'firefox'}}], 'error_recovery_strategies': [{'error_type': 'unexpected_state', 'recovery_action': "Typing 'firefox' failed. Retry.", 'recovery_steps': [{'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'text', 'content': 'firefox', 'post_delay': 500}}]}}}]}]}, {'step_id': 'press_enter_to_launch_firefox', 'description': 'Press Enter to launch Firefox from the search results.', 'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'hotkey', 'content': 'enter'}}]}}, 'expected_success_indicators': [{'type': 'window_appeared', 'details': {'window_title_contains': 'Firefox'}}], 'error_recovery_strategies': [{'error_type': 'unexpected_state', 'recovery_action': 'Firefox launch failed. Retry.', 'recovery_steps': [{'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'hotkey', 'content': 'enter'}}]}}}]}]}, {'step_id': 'scan_for_firefox_after_launch', 'description': 'Verify that Firefox is launched and ready by scanning for its window title.', 'action': {'type': 'SCAN', 'details': {'classification': 'SCAN', 'method': 'Omni Parser', 'area': {'type': 'full'}, 'target_elements': [], 'target_text': 'Firefox'}}, 'expected_success_indicators': [{'type': 'text_on_screen', 'details': {'text_to_find': 'Firefox'}}], 'error_recovery_strategies': [{'error_type': 'ui_element_not_found', 'recovery_action': 'Firefox did not launch successfully. Attempt to relaunch.', 'recovery_steps': [{'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'press_key', 'parameters': {'key': 'f4', 'modifiers': ['alt']}}, {'type': 'action', 'action_name': 'press_key', 'parameters': {'key': 'enter'}}]}}}, {'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'text', 'content': 'firefox', 'post_delay': 500}}]}}}, {'action': {'type': 'VM_TOOLS', 'details': {'classification': 'VM_TOOLS', 'operations': [{'type': 'action', 'action_name': 'input', 'parameters': {'type': 'hotkey', 'content': 'enter'}}]}}}]}]}], 'final_validation': [{'type': 'text_on_screen', 'details': {'text_to_find': 'Firefox'}}]}
+Generated primitive steps for check_firefox_installation: [
+  {
+    "step_id": "scan_for_firefox_window",
+    "description": "Check if Firefox is already running by scanning for its window title.",
+    "action": {
+      "type": "SCAN",
+      "details": {
+        "classification": "SCAN",
+        "method": "Omni Parser",
+        "area": {
+          "type": "full"
+        },
+        "target_elements": [],
+        "target_text": "Firefox"
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "text_on_screen",
+        "details": {
+          "text_to_find": "Firefox"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "ui_element_not_found",
+        "recovery_action": "Firefox window not found. Proceed to launch Firefox.",
+        "recovery_steps": []
+      }
+    ]
+  },
+  {
+    "step_id": "scan_for_firefox_icon",
+    "description": "Check if Firefox icon is present to avoid launching if already present.",
+    "action": {
+      "type": "SCAN",
+      "details": {
+        "classification": "SCAN",
+        "method": "Omni Parser + Vision Model",
+        "area": {
+          "type": "full"
+        },
+        "target_elements": [
+          {
+            "type": "icon",
+            "text": "firefox"
+          }
+        ],
+        "vision_model_query": "Identify Firefox icon, if present."
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "ui_element_visible",
+        "details": {
+          "element_description": "Firefox Icon"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "ui_element_not_found",
+        "recovery_action": "Firefox icon not found. Proceed to launch Firefox via launcher.",
+        "recovery_steps": []
+      }
+    ]
+  },
+  {
+    "step_id": "activate_application_launcher",
+    "description": "Activate the application launcher by pressing the Super key.",
+    "action": {
+      "type": "VM_TOOLS",
+      "details": {
+        "classification": "VM_TOOLS",
+        "operations": [
+          {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {
+              "type": "hotkey",
+              "content": "super"
+            }
+          }
+        ]
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "ui_element_visible",
+        "details": {
+          "element_description": "Search bar in application launcher"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "unexpected_state",
+        "recovery_action": "Launcher activation failed. Try again.",
+        "recovery_steps": [
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "input",
+                    "parameters": {
+                      "type": "hotkey",
+                      "content": "super"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step_id": "type_firefox_into_launcher",
+    "description": "Type 'firefox' into the application launcher search bar.",
+    "action": {
+      "type": "VM_TOOLS",
+      "details": {
+        "classification": "VM_TOOLS",
+        "operations": [
+          {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {
+              "type": "text",
+              "content": "firefox",
+              "post_delay": 500
+            }
+          }
+        ]
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "text_on_screen",
+        "details": {
+          "text_to_find": "firefox"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "unexpected_state",
+        "recovery_action": "Typing 'firefox' failed. Retry.",
+        "recovery_steps": [
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "input",
+                    "parameters": {
+                      "type": "text",
+                      "content": "firefox",
+                      "post_delay": 500
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step_id": "press_enter_to_launch_firefox",
+    "description": "Press Enter to launch Firefox from the search results.",
+    "action": {
+      "type": "VM_TOOLS",
+      "details": {
+        "classification": "VM_TOOLS",
+        "operations": [
+          {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {
+              "type": "hotkey",
+              "content": "enter"
+            }
+          }
+        ]
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "window_appeared",
+        "details": {
+          "window_title_contains": "Firefox"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "unexpected_state",
+        "recovery_action": "Firefox launch failed. Retry.",
+        "recovery_steps": [
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "input",
+                    "parameters": {
+                      "type": "hotkey",
+                      "content": "enter"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "step_id": "scan_for_firefox_after_launch",
+    "description": "Verify that Firefox is launched and ready by scanning for its window title.",
+    "action": {
+      "type": "SCAN",
+      "details": {
+        "classification": "SCAN",
+        "method": "Omni Parser",
+        "area": {
+          "type": "full"
+        },
+        "target_elements": [],
+        "target_text": "Firefox"
+      }
+    },
+    "expected_success_indicators": [
+      {
+        "type": "text_on_screen",
+        "details": {
+          "text_to_find": "Firefox"
+        }
+      }
+    ],
+    "error_recovery_strategies": [
+      {
+        "error_type": "ui_element_not_found",
+        "recovery_action": "Firefox did not launch successfully. Attempt to relaunch.",
+        "recovery_steps": [
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "press_key",
+                    "parameters": {
+                      "key": "f4",
+                      "modifiers": [
+                        "alt"
+                      ]
+                    }
+                  },
+                  {
+                    "type": "action",
+                    "action_name": "press_key",
+                    "parameters": {
+                      "key": "enter"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "input",
+                    "parameters": {
+                      "type": "text",
+                      "content": "firefox",
+                      "post_delay": 500
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "action": {
+              "type": "VM_TOOLS",
+              "details": {
+                "classification": "VM_TOOLS",
+                "operations": [
+                  {
+                    "type": "action",
+                    "action_name": "input",
+                    "parameters": {
+                      "type": "hotkey",
+                      "content": "enter"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+  Executing primitive step: scan_for_firefox_window - Check if Firefox is already running by scanning for its window title.
+[VM] Initiating screenshot capture. Region: x=None, y=None, width=None, height=None
+Waiting for processing...
+Queue Position: 0/1, ETA: 12.5s
+Processing started...
+Warning: Failed to parse UI element: icon 3: {'type': 'text', 'bbox': [0.3533724248409271, 0.17131474614143372, 0.5593841671943665, 0.19654715061187744], 'interactivity': False, 'content': '[09/Jun/2025 13:12:57] "GET'}. Error: Expecting ',' delimiter: line 1 column 170 (char 169)
+Warning: Failed to parse UI element: icon 4: {'type': 'text', 'bbox': [0.5615835785865784, 0.17131474614143372, 0.7250733375549316, 0.19654715061187744], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 167 (char 166)
+Warning: Failed to parse UI element: icon 8: {'type': 'text', 'bbox': [0.524193525314331, 0.2005312144756317, 0.5586510300636292, 0.22576361894607544], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 9: {'type': 'text', 'bbox': [0.5601173043251038, 0.19920319318771362, 0.7184750437736511, 0.22841966152191162], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 167 (char 166)
+Warning: Failed to parse UI element: icon 13: {'type': 'text', 'bbox': [0.5271260738372803, 0.2297476828098297, 0.5586510300636292, 0.25498008728027344], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 14: {'type': 'text', 'bbox': [0.5637829899787903, 0.2297476828098297, 0.7177419066429138, 0.25498008728027344], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 18: {'type': 'text', 'bbox': [0.5623167157173157, 0.2576361298561096, 0.7170087695121765, 0.28286853432655334], 'interactivity': False, 'content': '/wmctrlinfo HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 22: {'type': 'text', 'bbox': [0.5637829899787903, 0.2881806194782257, 0.7177419066429138, 0.3147410452365875], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 26: {'type': 'text', 'bbox': [0.5623167157173157, 0.3187251091003418, 0.7177419066429138, 0.33997344970703125], 'interactivity': False, 'content': '/wmctrlinfo HTTp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 30: {'type': 'text', 'bbox': [0.5293254852294922, 0.3492695987224579, 0.5564516186714172, 0.37184596061706543], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 31: {'type': 'text', 'bbox': [0.5637829899787903, 0.3479415774345398, 0.7170087695121765, 0.36918991804122925], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 35: {'type': 'text', 'bbox': [0.5293254852294922, 0.3771580457687378, 0.5564516186714172, 0.39840638637542725], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 36: {'type': 'text', 'bbox': [0.5637829899787903, 0.3771580457687378, 0.7170087695121765, 0.39840638637542725], 'interactivity': False, 'content': '/screenshot HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 40: {'type': 'text', 'bbox': [0.5300586223602295, 0.4063745141029358, 0.5564516186714172, 0.42895087599754333], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 41: {'type': 'text', 'bbox': [0.5637829899787903, 0.4063745141029358, 0.7170087695121765, 0.42762285470962524], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 45: {'type': 'text', 'bbox': [0.5300586223602295, 0.4355909824371338, 0.5564516186714172, 0.45816734433174133], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 47: {'type': 'text', 'bbox': [0.6488269567489624, 0.4355909824371338, 0.7155424952507019, 0.45551130175590515], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 154 (char 153)
+Warning: Failed to parse UI element: icon 51: {'type': 'text', 'bbox': [0.5300586223602295, 0.4648074507713318, 0.5564516186714172, 0.48738381266593933], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 53: {'type': 'text', 'bbox': [0.6510263681411743, 0.4648074507713318, 0.7155424952507019, 0.48472777009010315], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 154 (char 153)
+Warning: Failed to parse UI element: icon 59: {'type': 'text', 'bbox': [0.650293231010437, 0.4940239191055298, 0.7155424952507019, 0.5152722597122192], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 66: {'type': 'text', 'bbox': [0.6510263681411743, 0.5232403874397278, 0.7155424952507019, 0.5444887280464172], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 73: {'type': 'text', 'bbox': [0.650293231010437, 0.5537848472595215, 0.7155424952507019, 0.5737051963806152], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 78: {'type': 'text', 'bbox': [0.5300586223602295, 0.5830013155937195, 0.5549853444099426, 0.6042496562004089], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 80: {'type': 'text', 'bbox': [0.6480938196182251, 0.5816733241081238, 0.7170087695121765, 0.6029216647148132], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 85: {'type': 'text', 'bbox': [0.5300586223602295, 0.6122177839279175, 0.5549853444099426, 0.6321381330490112], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 86: {'type': 'text', 'bbox': [0.5637829899787903, 0.6108897924423218, 0.7170087695121765, 0.6321381330490112], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 91: {'type': 'text', 'bbox': [0.5300586223602295, 0.6414342522621155, 0.5549853444099426, 0.6613546013832092], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 92: {'type': 'text', 'bbox': [0.5637829899787903, 0.6401062607765198, 0.7177419066429138, 0.6613546013832092], 'interactivity': False, 'content': '/wmctrlinfo HTTp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 96: {'type': 'text', 'bbox': [0.5300586223602295, 0.6693227291107178, 0.5549853444099426, 0.6905710697174072], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 97: {'type': 'text', 'bbox': [0.5623167157173157, 0.6693227291107178, 0.7199413776397705, 0.6905710697174072], 'interactivity': False, 'content': '/screenshot Http/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 101: {'type': 'text', 'bbox': [0.5293254852294922, 0.6985391974449158, 0.5549853444099426, 0.7211155295372009], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 102: {'type': 'text', 'bbox': [0.5623167157173157, 0.6985391974449158, 0.7206745147705078, 0.7211155295372009], 'interactivity': False, 'content': '/wmctrlinfo HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 106: {'type': 'text', 'bbox': [0.5293254852294922, 0.7277556657791138, 0.5564516186714172, 0.7503319978713989], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 107: {'type': 'text', 'bbox': [0.5637829899787903, 0.7264276146888733, 0.7206745147705078, 0.7516600489616394], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 110: {'type': 'text', 'bbox': [0.5293254852294922, 0.7569721341133118, 0.5564516186714172, 0.7795484662055969], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 111: {'type': 'text', 'bbox': [0.5637829899787903, 0.7556440830230713, 0.7250733375549316, 0.7808765172958374], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 115: {'type': 'text', 'bbox': [0.5271260738372803, 0.7848605513572693, 0.5586510300636292, 0.8100929856300354], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 116: {'type': 'text', 'bbox': [0.5615835785865784, 0.7848605513572693, 0.75, 0.8100929856300354], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1" 200'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 118: {'type': 'text', 'bbox': [0.6539589166641235, 0.8432934880256653, 0.8137829899787903, 0.8698539137840271], 'interactivity': False, 'content': '\'user" 13:24 09-Jun-25'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Found 101 UI elements
+    Action for step scan_for_firefox_window executed. Checking success indicators...
+[VM] Initiating screenshot capture. Region: x=None, y=None, width=None, height=None
+Waiting for processing...
+Queue Position: 0/1, ETA: 12.2s
+Processing started...
+Warning: Failed to parse UI element: icon 3: {'type': 'text', 'bbox': [0.3533724248409271, 0.17131474614143372, 0.5667155385017395, 0.19654715061187744], 'interactivity': False, 'content': '[09/Jun/2025 13:13:07] "GET'}. Error: Expecting ',' delimiter: line 1 column 170 (char 169)
+Warning: Failed to parse UI element: icon 4: {'type': 'text', 'bbox': [0.5593841671943665, 0.16865870356559753, 0.725806474685669, 0.19787517189979553], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 8: {'type': 'text', 'bbox': [0.526392936706543, 0.2005312144756317, 0.5586510300636292, 0.22576361894607544], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 9: {'type': 'text', 'bbox': [0.5593841671943665, 0.19920319318771362, 0.7199413776397705, 0.22841966152191162], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 167 (char 166)
+Warning: Failed to parse UI element: icon 13: {'type': 'text', 'bbox': [0.5271260738372803, 0.2297476828098297, 0.5586510300636292, 0.25498008728027344], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 14: {'type': 'text', 'bbox': [0.5637829899787903, 0.2297476828098297, 0.7177419066429138, 0.25498008728027344], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 18: {'type': 'text', 'bbox': [0.5615835785865784, 0.2576361298561096, 0.7184750437736511, 0.2868525981903076], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 22: {'type': 'text', 'bbox': [0.5615835785865784, 0.2855245769023895, 0.7184750437736511, 0.3147410452365875], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 26: {'type': 'text', 'bbox': [0.5637829899787903, 0.3187251091003418, 0.7177419066429138, 0.33997344970703125], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 30: {'type': 'text', 'bbox': [0.5293254852294922, 0.3492695987224579, 0.5564516186714172, 0.37184596061706543], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 31: {'type': 'text', 'bbox': [0.5637829899787903, 0.3479415774345398, 0.7170087695121765, 0.36918991804122925], 'interactivity': False, 'content': '/screenshot HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 35: {'type': 'text', 'bbox': [0.5293254852294922, 0.3771580457687378, 0.5564516186714172, 0.39840638637542725], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 36: {'type': 'text', 'bbox': [0.5637829899787903, 0.3771580457687378, 0.7170087695121765, 0.39840638637542725], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 40: {'type': 'text', 'bbox': [0.5300586223602295, 0.4063745141029358, 0.5564516186714172, 0.42895087599754333], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 41: {'type': 'text', 'bbox': [0.5637829899787903, 0.4050464928150177, 0.7170087695121765, 0.42762285470962524], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 45: {'type': 'text', 'bbox': [0.5300586223602295, 0.4355909824371338, 0.5564516186714172, 0.45816734433174133], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 47: {'type': 'text', 'bbox': [0.6510263681411743, 0.4355909824371338, 0.7155424952507019, 0.45551130175590515], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 154 (char 153)
+Warning: Failed to parse UI element: icon 53: {'type': 'text', 'bbox': [0.650293231010437, 0.4648074507713318, 0.7155424952507019, 0.48472777009010315], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 59: {'type': 'text', 'bbox': [0.6510263681411743, 0.4940239191055298, 0.7155424952507019, 0.5152722597122192], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 66: {'type': 'text', 'bbox': [0.650293231010437, 0.5232403874397278, 0.7155424952507019, 0.5444887280464172], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 73: {'type': 'text', 'bbox': [0.6510263681411743, 0.5537848472595215, 0.7155424952507019, 0.5737051963806152], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 78: {'type': 'text', 'bbox': [0.5300586223602295, 0.5830013155937195, 0.5549853444099426, 0.6042496562004089], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 79: {'type': 'text', 'bbox': [0.5637829899787903, 0.5803452730178833, 0.7170087695121765, 0.6029216647148132], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 84: {'type': 'text', 'bbox': [0.5300586223602295, 0.6122177839279175, 0.5549853444099426, 0.6321381330490112], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 85: {'type': 'text', 'bbox': [0.5637829899787903, 0.6108897924423218, 0.7170087695121765, 0.6321381330490112], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 90: {'type': 'text', 'bbox': [0.5300586223602295, 0.6414342522621155, 0.5549853444099426, 0.6613546013832092], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 91: {'type': 'text', 'bbox': [0.5637829899787903, 0.6401062607765198, 0.7177419066429138, 0.6613546013832092], 'interactivity': False, 'content': '/screenshot HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 95: {'type': 'text', 'bbox': [0.5300586223602295, 0.6693227291107178, 0.5549853444099426, 0.6905710697174072], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 96: {'type': 'text', 'bbox': [0.5637829899787903, 0.6693227291107178, 0.7184750437736511, 0.6905710697174072], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 100: {'type': 'text', 'bbox': [0.5300586223602295, 0.6985391974449158, 0.5549853444099426, 0.7211155295372009], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 101: {'type': 'text', 'bbox': [0.5637829899787903, 0.6972111463546753, 0.7206745147705078, 0.7211155295372009], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 105: {'type': 'text', 'bbox': [0.5300586223602295, 0.7277556657791138, 0.5549853444099426, 0.7503319978713989], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 106: {'type': 'text', 'bbox': [0.5637829899787903, 0.7264276146888733, 0.7206745147705078, 0.7516600489616394], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 109: {'type': 'text', 'bbox': [0.5278592109680176, 0.7543160915374756, 0.5571847558021545, 0.7808765172958374], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 110: {'type': 'text', 'bbox': [0.5637829899787903, 0.7556440830230713, 0.7221407890319824, 0.7808765172958374], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 114: {'type': 'text', 'bbox': [0.5293254852294922, 0.7861886024475098, 0.5586510300636292, 0.8100929856300354], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 115: {'type': 'text', 'bbox': [0.5601173043251038, 0.7848605513572693, 0.75, 0.8100929856300354], 'interactivity': False, 'content': '/screenshot HTtP/1.1" 200'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 117: {'type': 'text', 'bbox': [0.6539589166641235, 0.8432934880256653, 0.8137829899787903, 0.8698539137840271], 'interactivity': False, 'content': '\'user" 13:25 09-Jun-25'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Found 101 UI elements
+    Exception during step scan_for_firefox_window execution: 'str' object has no attribute 'get'
+    Attempting error recovery for step scan_for_firefox_window...
+      Recovery strategy: Firefox window not found. Proceed to launch Firefox.
+      Recovery strategy Firefox window not found. Proceed to launch Firefox. executed successfully. Re-checking original success indicators...
+[VM] Initiating screenshot capture. Region: x=None, y=None, width=None, height=None
+Waiting for processing...
+Queue Position: 0/1, ETA: 12.0s
+Processing started...
+Warning: Failed to parse UI element: icon 3: {'type': 'text', 'bbox': [0.3533724248409271, 0.17131474614143372, 0.5667155385017395, 0.19654715061187744], 'interactivity': False, 'content': '[09/Jun/2025 13:16:11] "GET'}. Error: Expecting ',' delimiter: line 1 column 170 (char 169)
+Warning: Failed to parse UI element: icon 4: {'type': 'text', 'bbox': [0.5615835785865784, 0.17131474614143372, 0.7250733375549316, 0.19654715061187744], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 167 (char 166)
+Warning: Failed to parse UI element: icon 8: {'type': 'text', 'bbox': [0.524193525314331, 0.2005312144756317, 0.5586510300636292, 0.22576361894607544], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 9: {'type': 'text', 'bbox': [0.5601173043251038, 0.19920319318771362, 0.7184750437736511, 0.22841966152191162], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 167 (char 166)
+Warning: Failed to parse UI element: icon 13: {'type': 'text', 'bbox': [0.5271260738372803, 0.2297476828098297, 0.5586510300636292, 0.25498008728027344], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 14: {'type': 'text', 'bbox': [0.5615835785865784, 0.22841966152191162, 0.7184750437736511, 0.2576361298561096], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 18: {'type': 'text', 'bbox': [0.5623167157173157, 0.2576361298561096, 0.7170087695121765, 0.28286853432655334], 'interactivity': False, 'content': '/wmctrlinfo HTTp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 22: {'type': 'text', 'bbox': [0.5637829899787903, 0.2881806194782257, 0.7177419066429138, 0.3147410452365875], 'interactivity': False, 'content': '/screenshot HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 26: {'type': 'text', 'bbox': [0.5623167157173157, 0.3187251091003418, 0.7177419066429138, 0.33997344970703125], 'interactivity': False, 'content': '/wmctrlinfo HTTp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 30: {'type': 'text', 'bbox': [0.5293254852294922, 0.3492695987224579, 0.5564516186714172, 0.37184596061706543], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 31: {'type': 'text', 'bbox': [0.5637829899787903, 0.3479415774345398, 0.7170087695121765, 0.36918991804122925], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 35: {'type': 'text', 'bbox': [0.5278592109680176, 0.3745020031929016, 0.5571847558021545, 0.4023904502391815], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 36: {'type': 'text', 'bbox': [0.5623167157173157, 0.3771580457687378, 0.7170087695121765, 0.39840638637542725], 'interactivity': False, 'content': '/screenshot HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 40: {'type': 'text', 'bbox': [0.5300586223602295, 0.4063745141029358, 0.5564516186714172, 0.42895087599754333], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 41: {'type': 'text', 'bbox': [0.5637829899787903, 0.4050464928150177, 0.7170087695121765, 0.42762285470962524], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 166 (char 165)
+Warning: Failed to parse UI element: icon 45: {'type': 'text', 'bbox': [0.5300586223602295, 0.4355909824371338, 0.5564516186714172, 0.45816734433174133], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 146 (char 145)
+Warning: Failed to parse UI element: icon 47: {'type': 'text', 'bbox': [0.650293231010437, 0.4355909824371338, 0.7148093581199646, 0.45551130175590515], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 53: {'type': 'text', 'bbox': [0.650293231010437, 0.4648074507713318, 0.7155424952507019, 0.48472777009010315], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 59: {'type': 'text', 'bbox': [0.6510263681411743, 0.4940239191055298, 0.7155424952507019, 0.5152722597122192], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 66: {'type': 'text', 'bbox': [0.650293231010437, 0.5232403874397278, 0.7155424952507019, 0.5444887280464172], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 73: {'type': 'text', 'bbox': [0.6510263681411743, 0.5537848472595215, 0.7155424952507019, 0.5737051963806152], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 78: {'type': 'text', 'bbox': [0.5300586223602295, 0.5830013155937195, 0.5549853444099426, 0.6042496562004089], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 80: {'type': 'text', 'bbox': [0.6466275453567505, 0.5816733241081238, 0.7170087695121765, 0.6029216647148132], 'interactivity': False, 'content': 'HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 153 (char 152)
+Warning: Failed to parse UI element: icon 85: {'type': 'text', 'bbox': [0.5300586223602295, 0.6122177839279175, 0.5549853444099426, 0.6321381330490112], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 86: {'type': 'text', 'bbox': [0.5637829899787903, 0.6108897924423218, 0.7170087695121765, 0.6321381330490112], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 90: {'type': 'text', 'bbox': [0.5300586223602295, 0.6414342522621155, 0.5549853444099426, 0.6613546013832092], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 91: {'type': 'text', 'bbox': [0.5637829899787903, 0.6401062607765198, 0.7177419066429138, 0.6613546013832092], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 95: {'type': 'text', 'bbox': [0.5300586223602295, 0.6693227291107178, 0.5549853444099426, 0.6905710697174072], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 96: {'type': 'text', 'bbox': [0.5637829899787903, 0.6693227291107178, 0.7184750437736511, 0.6905710697174072], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 100: {'type': 'text', 'bbox': [0.5300586223602295, 0.6985391974449158, 0.5549853444099426, 0.7211155295372009], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 101: {'type': 'text', 'bbox': [0.5637829899787903, 0.6972111463546753, 0.7206745147705078, 0.7211155295372009], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 106: {'type': 'text', 'bbox': [0.5300586223602295, 0.7277556657791138, 0.5549853444099426, 0.7503319978713989], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 107: {'type': 'text', 'bbox': [0.5623167157173157, 0.7264276146888733, 0.7206745147705078, 0.7503319978713989], 'interactivity': False, 'content': '/screenshot HTtp/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 111: {'type': 'text', 'bbox': [0.5278592109680176, 0.7543160915374756, 0.5571847558021545, 0.7808765172958374], 'interactivity': False, 'content': '"GET'}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 112: {'type': 'text', 'bbox': [0.5637829899787903, 0.7556440830230713, 0.7250733375549316, 0.7808765172958374], 'interactivity': False, 'content': '/wmctrlinfo HTTP/1.1"'}. Error: Expecting ',' delimiter: line 1 column 165 (char 164)
+Warning: Failed to parse UI element: icon 116: {'type': 'text', 'bbox': [0.5293254852294922, 0.7861886024475098, 0.5586510300636292, 0.8100929856300354], 'interactivity': False, 'content': "'GET"}. Error: Expecting ',' delimiter: line 1 column 145 (char 144)
+Warning: Failed to parse UI element: icon 117: {'type': 'text', 'bbox': [0.5615835785865784, 0.7848605513572693, 0.75, 0.8100929856300354], 'interactivity': False, 'content': '/screenshot HTtP/1.1" 200'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Warning: Failed to parse UI element: icon 119: {'type': 'text', 'bbox': [0.6539589166641235, 0.8432934880256653, 0.8137829899787903, 0.8698539137840271], 'interactivity': False, 'content': '\'user" 13:25 09-Jun-25'}. Error: Expecting ',' delimiter: line 1 column 152 (char 151)
+Found 105 UI elements

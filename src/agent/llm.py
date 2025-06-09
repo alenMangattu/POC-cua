@@ -116,7 +116,9 @@ class LLM:
                         config=generation_config
                     )
                     raw_response_text = response.text
-
+                    print("--------------------------------")
+                    print(f"DEBUG: LLM prompt: {contents}")
+                    print(f"DEBUG: LLM response: {raw_response_text}")
                     if force_json_output:
                         try:
                             # With response_mime_type, the output should already be pure JSON
