@@ -1,100 +1,44 @@
-from .llm import LLM
-from jinja2 import Template, Environment, FileSystemLoader
-from google.genai import types
-import json
+from src.agent.llm import LLM
+from src.agent.screen import VM
+from src.agent.prompt_j2_management import get_planner_prompt
+import os
+from src.agent.agent import GeneralPurposeAgent
+from src.agent.task_models import TaskType
+from src.utils import parse_llm_response_to_json
 
-from .screen import VM
-from .prompt_j2_management import analyse_genesis_classification
-from .calling_tools.classificaition_parser import parse_llm_classification_output
-from .calling_tools.images.scan import OmniParser
-from .calling_tools.images.vision_model import VisionModel
+def main():
+    # Initialize VM
+    vm_server_ip = os.getenv("VM_SERVER_IP", "192.168.1.64")
+    vm_server_port = int(os.getenv("VM_SERVER_PORT", "6969"))
+    vm = VM(vm_server_ip=vm_server_ip, vm_server_port=vm_server_port)
 
-def scan_inital_prompt(user_input: str, context: dict = None) -> dict:
-    prompt_sys_genesis_classification = analyse_genesis_classification(context)
-    llm_response = LLM.run(
-        prompt_sys_genesis_classification,
-        user_input,
-        config=types.GenerateContentConfig(
-            temperature=0.1,
-            candidate_count=1,
-            max_output_tokens=2048,
-            response_mime_type="application/json"
-        )
-    )
-    return parse_llm_classification_output(llm_response)
+    # Initialize LLM
+    LLM.initialize()
 
-prompt = "fix this error on my screen"
-response = scan_inital_prompt(prompt, None)
-print("Initial classification response:")
-print(json.dumps(response, indent=4))
-vm = VM("192.168.1.64", 6969)
-
-if response.get("classification") == "SCAN":
-    method = response.get("method")
-    vision_model_query = response.get("vision_model_query")
-
-    print(f"\nProcessing SCAN classification with method: {method}")
-
-    try:
-        screenshot_bytes = vm.screenshot()
-        print(f"Screenshot captured successfully ({len(screenshot_bytes)} bytes).")
-    except Exception as e:
-        print(f"✗ Failed to capture screenshot: {e}")
-        analysis_result_dict = {"error": "Screenshot capture failed", "details": str(e)}
-        print("\nFinal analysis result:")
-        print(json.dumps(analysis_result_dict, indent=4))
-        exit()
-
-    omniParser = OmniParser("https://942f03c843585bba5b.gradio.live/")
-    visionModel = VisionModel()
-
-    analysis_result_dict = {}
-
-    if method == "Omni Parser":
-        print("Analyzing with Omni Parser...")
-        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
-        analysis_result_dict["omni_parser"] = {
-            "success": omni_success,
-            "ui_classification": omni_ui_class,
-            "ui_elements": omni_ui_elements
-        }
-        if not omni_success:
-            print("OmniParser analysis did not report success.")
-
-    elif method == "Omni Parser + Vision Model":
-        print("Analyzing with Omni Parser...")
-        omni_success, omni_ui_class, omni_ui_elements = omniParser.analyze_screenshot_data(screenshot_bytes, save_locally=False)
-        analysis_result_dict["omni_parser"] = {
-            "success": omni_success,
-            "ui_classification": omni_ui_class,
-            "ui_elements": omni_ui_elements
-        }
-
-        if not omni_success:
-            print("OmniParser analysis did not report success. Vision Model analysis will still be attempted if a query is available.")
-        
-        if vision_model_query:
-            print("Analyzing with Vision Model...")
-            vision_output = visionModel.analyze(screenshot_bytes, vision_model_query)
-            analysis_result_dict["vision_model"] = vision_output
-        else:
-            print("Warning: No vision_model_query provided for 'Omni Parser + Vision Model' method, though it was expected. Skipping Vision Model analysis.")
-            analysis_result_dict["vision_model"] = {"error": "Missing vision_model_query"}
-            
-    else:
-        print(f"Unknown or unsupported scan method: {method}")
-        analysis_result_dict["error"] = f"Unknown or unsupported scan method: {method}"
-        analysis_result_dict["original_method"] = method
-
-    print("\nFinal analysis result:")
-    print(json.dumps(analysis_result_dict, indent=4))
+    # Create agent
+    agent = GeneralPurposeAgent(vm)
     
+    # Example tasks
+    user_task = "Open firefox"
+    wmctrlinfo = vm.get_wmctrl_info()
+    prompt = get_planner_prompt({"wmctrlinfo": wmctrlinfo})
+    response = LLM.run(prompt, user_task, force_json_output=True)
+    
+    parsed_response = parse_llm_response_to_json(response)
+
+    if isinstance(parsed_response, Exception):
+        print(f"Error parsing LLm response: {parsed_response}")
+        return
    
-    response = scan_inital_prompt(prompt, {"scan": True, "ui_screen": analysis_result_dict})
-    print("Initial classification response:")
-    print(json.dumps(response, indent=4))
-    
-if response.get("classification") == "REFUSED":
-    print("Refused to scan the screen:")
-    print(response.get("reason"))
-    exit()
+    initial_dag = parsed_response.get("dag")
+
+    if initial_dag:
+        for task_data in initial_dag:
+            if 'type' in task_data and isinstance(task_data['type'], str):
+                task_data['type'] = TaskType(task_data['type'])
+
+    result = agent.run(initial_dag, user_task)
+    print("Final execution result:", result)
+
+if __name__ == "__main__":
+    main()

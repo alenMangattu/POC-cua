@@ -5,15 +5,14 @@ import string
 import time
 import json
 import os
-from typing import TYPE_CHECKING
+from dotenv import load_dotenv
 
-if TYPE_CHECKING:
-    from src.screen import VM # For type hinting to avoid circular import
 
 class OmniParser:
-    def __init__(self, omniparser_url: str = "https://d2e4c8ed4c4b79d4b9.gradio.live/"):
+    def __init__(self, omniparser_url: str = None):
         # OmniParser configuration
-        self.omniparser_url = omniparser_url.rstrip('/')
+        load_dotenv()
+        self.omniparser_url = omniparser_url.rstrip('/') if omniparser_url else os.getenv("OMNI_URL", "").rstrip('/')
         self.session = requests.Session()
         
         # OmniParser default parameters
@@ -223,55 +222,48 @@ class OmniParser:
             except Exception as e:
                 print(f"✗ Failed to save screenshot: {e}")
 
+        max_retries = 5
+        base_delay = 1  # seconds
 
-        server_path, public_url, upload_id, file_size = self.upload_image_to_gradio(screenshot_data)
-        if not all([server_path, public_url, file_size]):
-            print("✗ Upload failed")
-            return False, "", []
+        for retry_count in range(max_retries):
+            try:
+                server_path, public_url, upload_id, file_size = self.upload_image_to_gradio(screenshot_data)
+                if not all([server_path, public_url, file_size]):
+                    raise Exception("Upload failed")
 
-        session_hash, event_id = self.start_omniparser_processing(
-            server_path, public_url, "screenshot.png", file_size
-        )
-        if not session_hash or not event_id:
-            print("✗ Failed to start processing")
-            return False, "", []
+                session_hash, event_id = self.start_omniparser_processing(
+                    server_path, public_url, "screenshot.png", file_size
+                )
+                if not session_hash or not event_id:
+                    raise Exception("Failed to start processing")
 
-        results = self.get_queue_results(session_hash, event_id)
-        
-        if results and results.get("success"):
-            ui_class = results.get("ui_classification", "")
-            
-            if save_locally:
-                try:
-                    with open("ui_classification.txt", "w") as f:
-                        f.write(ui_class)
-                except Exception as e:
-                    print(f"✗ Failed to save classification: {e}")
+                results = self.get_queue_results(session_hash, event_id)
                 
-            elements = self.parse_ui_elements(ui_class)
-            print(f"Found {len(elements)} UI elements")
-            return True, ui_class, elements
-        else:
-            print("✗ Processing failed")
-            if results:
-                print(f"Error: {results.get('error', 'Unknown')}")
-                if 'raw_output' in results:
-                    print(f"Server output: {results['raw_output']}")
-            return False, "", []
+                if results and results.get("success"):
+                    ui_class = results.get("ui_classification", "")
+                    
+                    if save_locally:
+                        try:
+                            with open("ui_classification.txt", "w") as f:
+                                f.write(ui_class)
+                        except Exception as e:
+                            print(f"✗ Failed to save classification: {e}")
+                        
+                    elements = self.parse_ui_elements(ui_class)
+                    print(f"Found {len(elements)} UI elements")
+                    return True, ui_class, elements
+                else:
+                    error_message = results.get('error', 'Unknown error') if results else 'Unknown error'
+                    if 'raw_output' in results:
+                        error_message += f" Server output: {results['raw_output']}"
+                    raise Exception(f"Processing failed: {error_message}")
 
-    def analyze_screenshot(self, vm_instance: 'VM', save_locally: bool = False) -> tuple[bool, str, list]:
-        """Take a screenshot using the provided VM instance and analyze it with OmniParser.
-        Args:
-            vm_instance: An instance of the VM class.
-            save_locally: Whether to save intermediate files locally.
-        Returns:
-            tuple: (success: bool, ui_classification: str, ui_elements: list)
-        """
-        try:
-            screenshot_data = vm_instance.screenshot()
-            print(f"Screenshot captured: {len(screenshot_data)} bytes")
-        except Exception as e:
-            print(f"✗ Screenshot capture failed: {e}")
-            return False, "", []
-
-        return self.analyze_screenshot_data(screenshot_data, save_locally)
+            except Exception as e:
+                print(f"An error occurred during OmniParser analysis: {e}")
+                if retry_count < max_retries - 1:
+                    delay = base_delay * (2 ** retry_count)
+                    print(f"Retrying OmniParser analysis in {delay} seconds...")
+                    time.sleep(delay)
+                else:
+                    print("Max retries reached for OmniParser analysis. Failing...")
+                    return False, "", []

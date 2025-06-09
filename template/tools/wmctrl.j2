@@ -1,0 +1,8 @@
+{%- macro print_wmctrl_info(wmctrl_info) -%}
+{%- if not is_wmctrl_managed | default(false) -%}
+## WINDOW MANAGER INFORMATION
+Here is the output of the wmctrlinfo tool:
+{{ wmctrl_info }}
+{%- set is_wmctrl_managed = true -%}
+{%- endif -%}
+{%- endmacro -%} 

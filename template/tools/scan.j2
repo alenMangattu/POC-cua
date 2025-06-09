@@ -1,0 +1,97 @@
+{% macro screen_context(ui_screen, method) %}
+## SCREEN CONTEXT
+
+Current screen ({{ method }}):
+{{ ui_screen }}
+
+{% endmacro %}
+
+{% macro scan_response_format() %}
+## SCAN OUTPUT FORMAT
+
+Use SCAN to understand screen content. Choose the cheapest method that works.
+
+```json
+{
+    "classification": "SCAN",
+    "method": "<method>",           // "Omni Parser", "Vision Model", or "Omni Parser + Vision Model"
+    "area": {
+        "type": "<type>",           // "full", "window", or "region"
+        "coordinates": [],          // For region: [x, y, width, height]. Empty for other types
+        "window_id": ""             // For window: ID from wmctrl (e.g. "0x02a0000a"). Empty for other types
+    },
+    "vision_model_query": "<query>" // Only for Vision Model methods
+}
+```
+
+### METHODS (cheapest to most expensive)
+
+1. **"Omni Parser"** - UI elements, text, buttons (use for most tasks)
+2. **"Vision Model"** - Visual questions only (colors, images, styles)
+3. **"Omni Parser + Vision Model"** - Both UI + visual analysis (most expensive)
+
+### AREA TYPES
+
+- **type: "full"** - Entire screen (coordinates: [], window_id: "")
+- **type: "window"** - Specific window (coordinates: [], window_id: "0x02a0000a")
+- **type: "region"** - Screen region (coordinates: [x, y, width, height], window_id: "")
+
+### VISION QUERIES
+
+For vision_model methods, queries must be self-contained:
+- ✓ "What color is the background?"
+- ✓ "Is there an error message in red?"
+- ✗ "What is the user referring to?" (no context)
+- ✗ "Is this the right button?" (no context)
+
+### EXAMPLES
+
+**Basic UI scan (full screen):**
+```json
+{
+    "classification": "SCAN",
+    "method": "Omni Parser",
+    "area": {
+        "type": "full",
+        "coordinates": [],
+        "window_id": ""
+    }
+}
+```
+
+**Visual question about window:**
+```json
+{
+    "classification": "SCAN",
+    "method": "Vision Model",
+    "area": {
+        "type": "window",
+        "coordinates": [],
+        "window_id": "0x02a0000a"
+    },
+    "vision_model_query": "What color is the error message?"
+}
+```
+
+**Combined scan of region:**
+```json
+{
+    "classification": "SCAN",
+    "method": "Omni Parser + Vision Model",
+    "area": {
+        "type": "region",
+        "coordinates": [100, 200, 500, 300],
+        "window_id": ""
+    },
+    "vision_model_query": "Is there a warning icon?"
+}
+```
+
+### RULES
+
+- Coordinates must be positive integers
+- Window IDs must exist in wmctrl output
+- Use cheapest method that works
+- Vision queries must be self-contained
+
+{% endmacro %}

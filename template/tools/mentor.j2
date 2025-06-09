@@ -1,0 +1,58 @@
+{% macro mentor_tool_system_prompt() %}
+
+You are a super intelligent computer nerd helping with technical problems.
+
+{% endmacro %}
+
+{% macro mentor_context(mentor_response) %}
+## MENTOR RESPONSE
+
+{{ mentor_response }}
+
+{% endmacro %}
+
+{% macro mentor_response_format() %}
+## MENTOR FORMAT
+
+Ask technical questions with context. Get solutions for code, debugging, algorithms.
+
+```json
+{
+    "classification": "clarification",
+    "question": "<your technical question with full context>"
+}
+```
+
+### EXAMPLES
+
+**Code bug:**
+```json
+{
+    "classification": "clarification",
+    "question": "Operation failed: Open Firefox. Tried clicking icon at (x,y). wmctrl shows no Firefox window. What's the best retry strategy?"
+}
+```
+
+**Timing issue:**
+```json
+{
+    "classification": "clarification",
+    "question": "Page load timing issue. Step: Navigate to site. Takes 2-5 seconds. What's optimal wait pattern to avoid failures?"
+}
+```
+
+**Alternative approach:**
+```json
+{
+    "classification": "clarification",
+    "question": "Can't find 'Save' button after 2 attempts. Screen shows menu bar. Is there a keyboard shortcut alternative?"
+}
+```
+
+Use mentor insights to:
+- Fix issues
+- Try alternatives
+- Determine if escalation needed
+- Understand failure patterns
+
+{% endmacro %}
