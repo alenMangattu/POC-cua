@@ -2,7 +2,7 @@ import os
 from typing import Dict, List, Any
 
 from src.agent.screen import VM
-from src.agent.execution_management import ExecutionContext
+from src.agent.tasks.execution_management import ExecutionContext
 
 class SuccessChecker:
     def __init__(self, vm: VM, execution_context: ExecutionContext):

@@ -1,8 +1,8 @@
 from typing import Dict, List, Any
 
 from src.agent.screen import VM
-from src.agent.execution_management import ExecutionContext
-from src.agent.success_checker import SuccessChecker
+from src.agent.tasks.execution_management import ExecutionContext
+from src.agent.tasks.success_checker import SuccessChecker
 
 class PrimitiveExecutor:
     def __init__(self, vm: VM, execution_context: ExecutionContext, success_checker: SuccessChecker):
@@ -59,11 +59,12 @@ class PrimitiveExecutor:
 
             if vm_success:
                 print(f"    Action for step {step_id} executed. Checking success indicators...")
-                if self.success_checker.check_indicators(step.get("expected_success_indicators", [])):
-                    print(f"    Step {step_id} succeeded.")
-                    return True
-                else:
-                    print(f"    Step {step_id} action executed, but success indicators not met.")
+                # TODO: Implement success checker
+                # if self.success_checker.check_indicators(step.get("expected_success_indicators", [])):
+                #     print(f"    Step {step_id} succeeded.")
+                #     return True
+                # else:
+                #     print(f"    Step {step_id} action executed, but success indicators not met.")
             else:
                 print(f"    Action for step {step_id} failed: {vm_result.get('error', 'Unknown error')}")
 

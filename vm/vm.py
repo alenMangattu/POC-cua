@@ -187,6 +187,7 @@ def get_wmctrl_info():
         active_window_id_raw = subprocess.run(active_window_cmd, shell=True, capture_output=True, text=True, check=True).stdout.strip()
         active_window_id = f"0x{int(active_window_id_raw, 10):08x}" if active_window_id_raw else ""
 
+
         parsed_window_list = []
         parsed_active_window = {}
 
@@ -219,7 +220,10 @@ def get_wmctrl_info():
                             parsed_window_list.append(window_data)
 
                         if window_id == active_window_id:
-                            parsed_active_window = window_data
+                            if 0 <= desktop <= 10:
+                                parsed_active_window = window_data
+                            else:
+                                parsed_active_window = "N/A"
                     except ValueError:
                         continue # Skip malformed lines
 

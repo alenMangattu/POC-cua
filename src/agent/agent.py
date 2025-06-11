@@ -7,12 +7,12 @@ from typing import Dict, List, Any, Optional, Tuple
 from src.agent.llm import LLM
 from src.agent.screen import VM
 from src.agent.prompt_j2_management import get_planner_prompt, get_executer_prompt, get_implementation_planner_prompt
-from src.agent.task_models import Task, TaskStatus, TaskType
-from src.agent.execution_management import ExecutionContext, TaskStack
+from src.agent.tasks.task_models import Task, TaskStatus, TaskType
+from src.agent.tasks.execution_management import ExecutionContext, TaskStack
 from src.utils import task_to_json_dict, parse_llm_response_to_json
-from src.agent.success_checker import SuccessChecker
-from src.agent.primitive_executor import PrimitiveExecutor
-from src.agent.task_executor import TaskExecutor
+from src.agent.tasks.success_checker import SuccessChecker
+from src.agent.tasks.primitive_executor import PrimitiveExecutor
+from src.agent.tasks.task_executor import TaskExecutor, _remove_human_method_from_tasks
 
 class GeneralPurposeAgent:
     def __init__(self, vm: VM):
@@ -33,13 +33,20 @@ class GeneralPurposeAgent:
         self.task_executor.user_task = user_task_description
 
         initial_tasks = []
+        _remove_human_method_from_tasks(initial_dag_data)
         for task_data in initial_dag_data:
             try:
                 task_data['type'] = TaskType(task_data['type'])
                 initial_tasks.append(Task(**task_data))
+            except ValueError:
+                print(f"Warning: Invalid TaskType for task {task_data.get('id', 'N/A')}. Defaulting to COMPOUND.")
+                task_data['type'] = TaskType.COMPOUND
+                initial_tasks.append(Task(**task_data))
             except Exception as e:
                 print(f"Error creating initial task from dict: {task_data} - {e}")
-
+        print("--------------------------------")
+        print(f"Initial tasks: {initial_tasks}")
+        # exit()
         for task in initial_tasks:
             self.task_executor.execute_task_dfs(task, initial_tasks)
 

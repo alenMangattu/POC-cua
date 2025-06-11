@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any
-from src.agent.task_models import Task # Import Task
+from src.agent.tasks.task_models import Task # Import Task
 
 @dataclass
 class ExecutionContext:

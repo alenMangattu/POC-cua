@@ -88,6 +88,8 @@ class VM:
 
     @retry_api_call()
     def get_wmctrl_info(self) -> dict:
+        return None
+        
         """Get detailed window manager information (wmctrl -lG, active window, default apps)."""
         try:
             response = requests.get(f"{self.vm_server}/wmctrlinfo")

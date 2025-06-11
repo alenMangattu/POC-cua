@@ -25,7 +25,7 @@ class TaskType(Enum):
 class Task:
     id: str
     description: str
-    type: str
+    type: TaskType
     status: TaskStatus = TaskStatus.PENDING
     inputs: List[str] = field(default_factory=list)
     outputs: List[str] = field(default_factory=list)
@@ -38,4 +38,5 @@ class Task:
     validation_criteria: List[str] = field(default_factory=list)
     estimated_time: Optional[str] = None
     complexity: Optional[str] = None
-    tools_needed: List[str] = field(default_factory=list) 
+    tools_needed: List[str] = field(default_factory=list)
+    vision_model_query: Optional[str] = None

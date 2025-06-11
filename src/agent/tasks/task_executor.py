@@ -4,10 +4,16 @@ from typing import Dict, List, Any, Optional
 from src.agent.llm import LLM
 from src.agent.screen import VM
 from src.agent.prompt_j2_management import get_planner_prompt, get_executer_prompt, get_implementation_planner_prompt
-from src.agent.task_models import Task, TaskStatus, TaskType
-from src.agent.execution_management import ExecutionContext
-from src.agent.primitive_executor import PrimitiveExecutor
+from src.agent.tasks.task_models import Task, TaskStatus, TaskType
+from src.agent.tasks.execution_management import ExecutionContext
+from src.agent.tasks.primitive_executor import PrimitiveExecutor
 from src.utils import task_to_json_dict, parse_llm_response_to_json
+
+def _remove_human_method_from_tasks(tasks: List[Dict[str, Any]]) -> None:
+    """Removes the 'human_method' key from each task dictionary if it exists."""
+    for task in tasks:
+        if "human_method" in task:
+            del task["human_method"]
 
 class TaskExecutor:
     def __init__(self, vm: VM, execution_context: ExecutionContext, primitive_executor: PrimitiveExecutor, user_task: str):
@@ -63,8 +69,7 @@ Succeeding Siblings (up to 2):
 Parent Task:
 {json.dumps(task_to_json_dict(parent_task), indent=2) if parent_task else "None"}
 """
-        print(f"Formatted context for LLM:{formatted_context}")
-
+        # print(f"Formatted context for LLM:{formatted_context}")
 
         if task.type == TaskType.COMPOUND:
             print(f"Task {task.id} is COMPOUND. Decomposing...")
@@ -73,6 +78,8 @@ Parent Task:
             llm_response = LLM.run(planner_prompt, formatted_context, force_json_output=True)
             parsed_response = parse_llm_response_to_json(llm_response)
 
+            print(f"Parsed response for compound task {task.id}: {parsed_response}")
+            # exit()
             if isinstance(parsed_response, Exception):
                 task.status = TaskStatus.FAILED
                 task.error_message = str(parsed_response)
@@ -81,6 +88,7 @@ Parent Task:
                 return
 
             sub_dag_raw = parsed_response.get("dag", [])
+            _remove_human_method_from_tasks(sub_dag_raw)
             subtasks = []
             for sub_task_data in sub_dag_raw:
                 try:
@@ -122,13 +130,28 @@ Parent Task:
 
         elif task.type == TaskType.IMPLEMENTATION:
             print(f"Task {task.id} is IMPLEMENTATION. Decomposing into primitive steps...")
+            #TODO: scan the screen and get the current screen state
+#             current_screen_state = self.vm.scan_screen(
+#                 method="Omni Parser + Vision Model",
+#                 area_type="all",
+#                 coordinates=None,
+#                 window_id=None,
+#                 vision_model_query=f"""
+# The user is trying to do the following task: {task.description}
+# The current screen state is: {self.execution_context.current_screen_state}
+
+# Explain to me what is on the screen right now
+#                 """);
+            
             implementation_planner_prompt = get_implementation_planner_prompt({
                 "wmctrlinfo": self.vm.get_wmctrl_info(),
                 "task": task_to_json_dict(task),
                 "available_outputs": self.execution_context.available_outputs,
-                "current_screen_state": self.execution_context.current_screen_state
+                "current_screen_state": self.execution_context.current_screen_state,
+                # "vision_model_query": current_screen_state
             })
-            llm_response = LLM.run(implementation_planner_prompt, "Generate a detailed plan of primitive steps for this implementation task, including success indicators and error recovery.", force_json_output=True)
+            
+            llm_response = LLM.run(implementation_planner_prompt, "Generate a detailed plan of primitive steps for this implementation task, including success indicators and error recovery. Here is the task: " + json.dumps(task_to_json_dict(task)), force_json_output=True)
             parsed_response = parse_llm_response_to_json(llm_response)
 
             print(f"Parsed response for implementation task {task.id}: {parsed_response}")
@@ -173,6 +196,31 @@ Parent Task:
             else:
                 task.status = TaskStatus.FAILED
                 task.error_message = "One or more primitive steps failed and could not be recovered."
+
+        elif task.type == TaskType.VALIDATION:
+            # TODO: Implement VALIDATION task type.
+            print(f"Task {task.id} is VALIDATION. (TODO: Implement)")
+            task.status = TaskStatus.SKIPPED # Placeholder until implemented
+
+        elif task.type == TaskType.INFORMATION_GATHERING:
+            # TODO: Implement INFORMATION_GATHERING task type.
+            print(f"Task {task.id} is INFORMATION_GATHERING. (TODO: Implement)")
+            task.status = TaskStatus.SKIPPED # Placeholder until implemented
+
+        elif task.type == TaskType.ANALYSIS:
+            # TODO: Implement ANALYSIS task type.
+            print(f"Task {task.id} is ANALYSIS. (TODO: Implement)")
+            task.status = TaskStatus.SKIPPED # Placeholder until implemented
+
+        elif task.type == TaskType.RESEARCH:
+            # TODO: Implement RESEARCH task type.
+            print(f"Task {task.id} is RESEARCH. (TODO: Implement)")
+            task.status = TaskStatus.SKIPPED # Placeholder until implemented
+
+        elif task.type == TaskType.COORDINATION:
+            # TODO: Implement COORDINATION task type.
+            print(f"Task {task.id} is COORDINATION. (TODO: Implement)")
+            task.status = TaskStatus.SKIPPED # Placeholder until implemented
 
         else:
             print(f"Unknown task type: {task.type}. Skipping task {task.id}.")

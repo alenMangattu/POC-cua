@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional
 from enum import Enum
 import json
 import re
-
+from src.agent.tasks.task_models import Task
 # Assuming Task and TaskStatus/TaskType Enums are defined elsewhere or passed as dictionary-like objects
 # For this utility, we'll make it generic enough to handle dicts that might contain these Enums.
 
