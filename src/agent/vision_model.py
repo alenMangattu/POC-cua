@@ -1,5 +1,4 @@
 from .llm import LLM
-from .prompt_j2_management import get_vision_model_prompt
 from PIL import Image
 import io
 import time
@@ -18,7 +17,7 @@ class VisionModel:
         Returns:
             An unstructured text response from the vision model.
         """
-        system_prompt = get_vision_model_prompt()
+        # system_prompt = ""
         
         # Convert image_bytes to a PIL Image object
         try:

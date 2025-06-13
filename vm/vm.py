@@ -51,7 +51,7 @@ def move_to():
  
         if x is None or y is None:
             return {'error': 'x and y coordinates are required'}, 400
- 
+
         pyautogui.moveTo(x, y)
         return {'success': True, 'position': {'x': x, 'y': y}}
     except Exception as e:
@@ -159,6 +159,14 @@ def scroll():
             print(f"Scrolled down by {clicks} clicks")
  
         return {'success': True, 'direction': direction, 'clicks': clicks}
+    except Exception as e:
+        return {'error': str(e)}, 500
+ 
+@app.route('/screenresolution', methods=['GET'])
+def get_screen_resolution():
+    try:
+        width, height = pyautogui.size()
+        return {'success': True, 'width': width, 'height': height}
     except Exception as e:
         return {'error': str(e)}, 500
  
@@ -291,15 +299,19 @@ def click():
     try:
         data = request.get_json()
         print(f"[/click] Received data: {data}")
-        x = data.get('x', type=int)
-        y = data.get('y', type=int)
+        x = data.get('x')
+        y = data.get('y')
         button = data.get('button', 'left') # left, middle, right
         clicks = data.get('clicks', 1)
-        interval = data.get('interval', 0.0) # interval between clicks for multi-clicks
+        interval = data.get('interval', 0.0)
 
-        if x is None or y is None:
-            print("[/click] Error: x or y coordinates are missing.")
-            return {'error': 'x and y coordinates are required'}, 400
+        # Convert to appropriate types after getting from dictionary
+        try:
+            x = int(x)
+            y = int(y)
+        except (ValueError, TypeError):
+            print("[/click] Error: x and y coordinates must be integers.")
+            return {'error': 'x and y coordinates must be integers'}, 400
         if button not in ['left', 'middle', 'right']:
             print(f"[/click] Error: Invalid button: {button}")
             return {'error': 'Invalid button. Must be left, middle, or right'}, 400
@@ -324,6 +336,7 @@ def index():
             '/moverel': 'GET - Move cursor relative to current position (params: direction, pixels)',
             '/input': 'POST - Type text or send key combinations (body: {"type": "text|hotkey", "content": string|array, "interval": float})',
             '/scroll': 'GET - Scroll up or down (params: direction, clicks)',
+            '/screenresolution': 'GET - Get screen resolution',
             '/wmctrlinfo': 'GET - Get wmctrl -lG output',
             '/changewmctrlinfo': 'POST - Change window focus',
             '/click': 'POST - Click at specific coordinates with optional button and clicks'

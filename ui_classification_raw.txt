@@ -1,0 +1,62 @@
+icon 0: {'type': 'text', 'bbox': [0.49340176582336426, 0.011952191591262817, 0.5124633312225342, 0.03054448962211609], 'interactivity': False, 'content': 'Jun'}
+icon 1: {'type': 'text', 'bbox': [0.5285923480987549, 0.009296149015426636, 0.5564516186714172, 0.03320053219795227], 'interactivity': False, 'content': '21.12'}
+icon 2: {'type': 'text', 'bbox': [0.10483870655298233, 0.06241700053215027, 0.14149560034275055, 0.0863213837146759], 'interactivity': False, 'content': 'Google'}
+icon 3: {'type': 'text', 'bbox': [0.2793255150318146, 0.11819389462471008, 0.34237536787986755, 0.14209827780723572], 'interactivity': False, 'content': 'google.com'}
+icon 4: {'type': 'text', 'bbox': [0.9450146555900574, 0.18193891644477844, 0.9802052974700928, 0.2031872570514679], 'interactivity': False, 'content': 'Accedi'}
+icon 5: {'type': 'text', 'bbox': [0.4156891405582428, 0.2164674699306488, 0.6348973512649536, 0.37051793932914734], 'interactivity': False, 'content': 'Google'}
+icon 6: {'type': 'text', 'bbox': [0.4677419364452362, 0.6082337498664856, 0.5315249562263489, 0.6321381330490112], 'interactivity': False, 'content': 'Google offerto'}
+icon 7: {'type': 'text', 'bbox': [0.546187698841095, 0.6095617413520813, 0.579912006855011, 0.6334661245346069], 'interactivity': False, 'content': 'English'}
+icon 8: {'type': 'text', 'bbox': [0.4479472041130066, 0.9575033187866211, 0.5564516186714172, 0.9787516593933105], 'interactivity': False, 'content': 'Il nostro terzo decennio'}
+icon 9: {'type': 'text', 'bbox': [0.5667155385017395, 0.9601593613624573, 0.6180351972579956, 0.9814077019691467], 'interactivity': False, 'content': 'azione per'}
+icon 10: {'type': 'text', 'bbox': [0.6253665685653687, 0.9601593613624573, 0.6517595052719116, 0.9787516593933105], 'interactivity': False, 'content': 'Clima'}
+icon 11: {'type': 'text', 'bbox': [0.8614369630813599, 0.9575033187866211, 0.8980938196182251, 0.9787516593933105], 'interactivity': False, 'content': 'Termini'}
+icon 12: {'type': 'text', 'bbox': [0.9149560332298279, 0.9561753273010254, 0.9772727489471436, 0.9827357530593872], 'interactivity': False, 'content': 'Impostazioni'}
+icon 13: {'type': 'icon', 'bbox': [0.5274556279182434, 0.49168896675109863, 0.6361002922058105, 0.5425119996070862], 'interactivity': True, 'content': 'sento fortunato '}
+icon 14: {'type': 'icon', 'bbox': [0.41242149472236633, 0.49164503812789917, 0.5212879776954651, 0.5424796342849731], 'interactivity': True, 'content': 'Cerca con Google '}
+icon 15: {'type': 'icon', 'bbox': [0.048449039459228516, 0.9326804876327515, 0.12445077300071716, 0.9783061742782593], 'interactivity': True, 'content': 'ShowApps '}
+icon 16: {'type': 'icon', 'bbox': [0.7944183945655823, 0.9402757883071899, 0.850975513458252, 0.9933285117149353], 'interactivity': True, 'content': 'Privacy '}
+icon 17: {'type': 'icon', 'bbox': [0.1286892145872116, 0.9360371232032776, 0.23694954812526703, 0.9958939552307129], 'interactivity': True, 'content': 'Soluzioni aziendali '}
+icon 18: {'type': 'icon', 'bbox': [0.8080827593803406, 0.1781972497701645, 0.8354873657226562, 0.20356705784797668], 'interactivity': True, 'content': 'Gmail '}
+icon 19: {'type': 'icon', 'bbox': [0.8428056836128235, 0.17844563722610474, 0.8862033486366272, 0.203733429312706], 'interactivity': True, 'content': 'Immagini '}
+icon 20: {'type': 'icon', 'bbox': [0.12585574388504028, 0.17874781787395477, 0.19081935286521912, 0.20762363076210022], 'interactivity': True, 'content': 'Google Store '}
+icon 21: {'type': 'icon', 'bbox': [0.06469133496284485, 0.18005774915218353, 0.11591200530529022, 0.20710770785808563], 'interactivity': True, 'content': 'Chi siamo '}
+icon 22: {'type': 'icon', 'bbox': [0.23735259473323822, 0.9368966817855835, 0.37328800559043884, 0.9956989288330078], 'interactivity': True, 'content': 'Come funziona la Ricerca '}
+icon 23: {'type': 'icon', 'bbox': [0.04953079670667648, 0.8740383386611938, 0.2308052033185959, 0.9330235123634338], 'interactivity': True, 'content': 'Italia '}
+icon 24: {'type': 'icon', 'bbox': [0.0, 0.1376844197511673, 0.04768297076225281, 0.21080057322978973], 'interactivity': True, 'content': 'File'}
+icon 25: {'type': 'icon', 'bbox': [7.216631638584659e-05, 0.21693165600299835, 0.047852497547864914, 0.29682672023773193], 'interactivity': True, 'content': 'Shop App'}
+icon 26: {'type': 'icon', 'bbox': [0.0, 0.30725085735321045, 0.04896781966090202, 0.3897078037261963], 'interactivity': True, 'content': 'Help'}
+icon 27: {'type': 'icon', 'bbox': [0.0, 0.3962947726249695, 0.04820340871810913, 0.470488041639328], 'interactivity': True, 'content': 'Note'}
+icon 28: {'type': 'icon', 'bbox': [0.048426490277051926, 0.039872944355010986, 0.0776493176817894, 0.09947405010461807], 'interactivity': True, 'content': 'Save'}
+icon 29: {'type': 'icon', 'bbox': [0.0005934923538006842, 0.9097918272018433, 0.04800890013575554, 0.9944762587547302], 'interactivity': True, 'content': 'Recycle Bin'}
+icon 30: {'type': 'icon', 'bbox': [0.8945842981338501, 0.16501228511333466, 0.9253962635993958, 0.2206575721502304], 'interactivity': True, 'content': 'App launcher'}
+icon 31: {'type': 'icon', 'bbox': [0.20597857236862183, 0.10334174335002899, 0.22829502820968628, 0.1487758755683899], 'interactivity': True, 'content': 'Protocolocol'}
+icon 32: {'type': 'icon', 'bbox': [0.9696788787841797, 0.09962338954210281, 0.9941017031669617, 0.14994008839130402], 'interactivity': True, 'content': 'All Sheets'}
+icon 33: {'type': 'icon', 'bbox': [0.9438385963439941, 0.09953249990940094, 0.9696096181869507, 0.15014760196208954], 'interactivity': True, 'content': 'Strikethrough'}
+icon 34: {'type': 'icon', 'bbox': [0.9166457653045654, 0.09943293780088425, 0.9432597756385803, 0.15085873007774353], 'interactivity': True, 'content': 'Account'}
+icon 35: {'type': 'icon', 'bbox': [0.22889474034309387, 0.10347870737314224, 0.24805806577205658, 0.14852185547351837], 'interactivity': True, 'content': 'Lock'}
+icon 36: {'type': 'icon', 'bbox': [0.8908241987228394, 0.09940183907747269, 0.9158173203468323, 0.15197470784187317], 'interactivity': True, 'content': 'Save to Pocket'}
+icon 37: {'type': 'icon', 'bbox': [0.04904773831367493, 0.09961109608411789, 0.07948508858680725, 0.15157125890254974], 'interactivity': True, 'content': 'Back'}
+icon 38: {'type': 'icon', 'bbox': [0.7934891581535339, 0.1044774055480957, 0.8152585029602051, 0.14775849878787994], 'interactivity': True, 'content': 'Star-view'}
+icon 39: {'type': 'icon', 'bbox': [0.07957633584737778, 0.10001559555530548, 0.10551657527685165, 0.15210992097854614], 'interactivity': True, 'content': 'Forward'}
+icon 40: {'type': 'icon', 'bbox': [0.1056215763092041, 0.0997237116098404, 0.1315990835428238, 0.15246562659740448], 'interactivity': True, 'content': 'Reload'}
+icon 41: {'type': 'icon', 'bbox': [0.701941192150116, 0.3959599733352661, 0.7304178476333618, 0.45016083121299744], 'interactivity': True, 'content': 'Paste'}
+icon 42: {'type': 'icon', 'bbox': [0.3169107437133789, 0.4022487998008728, 0.33870673179626465, 0.44550710916519165], 'interactivity': True, 'content': 'Find'}
+icon 43: {'type': 'icon', 'bbox': [0.9731975197792053, 0.0, 0.9908284544944763, 0.04081857204437256], 'interactivity': True, 'content': 'Power'}
+icon 44: {'type': 'icon', 'bbox': [0.6747158765792847, 0.3940006494522095, 0.7014108896255493, 0.45071300864219666], 'interactivity': True, 'content': 'Dictate'}
+icon 45: {'type': 'icon', 'bbox': [0.9308145046234131, 0.0, 0.9514699578285217, 0.04030304029583931], 'interactivity': True, 'content': 'Organization'}
+icon 46: {'type': 'icon', 'bbox': [0.9519694447517395, 0.0, 0.9713259935379028, 0.040513645857572556], 'interactivity': True, 'content': 'Spelling'}
+icon 47: {'type': 'icon', 'bbox': [0.22487081587314606, 0.05201254040002823, 0.2431885153055191, 0.09285876154899597], 'interactivity': True, 'content': 'Close'}
+icon 48: {'type': 'icon', 'bbox': [0.773438572883606, 0.10588063299655914, 0.7920529246330261, 0.14713959395885468], 'interactivity': True, 'content': 'New tab'}
+icon 49: {'type': 'icon', 'bbox': [0.24982313811779022, 0.044934336096048355, 0.2702147364616394, 0.09549367427825928], 'interactivity': True, 'content': 'Add (Ctrl+F)'}
+icon 50: {'type': 'icon', 'bbox': [0.975499153137207, 0.04605572298169136, 0.9975732564926147, 0.0972975566983223], 'interactivity': True, 'content': 'Close'}
+icon 51: {'type': 'icon', 'bbox': [0.9515257477760315, 0.047067973762750626, 0.9729136228561401, 0.09562321752309799], 'interactivity': True, 'content': 'Maximize'}
+icon 52: {'type': 'icon', 'bbox': [0.007452171761542559, 0.48025253415107727, 0.04259556531906128, 0.5523760318756104], 'interactivity': True, 'content': 'Recycle Bin'}
+icon 53: {'type': 'icon', 'bbox': [0.9943472743034363, 0.09825550764799118, 1.0, 0.15166427195072174], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 54: {'type': 'icon', 'bbox': [0.9203684329986572, 0.04162449389696121, 0.9491204023361206, 0.09923592209815979], 'interactivity': True, 'content': 'Minimize'}
+icon 55: {'type': 'icon', 'bbox': [0.8682229518890381, 0.04126043617725372, 0.8935975432395935, 0.09886002540588379], 'interactivity': True, 'content': 'Ribbon'}
+icon 56: {'type': 'icon', 'bbox': [0.9937804937362671, 0.0, 1.0, 0.04121427983045578], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 57: {'type': 'icon', 'bbox': [0.9899957180023193, 0.9379462003707886, 1.0, 0.9971193671226501], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 58: {'type': 'icon', 'bbox': [0.9053642749786377, 0.8793233036994934, 0.9862572550773621, 0.9175163507461548], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 59: {'type': 'icon', 'bbox': [0.9935758113861084, 0.16244781017303467, 1.0, 0.22172871232032776], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 60: {'type': 'icon', 'bbox': [3.1813979148864746e-06, 0.002471401821821928, 0.005282669328153133, 0.0343257412314415], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 61: {'type': 'icon', 'bbox': [0.43274325132369995, 0.954424262046814, 0.4451078176498413, 0.979465126991272], 'interactivity': True, 'content': 'Green'}

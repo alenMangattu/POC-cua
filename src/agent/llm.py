@@ -36,7 +36,7 @@ class LLM:
         user_prompt: str,
         *,
         config: Optional[types.GenerateContentConfig] = None,
-        image: Optional[Union[bytes]] = None,
+        image: Optional[bytes] = None,
         stream: bool = False,
         force_json_output: bool = False
     ) -> Union[str, Iterator[str]]:
@@ -46,7 +46,7 @@ class LLM:
             system_prompt: The system instruction for the model
             user_prompt: The user input prompt
             config: Optional additional generation configuration
-            image: Optional image data as bytes or PIL Image
+            image: Optional image data as bytes (PNG format expected)
             stream: Whether to stream the response
             force_json_output: If True, repeatedly prompt LLM for valid JSON output
         """
@@ -75,7 +75,6 @@ class LLM:
 
         contents.append(user_prompt)
 
-        
         if image is not None:
             contents.append(image)
 

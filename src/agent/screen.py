@@ -9,7 +9,6 @@ import subprocess
 from functools import wraps
 
 # Import the analysis classes
-from src.agent.scan import OmniParser
 from src.agent.vision_model import VisionModel
 
 def retry_api_call(max_retries=5, base_delay=1, ignore_exceptions=()):
@@ -144,6 +143,13 @@ class VM:
             "interval": interval
         }
         response = requests.post(f"{self.vm_server}/click", json=data)
+        response.raise_for_status()
+        return response.json()
+
+    @retry_api_call()
+    def get_screen_resolution(self) -> dict:
+        """Get the screen resolution (width and height) from the VM."""
+        response = requests.get(f"{self.vm_server}/screenresolution")
         response.raise_for_status()
         return response.json()
 

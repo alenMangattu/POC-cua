@@ -1,0 +1,746 @@
+[
+    {
+        "id": 0,
+        "type": "text",
+        "bbox": [
+            673,
+            9,
+            698,
+            23
+        ],
+        "interactivity": false,
+        "content": "Jun"
+    },
+    {
+        "id": 1,
+        "type": "text",
+        "bbox": [
+            720,
+            7,
+            759,
+            25
+        ],
+        "interactivity": false,
+        "content": "21.12"
+    },
+    {
+        "id": 2,
+        "type": "text",
+        "bbox": [
+            142,
+            47,
+            192,
+            65
+        ],
+        "interactivity": false,
+        "content": "Google"
+    },
+    {
+        "id": 3,
+        "type": "text",
+        "bbox": [
+            381,
+            89,
+            467,
+            107
+        ],
+        "interactivity": false,
+        "content": "google.com"
+    },
+    {
+        "id": 4,
+        "type": "text",
+        "bbox": [
+            1288,
+            137,
+            1337,
+            153
+        ],
+        "interactivity": false,
+        "content": "Accedi"
+    },
+    {
+        "id": 5,
+        "type": "text",
+        "bbox": [
+            566,
+            163,
+            865,
+            279
+        ],
+        "interactivity": false,
+        "content": "Google"
+    },
+    {
+        "id": 6,
+        "type": "text",
+        "bbox": [
+            638,
+            458,
+            725,
+            476
+        ],
+        "interactivity": false,
+        "content": "Google offerto"
+    },
+    {
+        "id": 7,
+        "type": "text",
+        "bbox": [
+            745,
+            458,
+            790,
+            476
+        ],
+        "interactivity": false,
+        "content": "English"
+    },
+    {
+        "id": 8,
+        "type": "text",
+        "bbox": [
+            610,
+            720,
+            759,
+            736
+        ],
+        "interactivity": false,
+        "content": "Il nostro terzo decennio"
+    },
+    {
+        "id": 9,
+        "type": "text",
+        "bbox": [
+            772,
+            722,
+            843,
+            738
+        ],
+        "interactivity": false,
+        "content": "azione per"
+    },
+    {
+        "id": 10,
+        "type": "text",
+        "bbox": [
+            852,
+            722,
+            888,
+            736
+        ],
+        "interactivity": false,
+        "content": "Clima"
+    },
+    {
+        "id": 11,
+        "type": "text",
+        "bbox": [
+            1175,
+            720,
+            1224,
+            736
+        ],
+        "interactivity": false,
+        "content": "Termini"
+    },
+    {
+        "id": 12,
+        "type": "text",
+        "bbox": [
+            1248,
+            720,
+            1333,
+            740
+        ],
+        "interactivity": false,
+        "content": "Impostazioni"
+    },
+    {
+        "id": 13,
+        "type": "icon",
+        "bbox": [
+            719,
+            370,
+            867,
+            408
+        ],
+        "interactivity": true,
+        "content": "sento fortunato "
+    },
+    {
+        "id": 14,
+        "type": "icon",
+        "bbox": [
+            562,
+            370,
+            711,
+            408
+        ],
+        "interactivity": true,
+        "content": "Cerca con Google "
+    },
+    {
+        "id": 15,
+        "type": "icon",
+        "bbox": [
+            66,
+            702,
+            169,
+            736
+        ],
+        "interactivity": true,
+        "content": "ShowApps "
+    },
+    {
+        "id": 16,
+        "type": "icon",
+        "bbox": [
+            1083,
+            708,
+            1160,
+            747
+        ],
+        "interactivity": true,
+        "content": "Privacy "
+    },
+    {
+        "id": 17,
+        "type": "icon",
+        "bbox": [
+            175,
+            704,
+            323,
+            749
+        ],
+        "interactivity": true,
+        "content": "Soluzioni aziendali "
+    },
+    {
+        "id": 18,
+        "type": "icon",
+        "bbox": [
+            1102,
+            134,
+            1139,
+            153
+        ],
+        "interactivity": true,
+        "content": "Gmail "
+    },
+    {
+        "id": 19,
+        "type": "icon",
+        "bbox": [
+            1149,
+            134,
+            1208,
+            153
+        ],
+        "interactivity": true,
+        "content": "Immagini "
+    },
+    {
+        "id": 20,
+        "type": "icon",
+        "bbox": [
+            171,
+            134,
+            260,
+            156
+        ],
+        "interactivity": true,
+        "content": "Google Store "
+    },
+    {
+        "id": 21,
+        "type": "icon",
+        "bbox": [
+            88,
+            135,
+            158,
+            155
+        ],
+        "interactivity": true,
+        "content": "Chi siamo "
+    },
+    {
+        "id": 22,
+        "type": "icon",
+        "bbox": [
+            323,
+            705,
+            509,
+            749
+        ],
+        "interactivity": true,
+        "content": "Come funziona la Ricerca "
+    },
+    {
+        "id": 23,
+        "type": "icon",
+        "bbox": [
+            67,
+            658,
+            314,
+            702
+        ],
+        "interactivity": true,
+        "content": "Italia "
+    },
+    {
+        "id": 24,
+        "type": "icon",
+        "bbox": [
+            0,
+            103,
+            65,
+            158
+        ],
+        "interactivity": true,
+        "content": "File"
+    },
+    {
+        "id": 25,
+        "type": "icon",
+        "bbox": [
+            0,
+            163,
+            65,
+            223
+        ],
+        "interactivity": true,
+        "content": "Shop App"
+    },
+    {
+        "id": 26,
+        "type": "icon",
+        "bbox": [
+            0,
+            231,
+            66,
+            293
+        ],
+        "interactivity": true,
+        "content": "Help"
+    },
+    {
+        "id": 27,
+        "type": "icon",
+        "bbox": [
+            0,
+            298,
+            65,
+            354
+        ],
+        "interactivity": true,
+        "content": "Note"
+    },
+    {
+        "id": 28,
+        "type": "icon",
+        "bbox": [
+            66,
+            30,
+            105,
+            74
+        ],
+        "interactivity": true,
+        "content": "Save"
+    },
+    {
+        "id": 29,
+        "type": "icon",
+        "bbox": [
+            0,
+            685,
+            65,
+            748
+        ],
+        "interactivity": true,
+        "content": "Recycle Bin"
+    },
+    {
+        "id": 30,
+        "type": "icon",
+        "bbox": [
+            1220,
+            124,
+            1262,
+            166
+        ],
+        "interactivity": true,
+        "content": "App launcher"
+    },
+    {
+        "id": 31,
+        "type": "icon",
+        "bbox": [
+            280,
+            77,
+            311,
+            112
+        ],
+        "interactivity": true,
+        "content": "Protocolocol"
+    },
+    {
+        "id": 32,
+        "type": "icon",
+        "bbox": [
+            1322,
+            75,
+            1355,
+            112
+        ],
+        "interactivity": true,
+        "content": "All Sheets"
+    },
+    {
+        "id": 33,
+        "type": "icon",
+        "bbox": [
+            1287,
+            74,
+            1322,
+            113
+        ],
+        "interactivity": true,
+        "content": "Strikethrough"
+    },
+    {
+        "id": 34,
+        "type": "icon",
+        "bbox": [
+            1250,
+            74,
+            1286,
+            113
+        ],
+        "interactivity": true,
+        "content": "Account"
+    },
+    {
+        "id": 35,
+        "type": "icon",
+        "bbox": [
+            312,
+            77,
+            338,
+            111
+        ],
+        "interactivity": true,
+        "content": "Lock"
+    },
+    {
+        "id": 36,
+        "type": "icon",
+        "bbox": [
+            1215,
+            74,
+            1249,
+            114
+        ],
+        "interactivity": true,
+        "content": "Save to Pocket"
+    },
+    {
+        "id": 37,
+        "type": "icon",
+        "bbox": [
+            66,
+            75,
+            108,
+            114
+        ],
+        "interactivity": true,
+        "content": "Back"
+    },
+    {
+        "id": 38,
+        "type": "icon",
+        "bbox": [
+            1082,
+            78,
+            1112,
+            111
+        ],
+        "interactivity": true,
+        "content": "Star-view"
+    },
+    {
+        "id": 39,
+        "type": "icon",
+        "bbox": [
+            108,
+            75,
+            143,
+            114
+        ],
+        "interactivity": true,
+        "content": "Forward"
+    },
+    {
+        "id": 40,
+        "type": "icon",
+        "bbox": [
+            144,
+            75,
+            179,
+            114
+        ],
+        "interactivity": true,
+        "content": "Reload"
+    },
+    {
+        "id": 41,
+        "type": "icon",
+        "bbox": [
+            957,
+            298,
+            996,
+            338
+        ],
+        "interactivity": true,
+        "content": "Paste"
+    },
+    {
+        "id": 42,
+        "type": "icon",
+        "bbox": [
+            432,
+            302,
+            461,
+            335
+        ],
+        "interactivity": true,
+        "content": "Find"
+    },
+    {
+        "id": 43,
+        "type": "icon",
+        "bbox": [
+            1327,
+            0,
+            1351,
+            30
+        ],
+        "interactivity": true,
+        "content": "Power"
+    },
+    {
+        "id": 44,
+        "type": "icon",
+        "bbox": [
+            920,
+            296,
+            956,
+            339
+        ],
+        "interactivity": true,
+        "content": "Dictate"
+    },
+    {
+        "id": 45,
+        "type": "icon",
+        "bbox": [
+            1269,
+            0,
+            1297,
+            30
+        ],
+        "interactivity": true,
+        "content": "Organization"
+    },
+    {
+        "id": 46,
+        "type": "icon",
+        "bbox": [
+            1298,
+            0,
+            1324,
+            30
+        ],
+        "interactivity": true,
+        "content": "Spelling"
+    },
+    {
+        "id": 47,
+        "type": "icon",
+        "bbox": [
+            306,
+            39,
+            331,
+            69
+        ],
+        "interactivity": true,
+        "content": "Close"
+    },
+    {
+        "id": 48,
+        "type": "icon",
+        "bbox": [
+            1054,
+            79,
+            1080,
+            110
+        ],
+        "interactivity": true,
+        "content": "New tab"
+    },
+    {
+        "id": 49,
+        "type": "icon",
+        "bbox": [
+            340,
+            33,
+            368,
+            71
+        ],
+        "interactivity": true,
+        "content": "Add (Ctrl+F)"
+    },
+    {
+        "id": 50,
+        "type": "icon",
+        "bbox": [
+            1330,
+            34,
+            1360,
+            73
+        ],
+        "interactivity": true,
+        "content": "Close"
+    },
+    {
+        "id": 51,
+        "type": "icon",
+        "bbox": [
+            1297,
+            35,
+            1327,
+            72
+        ],
+        "interactivity": true,
+        "content": "Maximize"
+    },
+    {
+        "id": 52,
+        "type": "icon",
+        "bbox": [
+            10,
+            361,
+            58,
+            415
+        ],
+        "interactivity": true,
+        "content": "Recycle Bin"
+    },
+    {
+        "id": 53,
+        "type": "icon",
+        "bbox": [
+            1356,
+            73,
+            1364,
+            114
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 54,
+        "type": "icon",
+        "bbox": [
+            1255,
+            31,
+            1294,
+            74
+        ],
+        "interactivity": true,
+        "content": "Minimize"
+    },
+    {
+        "id": 55,
+        "type": "icon",
+        "bbox": [
+            1184,
+            31,
+            1218,
+            74
+        ],
+        "interactivity": true,
+        "content": "Ribbon"
+    },
+    {
+        "id": 56,
+        "type": "icon",
+        "bbox": [
+            1355,
+            0,
+            1364,
+            31
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 57,
+        "type": "icon",
+        "bbox": [
+            1350,
+            706,
+            1364,
+            750
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 58,
+        "type": "icon",
+        "bbox": [
+            1234,
+            662,
+            1345,
+            690
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 59,
+        "type": "icon",
+        "bbox": [
+            1355,
+            122,
+            1364,
+            166
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 60,
+        "type": "icon",
+        "bbox": [
+            0,
+            1,
+            7,
+            25
+        ],
+        "interactivity": true,
+        "content": "M0,0L9,0 4.5,5z"
+    },
+    {
+        "id": 61,
+        "type": "icon",
+        "bbox": [
+            590,
+            718,
+            607,
+            737
+        ],
+        "interactivity": true,
+        "content": "Green"
+    }
+]
