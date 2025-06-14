@@ -1,62 +1,58 @@
-icon 0: {"type": "text", "bbox": [673, 9, 698, 23], "interactivity": False, "content": "Jun"}
-icon 1: {"type": "text", "bbox": [720, 7, 759, 25], "interactivity": False, "content": "21.12"}
-icon 2: {"type": "text", "bbox": [142, 47, 192, 65], "interactivity": False, "content": "Google"}
-icon 3: {"type": "text", "bbox": [381, 89, 467, 107], "interactivity": False, "content": "google.com"}
-icon 4: {"type": "text", "bbox": [1288, 137, 1337, 153], "interactivity": False, "content": "Accedi"}
-icon 5: {"type": "text", "bbox": [566, 163, 865, 279], "interactivity": False, "content": "Google"}
-icon 6: {"type": "text", "bbox": [638, 458, 725, 476], "interactivity": False, "content": "Google offerto"}
-icon 7: {"type": "text", "bbox": [745, 458, 790, 476], "interactivity": False, "content": "English"}
-icon 8: {"type": "text", "bbox": [610, 720, 759, 736], "interactivity": False, "content": "Il nostro terzo decennio"}
-icon 9: {"type": "text", "bbox": [772, 722, 843, 738], "interactivity": False, "content": "azione per"}
-icon 10: {"type": "text", "bbox": [852, 722, 888, 736], "interactivity": False, "content": "Clima"}
-icon 11: {"type": "text", "bbox": [1175, 720, 1224, 736], "interactivity": False, "content": "Termini"}
-icon 12: {"type": "text", "bbox": [1248, 720, 1333, 740], "interactivity": False, "content": "Impostazioni"}
-icon 13: {"type": "icon", "bbox": [719, 370, 867, 408], "interactivity": True, "content": "sento fortunato "}
-icon 14: {"type": "icon", "bbox": [562, 370, 711, 408], "interactivity": True, "content": "Cerca con Google "}
-icon 15: {"type": "icon", "bbox": [66, 702, 169, 736], "interactivity": True, "content": "ShowApps "}
-icon 16: {"type": "icon", "bbox": [1083, 708, 1160, 747], "interactivity": True, "content": "Privacy "}
-icon 17: {"type": "icon", "bbox": [175, 704, 323, 749], "interactivity": True, "content": "Soluzioni aziendali "}
-icon 18: {"type": "icon", "bbox": [1102, 134, 1139, 153], "interactivity": True, "content": "Gmail "}
-icon 19: {"type": "icon", "bbox": [1149, 134, 1208, 153], "interactivity": True, "content": "Immagini "}
-icon 20: {"type": "icon", "bbox": [171, 134, 260, 156], "interactivity": True, "content": "Google Store "}
-icon 21: {"type": "icon", "bbox": [88, 135, 158, 155], "interactivity": True, "content": "Chi siamo "}
-icon 22: {"type": "icon", "bbox": [323, 705, 509, 749], "interactivity": True, "content": "Come funziona la Ricerca "}
-icon 23: {"type": "icon", "bbox": [67, 658, 314, 702], "interactivity": True, "content": "Italia "}
-icon 24: {"type": "icon", "bbox": [0, 103, 65, 158], "interactivity": True, "content": "File"}
-icon 25: {"type": "icon", "bbox": [0, 163, 65, 223], "interactivity": True, "content": "Shop App"}
-icon 26: {"type": "icon", "bbox": [0, 231, 66, 293], "interactivity": True, "content": "Help"}
-icon 27: {"type": "icon", "bbox": [0, 298, 65, 354], "interactivity": True, "content": "Note"}
-icon 28: {"type": "icon", "bbox": [66, 30, 105, 74], "interactivity": True, "content": "Save"}
-icon 29: {"type": "icon", "bbox": [0, 685, 65, 748], "interactivity": True, "content": "Recycle Bin"}
-icon 30: {"type": "icon", "bbox": [1220, 124, 1262, 166], "interactivity": True, "content": "App launcher"}
-icon 31: {"type": "icon", "bbox": [280, 77, 311, 112], "interactivity": True, "content": "Protocolocol"}
-icon 32: {"type": "icon", "bbox": [1322, 75, 1355, 112], "interactivity": True, "content": "All Sheets"}
-icon 33: {"type": "icon", "bbox": [1287, 74, 1322, 113], "interactivity": True, "content": "Strikethrough"}
-icon 34: {"type": "icon", "bbox": [1250, 74, 1286, 113], "interactivity": True, "content": "Account"}
-icon 35: {"type": "icon", "bbox": [312, 77, 338, 111], "interactivity": True, "content": "Lock"}
-icon 36: {"type": "icon", "bbox": [1215, 74, 1249, 114], "interactivity": True, "content": "Save to Pocket"}
-icon 37: {"type": "icon", "bbox": [66, 75, 108, 114], "interactivity": True, "content": "Back"}
-icon 38: {"type": "icon", "bbox": [1082, 78, 1112, 111], "interactivity": True, "content": "Star-view"}
-icon 39: {"type": "icon", "bbox": [108, 75, 143, 114], "interactivity": True, "content": "Forward"}
-icon 40: {"type": "icon", "bbox": [144, 75, 179, 114], "interactivity": True, "content": "Reload"}
-icon 41: {"type": "icon", "bbox": [957, 298, 996, 338], "interactivity": True, "content": "Paste"}
-icon 42: {"type": "icon", "bbox": [432, 302, 461, 335], "interactivity": True, "content": "Find"}
-icon 43: {"type": "icon", "bbox": [1327, 0, 1351, 30], "interactivity": True, "content": "Power"}
-icon 44: {"type": "icon", "bbox": [920, 296, 956, 339], "interactivity": True, "content": "Dictate"}
-icon 45: {"type": "icon", "bbox": [1269, 0, 1297, 30], "interactivity": True, "content": "Organization"}
-icon 46: {"type": "icon", "bbox": [1298, 0, 1324, 30], "interactivity": True, "content": "Spelling"}
-icon 47: {"type": "icon", "bbox": [306, 39, 331, 69], "interactivity": True, "content": "Close"}
-icon 48: {"type": "icon", "bbox": [1054, 79, 1080, 110], "interactivity": True, "content": "New tab"}
-icon 49: {"type": "icon", "bbox": [340, 33, 368, 71], "interactivity": True, "content": "Add (Ctrl+F)"}
-icon 50: {"type": "icon", "bbox": [1330, 34, 1360, 73], "interactivity": True, "content": "Close"}
-icon 51: {"type": "icon", "bbox": [1297, 35, 1327, 72], "interactivity": True, "content": "Maximize"}
-icon 52: {"type": "icon", "bbox": [10, 361, 58, 415], "interactivity": True, "content": "Recycle Bin"}
-icon 53: {"type": "icon", "bbox": [1356, 73, 1364, 114], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 54: {"type": "icon", "bbox": [1255, 31, 1294, 74], "interactivity": True, "content": "Minimize"}
-icon 55: {"type": "icon", "bbox": [1184, 31, 1218, 74], "interactivity": True, "content": "Ribbon"}
-icon 56: {"type": "icon", "bbox": [1355, 0, 1364, 31], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 57: {"type": "icon", "bbox": [1350, 706, 1364, 750], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 58: {"type": "icon", "bbox": [1234, 662, 1345, 690], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 59: {"type": "icon", "bbox": [1355, 122, 1364, 166], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 60: {"type": "icon", "bbox": [0, 1, 7, 25], "interactivity": True, "content": "M0,0L9,0 4.5,5z"}
-icon 61: {"type": "icon", "bbox": [590, 718, 607, 737], "interactivity": True, "content": "Green"}
+icon 0: {"type": "text", "bbox": [433, 7, 521, 25], "content": "Jun 14 23.07"}
+icon 1: {"type": "text", "bbox": [112, 141, 183, 157], "content": "Bluetooth"}
+icon 2: {"type": "text", "bbox": [112, 243, 156, 259], "content": "Sound"}
+icon 3: {"type": "text", "bbox": [112, 287, 159, 303], "content": "Power"}
+icon 4: {"type": "text", "bbox": [450, 281, 504, 301], "content": "Default"}
+icon 5: {"type": "text", "bbox": [660, 285, 696, 301], "content": "Dark"}
+icon 6: {"type": "text", "bbox": [108, 324, 197, 350], "content": "Multitasking"}
+icon 7: {"type": "text", "bbox": [311, 349, 402, 365], "content": "Accent Color"}
+icon 8: {"type": "text", "bbox": [112, 418, 224, 434], "content": "Ubuntu Desktop"}
+icon 9: {"type": "text", "bbox": [112, 476, 148, 492], "content": "Apps"}
+icon 10: {"type": "text", "bbox": [311, 470, 396, 488], "content": "Background"}
+icon 11: {"type": "text", "bbox": [736, 468, 821, 486], "content": "Add Picture_"}
+icon 12: {"type": "text", "bbox": [112, 518, 200, 536], "content": "Notifications"}
+icon 13: {"type": "text", "bbox": [112, 562, 161, 578], "content": "Search"}
+icon 14: {"type": "text", "bbox": [112, 606, 224, 622], "content": "Online Accounts"}
+icon 15: {"type": "text", "bbox": [111, 692, 183, 712], "content": "Wellbeing"}
+icon 16: {"type": "icon", "bbox": [70, 360, 268, 404], "content": "Appearance "}
+icon 17: {"type": "icon", "bbox": [71, 636, 271, 681], "content": "Sharing "}
+icon 18: {"type": "icon", "bbox": [71, 81, 268, 127], "content": "Network "}
+icon 19: {"type": "icon", "bbox": [71, 183, 269, 229], "content": "Displays "}
+icon 20: {"type": "icon", "bbox": [121, 38, 213, 71], "content": "Settings "}
+icon 21: {"type": "icon", "bbox": [535, 45, 620, 64], "content": "Appearance "}
+icon 22: {"type": "icon", "bbox": [310, 86, 348, 106], "content": "Style "}
+icon 23: {"type": "icon", "bbox": [503, 641, 651, 752], "content": "a user profile or account."}
+icon 24: {"type": "icon", "bbox": [342, 641, 490, 752], "content": "System"}
+icon 25: {"type": "icon", "bbox": [502, 515, 651, 626], "content": "a painting or painting tool."}
+icon 26: {"type": "icon", "bbox": [342, 514, 489, 626], "content": "A painting or painting tool."}
+icon 27: {"type": "icon", "bbox": [664, 515, 813, 626], "content": "A digital assistant."}
+icon 28: {"type": "icon", "bbox": [383, 134, 571, 276], "content": "Maximize window."}
+icon 29: {"type": "icon", "bbox": [580, 137, 786, 275], "content": "Save"}
+icon 30: {"type": "icon", "bbox": [534, 389, 578, 428], "content": "Orange"}
+icon 31: {"type": "icon", "bbox": [496, 390, 532, 427], "content": "Gold"}
+icon 32: {"type": "icon", "bbox": [664, 391, 701, 424], "content": "Purple"}
+icon 33: {"type": "icon", "bbox": [622, 391, 659, 425], "content": "Purple"}
+icon 34: {"type": "icon", "bbox": [705, 391, 742, 425], "content": "Green"}
+icon 35: {"type": "icon", "bbox": [412, 391, 448, 425], "content": "Green"}
+icon 36: {"type": "icon", "bbox": [581, 390, 616, 427], "content": "Red"}
+icon 37: {"type": "icon", "bbox": [0, 296, 65, 359], "content": "Settings"}
+icon 38: {"type": "icon", "bbox": [7, 0, 64, 28], "content": "Toggleoggleoggle Button"}
+icon 39: {"type": "icon", "bbox": [454, 391, 490, 427], "content": "Green"}
+icon 40: {"type": "icon", "bbox": [747, 391, 784, 425], "content": "Brown"}
+icon 41: {"type": "icon", "bbox": [369, 390, 406, 425], "content": "Blue"}
+icon 42: {"type": "icon", "bbox": [0, 163, 62, 228], "content": "Shop App"}
+icon 43: {"type": "icon", "bbox": [0, 364, 62, 421], "content": "Print"}
+icon 44: {"type": "icon", "bbox": [231, 39, 265, 72], "content": "Hide"}
+icon 45: {"type": "icon", "bbox": [72, 39, 105, 72], "content": "Find"}
+icon 46: {"type": "icon", "bbox": [820, 0, 847, 29], "content": "Mute"}
+icon 47: {"type": "icon", "bbox": [792, 0, 818, 28], "content": "Flowchart"}
+icon 48: {"type": "icon", "bbox": [848, 0, 874, 30], "content": "Power"}
+icon 49: {"type": "icon", "bbox": [0, 106, 63, 163], "content": "Clipboard"}
+icon 50: {"type": "icon", "bbox": [0, 232, 65, 295], "content": "Help"}
+icon 51: {"type": "icon", "bbox": [0, 423, 64, 497], "content": "Recycle Bin"}
+icon 52: {"type": "icon", "bbox": [11, 699, 56, 744], "content": "Toggle Control"}
+icon 53: {"type": "icon", "bbox": [778, 718, 813, 751], "content": "Checkbox"}
+icon 54: {"type": "icon", "bbox": [710, 464, 735, 492], "content": "Add"}
+icon 62: {"type": "icon", "bbox": [880, 101, 886, 179], "content": "a button to close or close a window."}
+icon 63: {"type": "icon", "bbox": [80, 470, 107, 495], "content": "App launcher"}
+icon 65: {"type": "icon", "bbox": [82, 283, 104, 306], "content": "Power Button"}

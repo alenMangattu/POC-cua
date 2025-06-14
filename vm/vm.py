@@ -5,6 +5,7 @@ import os
 from PIL import Image
 import pyautogui
 import time
+import tempfile
  
 app = Flask(__name__)
  
@@ -17,21 +18,47 @@ def screenshot():
         width = request.args.get('width', type=int)
         height = request.args.get('height', type=int)
  
-        # Temp filename
-        temp_filename = "/tmp/screenshot.png"
- 
+        # Generate a unique temporary filename for each request
+        # Use a context manager for automatic cleanup
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
+            temp_filename = temp_file.name
+
         if all([x is not None, y is not None, width is not None, height is not None]):
             # Capture screenshot of specific region using scrot
             subprocess.run(['scrot', '-a', f'{x},{y},{width},{height}', temp_filename], check=True)
         else:
             # Capture full screenshot if parameters are missing
             subprocess.run(['scrot', temp_filename], check=True)
- 
+
+        # Wait for the file to be fully written by polling its size
+        max_wait_time = 5  # seconds
+        check_interval = 0.05  # seconds
+        last_size = -1
+        current_size = 0
+        start_time = time.time()
+
+        while time.time() - start_time < max_wait_time:
+            if not os.path.exists(temp_filename):
+                time.sleep(check_interval)
+                continue
+
+            current_size = os.path.getsize(temp_filename)
+            if current_size == last_size and current_size > 0:
+                break  # File size has stabilized and is not empty
+            last_size = current_size
+            time.sleep(check_interval)
+
+        if not os.path.exists(temp_filename) or os.path.getsize(temp_filename) == 0:
+            # Clean up the empty or non-existent temp file
+            if os.path.exists(temp_filename): 
+                os.remove(temp_filename)
+            return {'error': 'Failed to capture screenshot or screenshot file is empty'}, 500
+
         # Open the image and load it into memory
         with open(temp_filename, 'rb') as f:
             img_bytes = io.BytesIO(f.read())
  
-        # Optionally delete the temp file
+        # Ensure the temp file is deleted after reading
         os.remove(temp_filename)
  
         # Return as image/png
@@ -165,8 +192,21 @@ def scroll():
 @app.route('/screenresolution', methods=['GET'])
 def get_screen_resolution():
     try:
-        width, height = pyautogui.size()
-        return {'success': True, 'width': width, 'height': height}
+        # Get active resolution using xrandr
+        xrandr_output = subprocess.run(['xrandr', '-d', ':0'], capture_output=True, text=True, check=True).stdout
+        
+        # Find the line with the current resolution (marked with an asterisk *)
+        resolution_line = next((line for line in xrandr_output.split('\n') if '*' in line), None)
+        
+        if resolution_line:
+            # Extract the resolution string (e.g., "1920x1080")
+            resolution_str = resolution_line.split()[0]
+            width, height = map(int, resolution_str.split('x'))
+            return {'success': True, 'width': width, 'height': height}
+        else:
+            return {'error': 'Could not determine screen resolution from xrandr output'}, 500
+    except subprocess.CalledProcessError as e:
+        return {'error': f"xrandr failed: {str(e)}"}, 500
     except Exception as e:
         return {'error': str(e)}, 500
  
