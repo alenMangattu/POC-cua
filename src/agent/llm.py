@@ -17,7 +17,7 @@ class LLM:
     _client = None
 
     @classmethod
-    def initialize(cls, model_name: str = "gemini-2.0-flash-lite"):
+    def initialize(cls, model_name: str = "gemini-2.5-flash-preview-05-20"):
         load_dotenv()
         api_key = os.getenv("GOOGLE_API_KEY")
         

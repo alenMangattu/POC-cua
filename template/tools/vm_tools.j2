@@ -68,153 +68,6 @@ Available VM_TOOLS actions and their parameters:
     "classification": "VM_TOOLS",
     "operations": [
         {
-            "type": "action",       // "action" or "sleep"
-            "action_name": "moveto", // e.g., "moveto", "input", "scroll" (if type is "action")
-            "parameters": {         // Action-specific parameters (if type is "action")
-                "x": 100,
-                "y": 200
-            }
-        },
-        {
-            "type": "sleep",
-            "duration_ms": 500      // Duration in milliseconds (if type is "sleep")
-        }
-        // ... more operations can be added here
-    ]
-}
-```
-
-**1. Available VM Actions (for `type: "action"`)**
-
-   Each action is defined as an object within the `operations` array with `type: "action"`.
-
-   **1.1 Absolute Mouse Movement (moveto)**
-   Moves the cursor to specific coordinates.
-   Example operation:
-   ```json
-   {
-       "type": "action",
-       "action_name": "moveto",
-       "parameters": {
-           "x": 100,           // Required: target x-coordinate
-           "y": 200            // Required: target y-coordinate
-       }
-   }
-   ```
-
-   **1.2 Relative Mouse Movement (moverel)**
-   Moves the cursor relative to its current position.
-   Example operation:
-   ```json
-   {
-       "type": "action",
-       "action_name": "moverel",
-       "parameters": {
-           "direction": "up",  // Required: "up", "down", "left", "right", "upleft", "upright", "downleft", "downright"
-           "pixels": 10        // Optional: number of pixels to move (default: 10)
-       }
-   }
-   ```
-
-   **1.3 Keyboard Input (input)**
-   Types text or sends key combinations.
-   Example operations:
-   - Text input:
-     ```json
-     {
-         "type": "action",
-         "action_name": "input",
-         "parameters": {
-             "type": "text",     // Required: "text" or "hotkey"
-             "content": "Hello World", // Required: string for text, string/array for hotkey
-             "interval": 0.1     // Optional: delay between keystrokes (default: 0.1)
-         }
-     }
-     ```
-   - Single hotkey:
-     ```json
-     {
-         "type": "action",
-         "action_name": "input",
-         "parameters": {
-             "type": "hotkey",
-             "content": "enter"
-         }
-     }
-     ```
-   - Hotkey combination:
-     ```json
-     {
-         "type": "action",
-         "action_name": "input",
-         "parameters": {
-             "type": "hotkey",
-             "content": ["ctrl", "c"]
-         }
-     }
-     ```
-
-   **1.4 Scrolling (scroll)**
-   Scrolls the window up or down.
-   Example operation:
-   ```json
-   {
-       "type": "action",
-       "action_name": "scroll",
-       "parameters": {
-           "direction": "up",  // Required: "up" or "down"
-           "clicks": 1         // Optional: number of scroll clicks (default: 1)
-       }
-   }
-   ```
-
-   **1.5 Change Window Focus (changewmctrlinfo)**
-   Focuses a specific window.
-   Example operation:
-   ```json
-   {
-       "type": "action",
-       "action_name": "changewmctrlinfo",
-       "parameters": {
-           "id": "0x01000034"  // Required: WINDOW_ID in hex format
-       }
-   }
-   ```
-
-   **1.6 Click (click)**
-   Performs a mouse click at specified coordinates.
-   Example operation:
-   ```json
-   {
-       "type": "action",
-       "action_name": "click",
-       "parameters": {
-           "x": 100,           // Required: target x-coordinate
-           "y": 200,            // Required: target y-coordinate
-           "button": "left",    // Optional: "left", "middle", or "right" (default: "left")
-           "clicks": 1,         // Optional: number of clicks (default: 1)
-           "interval": 0.0      // Optional: interval between clicks for multi-clicks (default: 0.0)
-       }
-   }
-   ```
-
-**2. Sleep Operation (`type: "sleep"`)**
-   Pauses execution for a specified duration. This is defined as an object within the `operations` array with `type: "sleep"`.
-   Example operation:
-   ```json
-   {
-       "type": "sleep",
-       "duration_ms": 500  // Required: duration in milliseconds, positive integer
-   }
-   ```
-
-**Example: Stacked Actions with Sleep**
-This example moves the mouse, waits 200ms, types "Example", and then presses Enter.
-```json
-{
-    "classification": "VM_TOOLS",
-    "operations": [
-        {
             "type": "action",
             "action_name": "moveto",
             "parameters": {"x": 500, "y": 300}
@@ -232,6 +85,40 @@ This example moves the mouse, waits 200ms, types "Example", and then presses Ent
             "type": "action",
             "action_name": "input",
             "parameters": {"type": "hotkey", "content": "enter"}
+        }
+    ]
+}
+```
+
+**Example: More Complex Stacked Actions**
+This example clicks, types, sleeps, presses enter, and then presses Alt+F4.
+```json
+{
+    "classification": "VM_TOOLS",
+    "operations": [
+        {
+            "type": "action",
+            "action_name": "click",
+            "parameters": {"x": 234, "y": 43}
+        },
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {"type": "text", "content": "neofetch"}
+        },
+        {
+            "type": "sleep",
+            "duration_ms": 12
+        },
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {"type": "hotkey", "content": "enter"}
+        },
+        {
+            "type": "action",
+            "action_name": "input",
+            "parameters": {"type": "hotkey", "content": ["alt", "f4"]}
         }
     ]
 }

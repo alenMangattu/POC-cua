@@ -301,116 +301,38 @@ def capture_and_analyze_screen(vm, omniparser, screen_width, screen_height):
     ui_elements = json.loads(ui_elements_json)
     wmctrl_info = vm.get_wmctrl_info()
 
-    omni_parser_response_format = f"The response from the omni parser includes: icon id, type, bounding box (x_min, y_min, x_max, y_max), and text content. When clicking, use coordinates relative to or within the bounding box rather than exact edge coordinates to avoid border issues - for example, click at the center point ((x_min + x_max)/2, (y_min + y_max)/2) or slightly inside the bounds. You can also click outside of the box if you are very confident about where to click relative to these coordinates so dont be fucking stupid. You can also visually inspect the screen to better understand the coordinate positioning and element layout. {ui_classification_with_pixels}"
+    omni_parser_response_format = f"""The response from the omni parser includes: 
+    - icon id
+    - type
+    - bounding box (x_min, y_min, x_max, y_max)
+    - text content
+
+When clicking:
+    - Use coordinates relative to or within the bounding box rather than exact edge coordinates to avoid border issues
+    - For example, click at the center point ((x_min + x_max)/2, (y_min + y_max)/2) or slightly inside the bounds
+    - You can also click outside of the box if you are very confident about where to click relative to these coordinates
+    - You can also visually inspect the screen to better understand the coordinate positioning and element layout
+    - DO not rely too much on the bounding box, it is not always accurate. You should see and reason before you do anything
+{ui_classification_with_pixels}"""
     return screenshot_bytes, pil_image, ui_classification_with_pixels, ui_elements, wmctrl_info, omni_parser_response_format
 
 
-def process_single_task(vm, omniparser, LLM, prompt, vm_tools_prompt, task, previous_task, next_task, screen_width, screen_height):
+def process_single_task(vm, omniparser, LLM, prompt, vm_tools_prompt, task, previous_task, next_task, screen_width, screen_height, env):
     screenshot_bytes = vm.screenshot()
     pil_image = Image.open(io.BytesIO(screenshot_bytes))
 
     screenshot_bytes, pil_image, ui_classification_with_pixels, ui_elements, wmctrl_info, omnin_parser_response_formate = capture_and_analyze_screen(vm, omniparser, screen_width, screen_height)
 
-    full_prompt = f"""You are a computer use agent that executes actions using the provided tools. Your current task is: {task}."
-EXECUTION STRATEGY:
-1. ANALYZE FIRST: Before taking any action, examine the current screenshot and UI state
-2. PLAN YOUR APPROACH: Consider the most efficient path to complete the task
-3. EXECUTE STEP-BY-STEP: Take one action at a time and verify results
-4. ADAPT AS NEEDED: If something doesn't work as expected, adjust your approach
-
-CRITICAL EXECUTION RULES:
-1. SLOW SYSTEM AWARENESS:
-   - Use minimum 2-3 second sleeps between actions
-   - Wait 5+ seconds after opening applications
-   - Allow extra time for page loads and file operations
-
-2. PRECISE INTERACTION:
-   - To open applications or files, use a DOUBLE-CLICK.
-   - For all other interactions (e.g., menu items, buttons, selections), use a SINGLE-CLICK.
-   - Use EXACT pixel coordinates from screenshots
-   - Verify element visibility before clicking
-
-3. CONTEXT AWARENESS:
-   - Check window focus before interacting
-   - Handle popups, dialogs, and notifications immediately
-   - Consider overlapping windows and scrollbars
-   - Maintain awareness of current application state
-
-4. ERROR HANDLING:
-   - If an element isn't found, take a new screenshot
-   - If a click doesn't work, try slightly different coordinates
-   - If an application doesn't respond, wait longer before retrying
-   - Always verify your actions succeeded before proceeding
-
-5. EFFICIENT TOOL USAGE & OPERATION STACKING:
-   - **STACK MULTIPLE VM OPERATIONS** for complex sequences within a single task
-   - **HANDLE FOCUS RECOVERY**: If popups, notifications, or dialogs appear between operations, include additional clicks to dismiss them and refocus on your target element
-   - **EXAMPLE STACKING SCENARIO**: If you clicked a search bar in task 1, but before task 2's text input a popup appears:
-     * Click the popup's close/X button
-     * Click the search bar again to refocus
-     * Then type your text - all within the same task response
-   - **CAPTCHA STACKING EXAMPLE**: If a CAPTCHA appears during login:
-     * Solve the CAPTCHA challenge (select images, enter text, complete puzzle)
-     * Click submit/verify button
-     * Continue with login process - all in the same operation sequence
-   - **CHAIN RELATED ACTIONS**: Combine logically connected operations like click→focus→type or dismiss→refocus→continue
-   - Use keyboard shortcuts when faster than mouse navigation
-   - Take screenshots frequently to track progress
-   - **MAINTAIN UI STATE**: Always ensure the interface is ready for your next action by handling interruptions
-
-6. DYNAMIC UI HANDLING:
-   - **POPUP MANAGEMENT**: If dialogs, notifications, or overlays appear, immediately handle them before continuing
-   - **FOCUS MANAGEMENT**: If an element loses focus due to interruptions, re-establish focus before interacting
-   - **STATE RECOVERY**: Stack operations to return to the desired UI state when disrupted
-   - **PROACTIVE DISMISSAL**: Close any interfering elements (ads, notifications, dialogs) as part of your operation sequence
-   - **CAPTCHA & VERIFICATION HANDLING**: 
-     * When encountering CAPTCHA challenges (image recognition, text entry, "I'm not a robot" checkboxes), solve them as part of your operation sequence
-     * For "Verify you are human" prompts, complete the required verification steps (puzzle solving, image selection, audio challenges)
-     * Stack verification completion with continuation of the original task
-     * Handle multi-step verification processes by chaining all required actions
-     * If CAPTCHA appears during form submission, solve it and resubmit in the same operation sequence
-
-PROBLEM-SOLVING APPROACH:
-- If task seems impossible, break it into smaller sub-tasks
-- If UI elements are unclear, take a fresh screenshot
-- If applications are unresponsive, consider restarting them
-- If permissions are needed, handle authentication prompts
-- If files/folders don't exist, create them as needed
-- **If UI state is disrupted, stack recovery operations with your main task**
-- **When encountering CAPTCHA or human verification**:
-  * Analyze the challenge type (image selection, text recognition, puzzle, checkbox)
-  * Complete the verification as part of your current operation sequence
-  * Continue with the original task after successful verification
-  * Handle failed verification attempts by retrying the challenge
-
-QUALITY CHECKS:
-- Verify each action completed successfully
-- Confirm you're in the right application/window
-- Check that text was typed correctly
-- Ensure file operations completed properly
-- Validate final result matches task requirements
-- **Ensure UI focus is maintained throughout operation sequences**
-- Do not hallucinate actions or information that you are not sure about.
-
-COMMUNICATION:
-- Explain your reasoning for each action
-- Describe what you observe in screenshots
-- Report any unexpected behavior or errors
-- **Explain when you're stacking operations to handle UI disruptions**
-- **Report CAPTCHA encounters and verification steps taken**
-- Confirm task completion with evidence
-
-Available tools: {vm_tools_prompt}
-
-REMEMBER: You have access to the complete desktop environment. Use visual cues from screenshots to navigate accurately. **Stack operations within single tasks to handle UI disruptions and maintain focus.** Take your time and be methodical - precision is more important than speed.
-
-CONTEXT:
-- Previous task: {previous_task}
-- Next task: {next_task}
-- Current windows: {wmctrl_info}
-- UI Elements: {omnin_parser_response_formate}
-- The main user prompt for context: {prompt}
-"""
+    system_prompt_template = env.get_template('agent_system_prompt.j2')
+    full_prompt = system_prompt_template.render(
+        task=task,
+        vm_tools_prompt=vm_tools_prompt,
+        previous_task=previous_task,
+        next_task=next_task,
+        wmctrl_info=wmctrl_info,
+        omnin_parser_response_formate=omnin_parser_response_formate,
+        prompt=prompt
+    )
     
     response = LLM.run(full_prompt, json.dumps(task), force_json_output=True, image=pil_image)
     response_json = json.loads(response)
@@ -424,7 +346,7 @@ def main():
     # Initialize recovery system
     recovery_system = RecoverySystem(vm, omniparser, env, vm_tools_prompt)
     
-    prompt = "Find the latest mr beast video on youtube"
+    prompt = "Get the weather of ravenna"
    
     screen_resolution = vm.get_screen_resolution()
     screen_width = screen_resolution.get("width")
@@ -432,49 +354,14 @@ def main():
    
     screenshot_bytes, pil_image, ui_classification_with_pixels, ui_elements, wmctrl_info, omnin_parser_response_formate = capture_and_analyze_screen(vm, omniparser, screen_width, screen_height)
 
-    tasks = LLM.run(f"""
-You are a computer use agent that breaks down tasks into granular, executable steps.
+    task_breakdown_template = env.get_template('task_breakdown_prompt.j2')
+    task_breakdown_prompt = task_breakdown_template.render(
+        wmctrl_info=wmctrl_info,
+        prompt=prompt,
+        omnin_parser_response_formate=omnin_parser_response_formate
+    )
 
-CRITICAL REQUIREMENTS:
-1. Output ONLY valid JSON array of step objects
-2. Each step must be atomic and specific
-3. Include ALL user interactions (clicks, keystrokes, confirmations)
-4. Never assume default behaviors or skip prompts
-5. Account for system prompts, password entries, confirmations, captcha, human verification challenges, ect...
-6. Use EXACT pixel coordinates from screenshots
-7. Do not hallucinate actions or information that you are not sure about.
-
-FORMAT: [{{"step": "description"}}, {{"step": "description"}}, ...]
-
-EXAMPLE BREAKING DOWN "Install Firefox":
-[
-  {{"step": "open terminal application"}},
-  {{"step": "type 'sudo apt update' and press Enter"}},
-  {{"step": "enter system password when prompted"}},
-  {{"step": "wait for update process to complete"}},
-  {{"step": "type 'sudo apt install firefox' and press Enter"}},
-  {{"step": "type 'y' when prompted to confirm installation"}},
-  {{"step": "press Enter to confirm"}},
-  {{"step": "wait for installation to complete"}},
-  {{"step": "type 'firefox' to launch browser"}},
-  {{"step": "press Enter"}}
-]
-
-This example shows the level of detail needed - think like this for EVERY task. Don't forget single interactions but don't overthink things either.
-
-RULES:
-- Include every keystroke, click, and wait needed
-- Specify exact text to type
-- Include password prompts and confirmations
-- Account for loading/processing time
-- Be explicit about UI interactions
-- No explanatory text outside JSON
-- No assumptions about default settings
-- Keep steps simple and direct - don't overthink
-
-Current windows: {wmctrl_info}
-Task to break down: {prompt}
-""", prompt + " Here is the ui classification: " + omnin_parser_response_formate, force_json_output=True, image=pil_image)
+    tasks = LLM.run(task_breakdown_prompt, prompt + " Here is the ui classification: " + omnin_parser_response_formate, force_json_output=True, image=pil_image)
 
     tasks = json.loads(tasks)
     
@@ -497,7 +384,7 @@ Task to break down: {prompt}
                 previous_task = tasks[task_index-1] if task_index > 0 else "None"
                 next_task = tasks[task_index+1] if task_index < len(tasks) - 1 else "None"
                 
-                process_single_task(vm, omniparser, LLM, prompt, vm_tools_prompt, task, previous_task, next_task, screen_width, screen_height)
+                process_single_task(vm, omniparser, LLM, prompt, vm_tools_prompt, task, previous_task, next_task, screen_width, screen_height, env)
                 
                 # Task completed successfully
                 task_completed = True

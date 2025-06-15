@@ -3,638 +3,407 @@
         "id": 0,
         "type": "text",
         "bbox": [
-            433,
+            296,
             7,
-            521,
+            385,
             25
         ],
-        "content": "Jun 14 23.07"
+        "content": "Jun 15 11.29"
     },
     {
         "id": 1,
         "type": "text",
         "bbox": [
-            112,
-            141,
-            183,
-            157
+            140,
+            47,
+            203,
+            63
         ],
-        "content": "Bluetooth"
+        "content": "New Tab"
     },
     {
         "id": 2,
         "type": "text",
         "bbox": [
-            112,
-            243,
-            156,
-            259
+            117,
+            87,
+            173,
+            107
         ],
-        "content": "Sound"
+        "content": "7 X"
     },
     {
         "id": 3,
         "type": "text",
         "bbox": [
-            112,
-            287,
-            159,
-            303
+            94,
+            122,
+            235,
+            142
         ],
-        "content": "Power"
+        "content": "Import bookmarks .."
     },
     {
         "id": 4,
         "type": "text",
         "bbox": [
-            450,
-            281,
-            504,
-            301
+            321,
+            213,
+            432,
+            249
         ],
-        "content": "Default"
+        "content": "Firefox"
     },
     {
         "id": 5,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            660,
-            285,
-            696,
-            301
+            186,
+            302,
+            494,
+            356
         ],
-        "content": "Dark"
+        "content": "Search with Google or enter. "
     },
     {
         "id": 6,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            108,
-            324,
-            197,
-            350
+            190,
+            79,
+            450,
+            114
         ],
-        "content": "Multitasking"
+        "content": "weather ravenna "
     },
     {
         "id": 7,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            311,
-            349,
-            402,
-            365
+            184,
+            556,
+            256,
+            651
         ],
-        "content": "Accent Color"
+        "content": "YouTube "
     },
     {
         "id": 8,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            112,
-            418,
-            224,
-            434
+            184,
+            413,
+            257,
+            525
         ],
-        "content": "Ubuntu Desktop"
+        "content": "Amazon Sponsored "
     },
     {
         "id": 9,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            112,
-            476,
-            148,
-            492
+            421,
+            414,
+            496,
+            525
         ],
-        "content": "Apps"
+        "content": "Idas Adidas Sponsored "
     },
     {
         "id": 10,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            311,
-            470,
-            396,
-            488
+            406,
+            554,
+            516,
+            671
         ],
-        "content": "Background"
+        "content": "Pastebin com past: "
     },
     {
         "id": 11,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            736,
-            468,
-            821,
-            486
+            301,
+            414,
+            378,
+            526
         ],
-        "content": "Add Picture_"
+        "content": "Temu Sponsored "
     },
     {
         "id": 12,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            112,
-            518,
-            200,
-            536
+            302,
+            556,
+            380,
+            669
         ],
-        "content": "Notifications"
+        "content": "Directory listing "
     },
     {
         "id": 13,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            112,
-            562,
-            161,
-            578
+            68,
+            732,
+            187,
+            751
         ],
-        "content": "Search"
+        "content": "WWWgoogle com "
     },
     {
         "id": 14,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            112,
-            606,
-            224,
-            622
+            241,
+            121,
+            325,
+            141
         ],
-        "content": "Online Accounts"
+        "content": "YouTube "
     },
     {
         "id": 15,
-        "type": "text",
+        "type": "icon",
         "bbox": [
-            111,
-            692,
-            183,
-            712
+            463,
+            76,
+            499,
+            120
         ],
-        "content": "Wellbeing"
+        "content": "Save to Pocket"
     },
     {
         "id": 16,
         "type": "icon",
         "bbox": [
-            70,
-            360,
-            268,
-            404
+            574,
+            0,
+            601,
+            31
         ],
-        "content": "Appearance "
+        "content": "Power"
     },
     {
         "id": 17,
         "type": "icon",
         "bbox": [
-            71,
-            636,
-            271,
-            681
+            108,
+            79,
+            144,
+            113
         ],
-        "content": "Sharing "
+        "content": "Forward"
     },
     {
         "id": 18,
         "type": "icon",
         "bbox": [
-            71,
-            81,
-            268,
-            127
+            65,
+            31,
+            106,
+            77
         ],
-        "content": "Network "
+        "content": "Firefox View"
     },
     {
         "id": 19,
         "type": "icon",
         "bbox": [
-            71,
-            183,
-            269,
-            229
+            570,
+            76,
+            606,
+            119
         ],
-        "content": "Displays "
+        "content": "Hide"
     },
     {
         "id": 20,
         "type": "icon",
         "bbox": [
-            121,
-            38,
-            213,
-            71
+            308,
+            43,
+            328,
+            66
         ],
-        "content": "Settings "
+        "content": "Close"
     },
     {
         "id": 21,
         "type": "icon",
         "bbox": [
-            535,
-            45,
-            620,
-            64
+            12,
+            368,
+            53,
+            415
         ],
-        "content": "Appearance "
+        "content": "Recycle Bin"
     },
     {
         "id": 22,
         "type": "icon",
         "bbox": [
-            310,
-            86,
-            348,
-            106
+            7,
+            237,
+            58,
+            294
         ],
-        "content": "Style "
+        "content": "Help or Information"
     },
     {
         "id": 23,
         "type": "icon",
         "bbox": [
-            503,
-            641,
-            651,
-            752
+            8,
+            699,
+            58,
+            749
         ],
-        "content": "a user profile or account."
+        "content": "Toggle"
     },
     {
         "id": 24,
         "type": "icon",
         "bbox": [
-            342,
-            641,
-            490,
-            752
+            341,
+            39,
+            370,
+            72
         ],
-        "content": "System"
+        "content": "New Project"
     },
     {
         "id": 25,
         "type": "icon",
         "bbox": [
-            502,
-            515,
-            651,
-            626
+            583,
+            42,
+            608,
+            69
         ],
-        "content": "a painting or painting tool."
+        "content": "Close"
     },
     {
         "id": 26,
         "type": "icon",
         "bbox": [
-            342,
-            514,
-            489,
-            626
+            1,
+            166,
+            63,
+            227
         ],
-        "content": "A painting or painting tool."
+        "content": "App Store"
     },
     {
         "id": 27,
         "type": "icon",
         "bbox": [
-            664,
-            515,
-            813,
-            626
+            520,
+            5,
+            544,
+            26
         ],
-        "content": "A digital assistant."
+        "content": "Help & Support"
     },
     {
         "id": 28,
         "type": "icon",
         "bbox": [
-            383,
-            134,
-            571,
-            276
+            6,
+            301,
+            59,
+            355
         ],
-        "content": "Maximize window."
+        "content": "Print"
     },
     {
         "id": 29,
         "type": "icon",
         "bbox": [
-            580,
-            137,
-            786,
-            275
+            549,
+            41,
+            573,
+            67
         ],
-        "content": "Save"
+        "content": "Maximize"
     },
     {
         "id": 30,
         "type": "icon",
         "bbox": [
-            534,
-            389,
-            578,
-            428
+            515,
+            42,
+            539,
+            68
         ],
-        "content": "Orange"
+        "content": "Minimize"
     },
     {
         "id": 31,
         "type": "icon",
         "bbox": [
-            496,
-            390,
-            532,
-            427
+            555,
+            697,
+            589,
+            731
         ],
-        "content": "Gold"
+        "content": "Settings"
     },
     {
         "id": 32,
         "type": "icon",
         "bbox": [
-            664,
-            391,
-            701,
-            424
+            111,
+            38,
+            135,
+            68
         ],
-        "content": "Purple"
+        "content": "More options"
     },
     {
         "id": 33,
         "type": "icon",
         "bbox": [
-            622,
-            391,
-            659,
-            425
+            442,
+            44,
+            460,
+            65
         ],
-        "content": "Purple"
+        "content": "Ribbon"
     },
     {
         "id": 34,
         "type": "icon",
         "bbox": [
-            705,
-            391,
-            742,
-            425
+            76,
+            122,
+            94,
+            140
         ],
-        "content": "Green"
-    },
-    {
-        "id": 35,
-        "type": "icon",
-        "bbox": [
-            412,
-            391,
-            448,
-            425
-        ],
-        "content": "Green"
+        "content": "Right arrow"
     },
     {
         "id": 36,
         "type": "icon",
         "bbox": [
-            581,
-            390,
-            616,
-            427
+            49,
+            10,
+            57,
+            21
         ],
-        "content": "Red"
+        "content": "Page 2"
     },
     {
         "id": 37,
         "type": "icon",
         "bbox": [
-            0,
-            296,
-            65,
-            359
+            250,
+            198,
+            317,
+            265
         ],
-        "content": "Settings"
-    },
-    {
-        "id": 38,
-        "type": "icon",
-        "bbox": [
-            7,
-            0,
-            64,
-            28
-        ],
-        "content": "Toggleoggleoggle Button"
-    },
-    {
-        "id": 39,
-        "type": "icon",
-        "bbox": [
-            454,
-            391,
-            490,
-            427
-        ],
-        "content": "Green"
-    },
-    {
-        "id": 40,
-        "type": "icon",
-        "bbox": [
-            747,
-            391,
-            784,
-            425
-        ],
-        "content": "Brown"
-    },
-    {
-        "id": 41,
-        "type": "icon",
-        "bbox": [
-            369,
-            390,
-            406,
-            425
-        ],
-        "content": "Blue"
-    },
-    {
-        "id": 42,
-        "type": "icon",
-        "bbox": [
-            0,
-            163,
-            62,
-            228
-        ],
-        "content": "Shop App"
-    },
-    {
-        "id": 43,
-        "type": "icon",
-        "bbox": [
-            0,
-            364,
-            62,
-            421
-        ],
-        "content": "Print"
-    },
-    {
-        "id": 44,
-        "type": "icon",
-        "bbox": [
-            231,
-            39,
-            265,
-            72
-        ],
-        "content": "Hide"
-    },
-    {
-        "id": 45,
-        "type": "icon",
-        "bbox": [
-            72,
-            39,
-            105,
-            72
-        ],
-        "content": "Find"
-    },
-    {
-        "id": 46,
-        "type": "icon",
-        "bbox": [
-            820,
-            0,
-            847,
-            29
-        ],
-        "content": "Mute"
-    },
-    {
-        "id": 47,
-        "type": "icon",
-        "bbox": [
-            792,
-            0,
-            818,
-            28
-        ],
-        "content": "Flowchart"
-    },
-    {
-        "id": 48,
-        "type": "icon",
-        "bbox": [
-            848,
-            0,
-            874,
-            30
-        ],
-        "content": "Power"
-    },
-    {
-        "id": 49,
-        "type": "icon",
-        "bbox": [
-            0,
-            106,
-            63,
-            163
-        ],
-        "content": "Clipboard"
-    },
-    {
-        "id": 50,
-        "type": "icon",
-        "bbox": [
-            0,
-            232,
-            65,
-            295
-        ],
-        "content": "Help"
-    },
-    {
-        "id": 51,
-        "type": "icon",
-        "bbox": [
-            0,
-            423,
-            64,
-            497
-        ],
-        "content": "Recycle Bin"
-    },
-    {
-        "id": 52,
-        "type": "icon",
-        "bbox": [
-            11,
-            699,
-            56,
-            744
-        ],
-        "content": "Toggle Control"
-    },
-    {
-        "id": 53,
-        "type": "icon",
-        "bbox": [
-            778,
-            718,
-            813,
-            751
-        ],
-        "content": "Checkbox"
-    },
-    {
-        "id": 54,
-        "type": "icon",
-        "bbox": [
-            710,
-            464,
-            735,
-            492
-        ],
-        "content": "Add"
-    },
-    {
-        "id": 62,
-        "type": "icon",
-        "bbox": [
-            880,
-            101,
-            886,
-            179
-        ],
-        "content": "a button to close or close a window."
-    },
-    {
-        "id": 63,
-        "type": "icon",
-        "bbox": [
-            80,
-            470,
-            107,
-            495
-        ],
-        "content": "App launcher"
-    },
-    {
-        "id": 65,
-        "type": "icon",
-        "bbox": [
-            82,
-            283,
-            104,
-            306
-        ],
-        "content": "Power Button"
+        "content": "Firefox"
     }
 ]

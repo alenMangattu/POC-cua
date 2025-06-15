@@ -1,66 +1,38 @@
-icon 0: {'type': 'text', 'bbox': [0.4887133240699768, 0.009296149015426636, 0.5880361199378967, 0.03320053219795227], 'interactivity': False, 'content': 'Jun 14 23.07'}
-icon 1: {'type': 'text', 'bbox': [0.1275395005941391, 0.1872510015964508, 0.20654627680778503, 0.20849934220314026], 'interactivity': False, 'content': 'Bluetooth'}
-icon 2: {'type': 'text', 'bbox': [0.1275395005941391, 0.32270917296409607, 0.17720089852809906, 0.3439575135707855], 'interactivity': False, 'content': 'Sound'}
-icon 3: {'type': 'text', 'bbox': [0.1275395005941391, 0.38114210963249207, 0.17945824563503265, 0.4023904502391815], 'interactivity': False, 'content': 'Power'}
-icon 4: {'type': 'text', 'bbox': [0.5090293288230896, 0.3731739819049835, 0.5699774026870728, 0.39973440766334534], 'interactivity': False, 'content': 'Default'}
-icon 5: {'type': 'text', 'bbox': [0.7460496425628662, 0.3784860670566559, 0.7866817116737366, 0.39973440766334534], 'interactivity': False, 'content': 'Dark'}
-icon 6: {'type': 'text', 'bbox': [0.1230248287320137, 0.4302788972854614, 0.22347629070281982, 0.4648074507713318], 'interactivity': False, 'content': 'Multitasking'}
-icon 7: {'type': 'text', 'bbox': [0.3510158061981201, 0.4634794294834137, 0.45485326647758484, 0.48472777009010315], 'interactivity': False, 'content': 'Accent Color'}
-icon 8: {'type': 'text', 'bbox': [0.1275395005941391, 0.5564408898353577, 0.2539503276348114, 0.5776892304420471], 'interactivity': False, 'content': 'Ubuntu Desktop'}
-icon 9: {'type': 'text', 'bbox': [0.1275395005941391, 0.6334661245346069, 0.16817155480384827, 0.6547144651412964], 'interactivity': False, 'content': 'Apps'}
-icon 10: {'type': 'text', 'bbox': [0.3510158061981201, 0.6254979968070984, 0.44808125495910645, 0.649402379989624], 'interactivity': False, 'content': 'Background'}
-icon 11: {'type': 'text', 'bbox': [0.8318284153938293, 0.6228419542312622, 0.9266365766525269, 0.6467463374137878], 'interactivity': False, 'content': 'Add Picture_'}
-icon 12: {'type': 'text', 'bbox': [0.1275395005941391, 0.6892430186271667, 0.22686229646205902, 0.7131474018096924], 'interactivity': False, 'content': 'Notifications'}
-icon 13: {'type': 'text', 'bbox': [0.1275395005941391, 0.7476759552955627, 0.18171557784080505, 0.7689242959022522], 'interactivity': False, 'content': 'Search'}
-icon 14: {'type': 'text', 'bbox': [0.1275395005941391, 0.8061088919639587, 0.2539503276348114, 0.8273572325706482], 'interactivity': False, 'content': 'Online Accounts'}
-icon 15: {'type': 'text', 'bbox': [0.1252821683883667, 0.9203187227249146, 0.20654627680778503, 0.9468791484832764], 'interactivity': False, 'content': 'Wellbeing'}
-icon 16: {'type': 'icon', 'bbox': [0.07923950999975204, 0.47865501046180725, 0.30318668484687805, 0.5376579165458679], 'interactivity': True, 'content': 'Appearance '}
-icon 17: {'type': 'icon', 'bbox': [0.08054559677839279, 0.8451652526855469, 0.30603253841400146, 0.9055410623550415], 'interactivity': True, 'content': 'Sharing '}
-icon 18: {'type': 'icon', 'bbox': [0.08053632080554962, 0.10864037275314331, 0.3035981357097626, 0.16947701573371887], 'interactivity': True, 'content': 'Network '}
-icon 19: {'type': 'icon', 'bbox': [0.08096013218164444, 0.24433673918247223, 0.30411267280578613, 0.3041504919528961], 'interactivity': True, 'content': 'Displays '}
-icon 20: {'type': 'icon', 'bbox': [0.13727562129497528, 0.05122657120227814, 0.24120791256427765, 0.09464866667985916], 'interactivity': True, 'content': 'Settings '}
-icon 21: {'type': 'icon', 'bbox': [0.6043142676353455, 0.06061134487390518, 0.7004690766334534, 0.08531766384840012], 'interactivity': True, 'content': 'Appearance '}
-icon 22: {'type': 'icon', 'bbox': [0.3508886396884918, 0.11516532301902771, 0.3937065899372101, 0.141250342130661], 'interactivity': True, 'content': 'Style '}
-icon 23: {'type': 'icon', 'bbox': [0.5684711337089539, 0.851980447769165, 0.735774576663971, 0.9995943903923035], 'interactivity': True, 'content': 'a user profile or account.'}
-icon 24: {'type': 'icon', 'bbox': [0.386711984872818, 0.8523935079574585, 0.5533324480056763, 0.9999470114707947], 'interactivity': True, 'content': 'System'}
-icon 25: {'type': 'icon', 'bbox': [0.5666328072547913, 0.6851173639297485, 0.7356783151626587, 0.8320724964141846], 'interactivity': True, 'content': 'a painting or painting tool.'}
-icon 26: {'type': 'icon', 'bbox': [0.3869253396987915, 0.683632493019104, 0.5530210733413696, 0.8317986130714417], 'interactivity': True, 'content': 'A painting or painting tool.'}
-icon 27: {'type': 'icon', 'bbox': [0.7504443526268005, 0.684941291809082, 0.9185532927513123, 0.831436812877655], 'interactivity': True, 'content': 'A digital assistant.'}
-icon 28: {'type': 'icon', 'bbox': [0.43314170837402344, 0.17903687059879303, 0.6446101069450378, 0.36757805943489075], 'interactivity': True, 'content': 'Maximize window.'}
-icon 29: {'type': 'icon', 'bbox': [0.6549501419067383, 0.18269944190979004, 0.8880084753036499, 0.3664928376674652], 'interactivity': True, 'content': 'Save'}
-icon 30: {'type': 'icon', 'bbox': [0.6032935380935669, 0.5168139934539795, 0.653477132320404, 0.5692122578620911], 'interactivity': True, 'content': 'Orange'}
-icon 31: {'type': 'icon', 'bbox': [0.5598233938217163, 0.5185052156448364, 0.6008795499801636, 0.5682651996612549], 'interactivity': True, 'content': 'Gold'}
-icon 32: {'type': 'icon', 'bbox': [0.749729573726654, 0.5203430652618408, 0.7913163900375366, 0.5643810629844666], 'interactivity': True, 'content': 'Purple'}
-icon 33: {'type': 'icon', 'bbox': [0.7028064131736755, 0.5205324292182922, 0.7438205480575562, 0.5645838975906372], 'interactivity': True, 'content': 'Purple'}
-icon 34: {'type': 'icon', 'bbox': [0.7961716055870056, 0.5200828909873962, 0.8381134271621704, 0.5652914643287659], 'interactivity': True, 'content': 'Green'}
-icon 35: {'type': 'icon', 'bbox': [0.46514892578125, 0.5197906494140625, 0.5065999031066895, 0.5650926232337952], 'interactivity': True, 'content': 'Green'}
-icon 36: {'type': 'icon', 'bbox': [0.6567155718803406, 0.5188567042350769, 0.6960539221763611, 0.5673980116844177], 'interactivity': True, 'content': 'Red'}
-icon 37: {'type': 'icon', 'bbox': [0.0002907276211772114, 0.3931056261062622, 0.07365094870328903, 0.47803446650505066], 'interactivity': True, 'content': 'Settings'}
-icon 38: {'type': 'icon', 'bbox': [0.00859132967889309, 0.00044540403177961707, 0.07268785685300827, 0.03763587027788162], 'interactivity': True, 'content': 'Toggleoggleoggle Button'}
-icon 39: {'type': 'icon', 'bbox': [0.512742817401886, 0.5196318626403809, 0.5536879897117615, 0.5672839879989624], 'interactivity': True, 'content': 'Green'}
-icon 40: {'type': 'icon', 'bbox': [0.8440435528755188, 0.51988685131073, 0.8857793807983398, 0.5657249093055725], 'interactivity': True, 'content': 'Brown'}
-icon 41: {'type': 'icon', 'bbox': [0.41713905334472656, 0.5190563201904297, 0.4592137336730957, 0.5656864047050476], 'interactivity': True, 'content': 'Blue'}
-icon 42: {'type': 'icon', 'bbox': [0.0, 0.21671825647354126, 0.0707576647400856, 0.30375105142593384], 'interactivity': True, 'content': 'Shop App'}
-icon 43: {'type': 'icon', 'bbox': [3.589987682062201e-05, 0.4836578667163849, 0.07065533846616745, 0.5592123866081238], 'interactivity': True, 'content': 'Print'}
-icon 44: {'type': 'icon', 'bbox': [0.2611471712589264, 0.05229239538311958, 0.2998315095901489, 0.09582038223743439], 'interactivity': True, 'content': 'Hide'}
-icon 45: {'type': 'icon', 'bbox': [0.08226078003644943, 0.05189188942313194, 0.11906377971172333, 0.09596837311983109], 'interactivity': True, 'content': 'Find'}
-icon 46: {'type': 'icon', 'bbox': [0.9262380599975586, 0.0006406105821952224, 0.9570298790931702, 0.03898428753018379], 'interactivity': True, 'content': 'Mute'}
-icon 47: {'type': 'icon', 'bbox': [0.8944335579872131, 0.00031219449010677636, 0.923579752445221, 0.03846579045057297], 'interactivity': True, 'content': 'Flowchart'}
-icon 48: {'type': 'icon', 'bbox': [0.9572816491127014, 0.00014991156058385968, 0.9873082637786865, 0.040461257100105286], 'interactivity': True, 'content': 'Power'}
-icon 49: {'type': 'icon', 'bbox': [0.0, 0.1410643607378006, 0.0716930478811264, 0.2174653261899948], 'interactivity': True, 'content': 'Clipboard'}
-icon 50: {'type': 'icon', 'bbox': [0.0006250023725442588, 0.30877017974853516, 0.07439512759447098, 0.3929148316383362], 'interactivity': True, 'content': 'Help'}
-icon 51: {'type': 'icon', 'bbox': [9.001493162941188e-05, 0.5628846883773804, 0.0725250095129013, 0.6602380871772766], 'interactivity': True, 'content': 'Recycle Bin'}
-icon 52: {'type': 'icon', 'bbox': [0.013354348950088024, 0.9286608695983887, 0.06430673599243164, 0.989349901676178], 'interactivity': True, 'content': 'Toggle Control'}
-icon 53: {'type': 'icon', 'bbox': [0.8782913088798523, 0.9547426104545593, 0.9177913665771484, 0.9982857704162598], 'interactivity': True, 'content': 'Checkbox'}
-icon 54: {'type': 'icon', 'bbox': [0.8024614453315735, 0.6172667741775513, 0.8296258449554443, 0.6538339257240295], 'interactivity': True, 'content': 'Add'}
-icon 55: {'type': 'icon', 'bbox': [0.9927303194999695, 0.05070096254348755, 1.0, 0.09550703316926956], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 56: {'type': 'icon', 'bbox': [0.36046385765075684, 0.5150797963142395, 0.416189044713974, 0.564582347869873], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 57: {'type': 'icon', 'bbox': [1.193508524011122e-05, 0.0006002073059789836, 0.006367113906890154, 0.036476265639066696], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 58: {'type': 'icon', 'bbox': [0.993232786655426, 2.149558895325754e-06, 1.0, 0.042961038649082184], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 59: {'type': 'icon', 'bbox': [0.888375997543335, 0.5142876505851746, 0.9512323141098022, 0.569050669670105], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 60: {'type': 'icon', 'bbox': [0.07759232074022293, 0.9735137224197388, 0.30245617032051086, 1.0], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 61: {'type': 'icon', 'bbox': [4.7936289774952456e-05, 0.059087127447128296, 0.007268825080245733, 0.12693072855472565], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 62: {'type': 'icon', 'bbox': [0.9934511184692383, 0.13425710797309875, 1.0, 0.2385828197002411], 'interactivity': True, 'content': 'a button to close or close a window.'}
-icon 63: {'type': 'icon', 'bbox': [0.09074554592370987, 0.6254324316978455, 0.12093929946422577, 0.6573941707611084], 'interactivity': True, 'content': 'App launcher'}
-icon 64: {'type': 'icon', 'bbox': [0.9744546413421631, 0.8223782181739807, 1.0, 0.8724822998046875], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
-icon 65: {'type': 'icon', 'bbox': [0.09304969757795334, 0.3766220211982727, 0.11836425960063934, 0.40640661120414734], 'interactivity': True, 'content': 'Power Button'}
+icon 0: {'type': 'text', 'bbox': [0.4845024347305298, 0.009296149015426636, 0.6280587315559387, 0.03320053219795227], 'interactivity': False, 'content': 'Jun 15 11.29'}
+icon 1: {'type': 'text', 'bbox': [0.2300163060426712, 0.06241700053215027, 0.33115825057029724, 0.08366534113883972], 'interactivity': False, 'content': 'New Tab'}
+icon 2: {'type': 'text', 'bbox': [0.19086460769176483, 0.1155378520488739, 0.2822186052799225, 0.14209827780723572], 'interactivity': False, 'content': '7 X'}
+icon 3: {'type': 'text', 'bbox': [0.15334421396255493, 0.16201859712600708, 0.38336053490638733, 0.1885790228843689], 'interactivity': False, 'content': 'Import bookmarks ..'}
+icon 4: {'type': 'text', 'bbox': [0.5236541628837585, 0.28286853432655334, 0.7063621282577515, 0.3306773006916046], 'interactivity': False, 'content': 'Firefox'}
+icon 5: {'type': 'icon', 'bbox': [0.30434396862983704, 0.40185311436653137, 0.8062147498130798, 0.4733055531978607], 'interactivity': True, 'content': 'Search with Google or enter. '}
+icon 6: {'type': 'icon', 'bbox': [0.31133076548576355, 0.1052064448595047, 0.7345983982086182, 0.15215034782886505], 'interactivity': True, 'content': 'weather ravenna '}
+icon 7: {'type': 'icon', 'bbox': [0.3016170859336853, 0.7395049333572388, 0.41828060150146484, 0.8648749589920044], 'interactivity': True, 'content': 'YouTube '}
+icon 8: {'type': 'icon', 'bbox': [0.30049020051956177, 0.5489389896392822, 0.4194275736808777, 0.6974650025367737], 'interactivity': True, 'content': 'Amazon Sponsored '}
+icon 9: {'type': 'icon', 'bbox': [0.6879673600196838, 0.5500145554542542, 0.8105418682098389, 0.6977970004081726], 'interactivity': True, 'content': 'Idas Adidas Sponsored '}
+icon 10: {'type': 'icon', 'bbox': [0.6627156138420105, 0.7366558909416199, 0.8419912457466125, 0.8919752836227417], 'interactivity': True, 'content': 'Pastebin com past: '}
+icon 11: {'type': 'icon', 'bbox': [0.4919428527355194, 0.5499690771102905, 0.6170704364776611, 0.6998175978660583], 'interactivity': True, 'content': 'Temu Sponsored '}
+icon 12: {'type': 'icon', 'bbox': [0.4942876994609833, 0.7392098307609558, 0.6201591491699219, 0.8897106647491455], 'interactivity': True, 'content': 'Directory listing '}
+icon 13: {'type': 'icon', 'bbox': [0.11183255910873413, 0.9733348488807678, 0.3066388964653015, 0.9982566237449646], 'interactivity': True, 'content': 'WWWgoogle com '}
+icon 14: {'type': 'icon', 'bbox': [0.39453044533729553, 0.1611422896385193, 0.5302114486694336, 0.18783660233020782], 'interactivity': True, 'content': 'YouTube '}
+icon 15: {'type': 'icon', 'bbox': [0.7564156651496887, 0.10127341747283936, 0.8147725462913513, 0.1594996154308319], 'interactivity': True, 'content': 'Save to Pocket'}
+icon 16: {'type': 'icon', 'bbox': [0.9379337430000305, 0.0006280213128775358, 0.9819781184196472, 0.04188697785139084], 'interactivity': True, 'content': 'Power'}
+icon 17: {'type': 'icon', 'bbox': [0.17673617601394653, 0.10592803359031677, 0.236283540725708, 0.15083712339401245], 'interactivity': True, 'content': 'Forward'}
+icon 18: {'type': 'icon', 'bbox': [0.106105275452137, 0.042470671236515045, 0.17333413660526276, 0.10234107077121735], 'interactivity': True, 'content': 'Firefox View'}
+icon 19: {'type': 'icon', 'bbox': [0.9307831525802612, 0.10191692411899567, 0.9895477294921875, 0.1584470272064209], 'interactivity': True, 'content': 'Hide'}
+icon 20: {'type': 'icon', 'bbox': [0.5025603175163269, 0.05807048827409744, 0.5359610319137573, 0.08786513656377792], 'interactivity': True, 'content': 'Close'}
+icon 21: {'type': 'icon', 'bbox': [0.020136885344982147, 0.4888613224029541, 0.08806638419628143, 0.551359236240387], 'interactivity': True, 'content': 'Recycle Bin'}
+icon 22: {'type': 'icon', 'bbox': [0.01180799026042223, 0.31512758135795593, 0.0961790680885315, 0.3909991681575775], 'interactivity': True, 'content': 'Help or Information'}
+icon 23: {'type': 'icon', 'bbox': [0.014325118623673916, 0.9288554787635803, 0.09493625164031982, 0.9955068230628967], 'interactivity': True, 'content': 'Toggle'}
+icon 24: {'type': 'icon', 'bbox': [0.5572916269302368, 0.05239766463637352, 0.6043906807899475, 0.09644511342048645], 'interactivity': True, 'content': 'New Project'}
+icon 25: {'type': 'icon', 'bbox': [0.9525471329689026, 0.05594978854060173, 0.9930847883224487, 0.09207643568515778], 'interactivity': True, 'content': 'Close'}
+icon 26: {'type': 'icon', 'bbox': [0.0019950582645833492, 0.22065289318561554, 0.10411166399717331, 0.3017466962337494], 'interactivity': True, 'content': 'App Store'}
+icon 27: {'type': 'icon', 'bbox': [0.8484035134315491, 0.00760956946760416, 0.8882628679275513, 0.035258229821920395], 'interactivity': True, 'content': 'Help & Support'}
+icon 28: {'type': 'icon', 'bbox': [0.010151437483727932, 0.4005732536315918, 0.09749040752649307, 0.4725489318370819], 'interactivity': True, 'content': 'Print'}
+icon 29: {'type': 'icon', 'bbox': [0.8972093462944031, 0.055767495185136795, 0.9359325766563416, 0.08981671929359436], 'interactivity': True, 'content': 'Maximize'}
+icon 30: {'type': 'icon', 'bbox': [0.8404728174209595, 0.056312236934900284, 0.8805198669433594, 0.09042582660913467], 'interactivity': True, 'content': 'Minimize'}
+icon 31: {'type': 'icon', 'bbox': [0.9055668711662292, 0.9258587956428528, 0.9623362421989441, 0.9718228578567505], 'interactivity': True, 'content': 'Settings'}
+icon 32: {'type': 'icon', 'bbox': [0.1826530396938324, 0.05077192187309265, 0.22126320004463196, 0.09065789729356766], 'interactivity': True, 'content': 'More options'}
+icon 33: {'type': 'icon', 'bbox': [0.7213329076766968, 0.05971168354153633, 0.7509504556655884, 0.08747903257608414], 'interactivity': True, 'content': 'Ribbon'}
+icon 34: {'type': 'icon', 'bbox': [0.12456074357032776, 0.16327406466007233, 0.15424013137817383, 0.18686187267303467], 'interactivity': True, 'content': 'Right arrow'}
+icon 35: {'type': 'icon', 'bbox': [0.9994187355041504, 0.00024376211513299495, 1.0, 0.04021333158016205], 'interactivity': True, 'content': 'M0,0L9,0 4.5,5z'}
+icon 36: {'type': 'icon', 'bbox': [0.08017471432685852, 0.014543231576681137, 0.09420724958181381, 0.028938602656126022], 'interactivity': True, 'content': 'Page 2'}
+icon 37: {'type': 'icon', 'bbox': [0.40846335887908936, 0.2636430561542511, 0.5174421072006226, 0.35229477286338806], 'interactivity': True, 'content': 'Firefox'}
