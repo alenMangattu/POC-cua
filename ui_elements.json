@@ -1,0 +1,409 @@
+[
+    {
+        "id": 0,
+        "type": "text",
+        "bbox": [
+            296,
+            7,
+            385,
+            25
+        ],
+        "content": "Jun 15 11.29"
+    },
+    {
+        "id": 1,
+        "type": "text",
+        "bbox": [
+            140,
+            47,
+            203,
+            63
+        ],
+        "content": "New Tab"
+    },
+    {
+        "id": 2,
+        "type": "text",
+        "bbox": [
+            117,
+            87,
+            173,
+            107
+        ],
+        "content": "7 X"
+    },
+    {
+        "id": 3,
+        "type": "text",
+        "bbox": [
+            94,
+            122,
+            235,
+            142
+        ],
+        "content": "Import bookmarks .."
+    },
+    {
+        "id": 4,
+        "type": "text",
+        "bbox": [
+            321,
+            213,
+            432,
+            249
+        ],
+        "content": "Firefox"
+    },
+    {
+        "id": 5,
+        "type": "icon",
+        "bbox": [
+            186,
+            302,
+            494,
+            356
+        ],
+        "content": "Search with Google or enter. "
+    },
+    {
+        "id": 6,
+        "type": "icon",
+        "bbox": [
+            190,
+            79,
+            450,
+            114
+        ],
+        "content": "weather ravenna "
+    },
+    {
+        "id": 7,
+        "type": "icon",
+        "bbox": [
+            184,
+            556,
+            256,
+            651
+        ],
+        "content": "YouTube "
+    },
+    {
+        "id": 8,
+        "type": "icon",
+        "bbox": [
+            184,
+            413,
+            257,
+            525
+        ],
+        "content": "Amazon Sponsored "
+    },
+    {
+        "id": 9,
+        "type": "icon",
+        "bbox": [
+            421,
+            414,
+            496,
+            525
+        ],
+        "content": "Idas Adidas Sponsored "
+    },
+    {
+        "id": 10,
+        "type": "icon",
+        "bbox": [
+            406,
+            554,
+            516,
+            671
+        ],
+        "content": "Pastebin com past: "
+    },
+    {
+        "id": 11,
+        "type": "icon",
+        "bbox": [
+            301,
+            414,
+            378,
+            526
+        ],
+        "content": "Temu Sponsored "
+    },
+    {
+        "id": 12,
+        "type": "icon",
+        "bbox": [
+            302,
+            556,
+            380,
+            669
+        ],
+        "content": "Directory listing "
+    },
+    {
+        "id": 13,
+        "type": "icon",
+        "bbox": [
+            68,
+            732,
+            187,
+            751
+        ],
+        "content": "WWWgoogle com "
+    },
+    {
+        "id": 14,
+        "type": "icon",
+        "bbox": [
+            241,
+            121,
+            325,
+            141
+        ],
+        "content": "YouTube "
+    },
+    {
+        "id": 15,
+        "type": "icon",
+        "bbox": [
+            463,
+            76,
+            499,
+            120
+        ],
+        "content": "Save to Pocket"
+    },
+    {
+        "id": 16,
+        "type": "icon",
+        "bbox": [
+            574,
+            0,
+            601,
+            31
+        ],
+        "content": "Power"
+    },
+    {
+        "id": 17,
+        "type": "icon",
+        "bbox": [
+            108,
+            79,
+            144,
+            113
+        ],
+        "content": "Forward"
+    },
+    {
+        "id": 18,
+        "type": "icon",
+        "bbox": [
+            65,
+            31,
+            106,
+            77
+        ],
+        "content": "Firefox View"
+    },
+    {
+        "id": 19,
+        "type": "icon",
+        "bbox": [
+            570,
+            76,
+            606,
+            119
+        ],
+        "content": "Hide"
+    },
+    {
+        "id": 20,
+        "type": "icon",
+        "bbox": [
+            308,
+            43,
+            328,
+            66
+        ],
+        "content": "Close"
+    },
+    {
+        "id": 21,
+        "type": "icon",
+        "bbox": [
+            12,
+            368,
+            53,
+            415
+        ],
+        "content": "Recycle Bin"
+    },
+    {
+        "id": 22,
+        "type": "icon",
+        "bbox": [
+            7,
+            237,
+            58,
+            294
+        ],
+        "content": "Help or Information"
+    },
+    {
+        "id": 23,
+        "type": "icon",
+        "bbox": [
+            8,
+            699,
+            58,
+            749
+        ],
+        "content": "Toggle"
+    },
+    {
+        "id": 24,
+        "type": "icon",
+        "bbox": [
+            341,
+            39,
+            370,
+            72
+        ],
+        "content": "New Project"
+    },
+    {
+        "id": 25,
+        "type": "icon",
+        "bbox": [
+            583,
+            42,
+            608,
+            69
+        ],
+        "content": "Close"
+    },
+    {
+        "id": 26,
+        "type": "icon",
+        "bbox": [
+            1,
+            166,
+            63,
+            227
+        ],
+        "content": "App Store"
+    },
+    {
+        "id": 27,
+        "type": "icon",
+        "bbox": [
+            520,
+            5,
+            544,
+            26
+        ],
+        "content": "Help & Support"
+    },
+    {
+        "id": 28,
+        "type": "icon",
+        "bbox": [
+            6,
+            301,
+            59,
+            355
+        ],
+        "content": "Print"
+    },
+    {
+        "id": 29,
+        "type": "icon",
+        "bbox": [
+            549,
+            41,
+            573,
+            67
+        ],
+        "content": "Maximize"
+    },
+    {
+        "id": 30,
+        "type": "icon",
+        "bbox": [
+            515,
+            42,
+            539,
+            68
+        ],
+        "content": "Minimize"
+    },
+    {
+        "id": 31,
+        "type": "icon",
+        "bbox": [
+            555,
+            697,
+            589,
+            731
+        ],
+        "content": "Settings"
+    },
+    {
+        "id": 32,
+        "type": "icon",
+        "bbox": [
+            111,
+            38,
+            135,
+            68
+        ],
+        "content": "More options"
+    },
+    {
+        "id": 33,
+        "type": "icon",
+        "bbox": [
+            442,
+            44,
+            460,
+            65
+        ],
+        "content": "Ribbon"
+    },
+    {
+        "id": 34,
+        "type": "icon",
+        "bbox": [
+            76,
+            122,
+            94,
+            140
+        ],
+        "content": "Right arrow"
+    },
+    {
+        "id": 36,
+        "type": "icon",
+        "bbox": [
+            49,
+            10,
+            57,
+            21
+        ],
+        "content": "Page 2"
+    },
+    {
+        "id": 37,
+        "type": "icon",
+        "bbox": [
+            250,
+            198,
+            317,
+            265
+        ],
+        "content": "Firefox"
+    }
+]

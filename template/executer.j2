@@ -15,6 +15,7 @@ For each task, determine:
 - **Decomposition Need**: Does this task require further breakdown?
 - **Information Need**: Do you need to observe the current state first?
 
+
 ### 2. CLASSIFICATION SYSTEM
 Classify each task into one of these categories:
 
@@ -44,7 +45,8 @@ Classify each task into one of these categories:
   "classification": "EXECUTE_PRIMITIVE",
   "action": {
     "type": "VM_TOOLS|SCAN",
-    "details": {/* specific tool parameters */}
+    "details": {/* specific tool parameters */},
+    "vision_model_query": "Optional question for vision model if SCAN is used (e.g., 'What color is the background?')"
   }
 }
 ```
@@ -81,6 +83,7 @@ Classify each task into one of these categories:
   "classification": "GATHER_INFORMATION",
   "information_needed": "What needs to be observed",
   "observation_method": "SCAN|VM_TOOLS",
+  "vision_model_query": "Optional question for vision model if SCAN is used (e.g., 'What color is the error message?')",
   "next_action_depends_on": "What the observation reveals"
 }
 ```
@@ -244,7 +247,7 @@ Here are the VM operations available:
 
 ### 1. EXECUTION ERRORS
 When a primitive action fails:
-```json
+```jso
 {
   "classification": "ERROR_RECOVERY",
   "error_type": "execution_failure",
@@ -314,7 +317,7 @@ Every response MUST include:
 - Clear classification of the response type
 - Specific next action(s) to take
 - Validation criteria for success
-- Error recovery options
+- Error recovery ptions
 - Context for the next iteration
 
 This creates a feedback loop where each response moves the execution forward while handling uncertainty and errors systematically.

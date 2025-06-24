@@ -5,6 +5,7 @@ import os
 from PIL import Image
 import pyautogui
 import time
+import tempfile
  
 app = Flask(__name__)
  
@@ -17,21 +18,47 @@ def screenshot():
         width = request.args.get('width', type=int)
         height = request.args.get('height', type=int)
  
-        # Temp filename
-        temp_filename = "/tmp/screenshot.png"
- 
+        # Generate a unique temporary filename for each request
+        # Use a context manager for automatic cleanup
+        with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as temp_file:
+            temp_filename = temp_file.name
+
         if all([x is not None, y is not None, width is not None, height is not None]):
             # Capture screenshot of specific region using scrot
             subprocess.run(['scrot', '-a', f'{x},{y},{width},{height}', temp_filename], check=True)
         else:
             # Capture full screenshot if parameters are missing
             subprocess.run(['scrot', temp_filename], check=True)
- 
+
+        # Wait for the file to be fully written by polling its size
+        max_wait_time = 5  # seconds
+        check_interval = 0.05  # seconds
+        last_size = -1
+        current_size = 0
+        start_time = time.time()
+
+        while time.time() - start_time < max_wait_time:
+            if not os.path.exists(temp_filename):
+                time.sleep(check_interval)
+                continue
+
+            current_size = os.path.getsize(temp_filename)
+            if current_size == last_size and current_size > 0:
+                break  # File size has stabilized and is not empty
+            last_size = current_size
+            time.sleep(check_interval)
+
+        if not os.path.exists(temp_filename) or os.path.getsize(temp_filename) == 0:
+            # Clean up the empty or non-existent temp file
+            if os.path.exists(temp_filename): 
+                os.remove(temp_filename)
+            return {'error': 'Failed to capture screenshot or screenshot file is empty'}, 500
+
         # Open the image and load it into memory
         with open(temp_filename, 'rb') as f:
             img_bytes = io.BytesIO(f.read())
  
-        # Optionally delete the temp file
+        # Ensure the temp file is deleted after reading
         os.remove(temp_filename)
  
         # Return as image/png
@@ -51,7 +78,7 @@ def move_to():
  
         if x is None or y is None:
             return {'error': 'x and y coordinates are required'}, 400
- 
+
         pyautogui.moveTo(x, y)
         return {'success': True, 'position': {'x': x, 'y': y}}
     except Exception as e:
@@ -162,6 +189,27 @@ def scroll():
     except Exception as e:
         return {'error': str(e)}, 500
  
+@app.route('/screenresolution', methods=['GET'])
+def get_screen_resolution():
+    try:
+        # Get active resolution using xrandr
+        xrandr_output = subprocess.run(['xrandr', '-d', ':0'], capture_output=True, text=True, check=True).stdout
+        
+        # Find the line with the current resolution (marked with an asterisk *)
+        resolution_line = next((line for line in xrandr_output.split('\n') if '*' in line), None)
+        
+        if resolution_line:
+            # Extract the resolution string (e.g., "1920x1080")
+            resolution_str = resolution_line.split()[0]
+            width, height = map(int, resolution_str.split('x'))
+            return {'success': True, 'width': width, 'height': height}
+        else:
+            return {'error': 'Could not determine screen resolution from xrandr output'}, 500
+    except subprocess.CalledProcessError as e:
+        return {'error': f"xrandr failed: {str(e)}"}, 500
+    except Exception as e:
+        return {'error': str(e)}, 500
+ 
 @app.route('/wmctrlinfo', methods=['GET'])
 def get_wmctrl_info():
     try:
@@ -186,6 +234,7 @@ def get_wmctrl_info():
         active_window_cmd = "xdotool getactivewindow"
         active_window_id_raw = subprocess.run(active_window_cmd, shell=True, capture_output=True, text=True, check=True).stdout.strip()
         active_window_id = f"0x{int(active_window_id_raw, 10):08x}" if active_window_id_raw else ""
+
 
         parsed_window_list = []
         parsed_active_window = {}
@@ -219,7 +268,10 @@ def get_wmctrl_info():
                             parsed_window_list.append(window_data)
 
                         if window_id == active_window_id:
-                            parsed_active_window = window_data
+                            if 0 <= desktop <= 10:
+                                parsed_active_window = window_data
+                            else:
+                                parsed_active_window = "N/A"
                     except ValueError:
                         continue # Skip malformed lines
 
@@ -287,15 +339,19 @@ def click():
     try:
         data = request.get_json()
         print(f"[/click] Received data: {data}")
-        x = data.get('x', type=int)
-        y = data.get('y', type=int)
+        x = data.get('x')
+        y = data.get('y')
         button = data.get('button', 'left') # left, middle, right
         clicks = data.get('clicks', 1)
-        interval = data.get('interval', 0.0) # interval between clicks for multi-clicks
+        interval = data.get('interval', 0.0)
 
-        if x is None or y is None:
-            print("[/click] Error: x or y coordinates are missing.")
-            return {'error': 'x and y coordinates are required'}, 400
+        # Convert to appropriate types after getting from dictionary
+        try:
+            x = int(x)
+            y = int(y)
+        except (ValueError, TypeError):
+            print("[/click] Error: x and y coordinates must be integers.")
+            return {'error': 'x and y coordinates must be integers'}, 400
         if button not in ['left', 'middle', 'right']:
             print(f"[/click] Error: Invalid button: {button}")
             return {'error': 'Invalid button. Must be left, middle, or right'}, 400
@@ -320,6 +376,7 @@ def index():
             '/moverel': 'GET - Move cursor relative to current position (params: direction, pixels)',
             '/input': 'POST - Type text or send key combinations (body: {"type": "text|hotkey", "content": string|array, "interval": float})',
             '/scroll': 'GET - Scroll up or down (params: direction, clicks)',
+            '/screenresolution': 'GET - Get screen resolution',
             '/wmctrlinfo': 'GET - Get wmctrl -lG output',
             '/changewmctrlinfo': 'POST - Change window focus',
             '/click': 'POST - Click at specific coordinates with optional button and clicks'

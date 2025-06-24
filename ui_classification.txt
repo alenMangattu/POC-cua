@@ -1,0 +1,37 @@
+icon 0: {"type": "text", "bbox": [296, 7, 385, 25], "content": "Jun 15 11.29"}
+icon 1: {"type": "text", "bbox": [140, 47, 203, 63], "content": "New Tab"}
+icon 2: {"type": "text", "bbox": [117, 87, 173, 107], "content": "7 X"}
+icon 3: {"type": "text", "bbox": [94, 122, 235, 142], "content": "Import bookmarks .."}
+icon 4: {"type": "text", "bbox": [321, 213, 432, 249], "content": "Firefox"}
+icon 5: {"type": "icon", "bbox": [186, 302, 494, 356], "content": "Search with Google or enter. "}
+icon 6: {"type": "icon", "bbox": [190, 79, 450, 114], "content": "weather ravenna "}
+icon 7: {"type": "icon", "bbox": [184, 556, 256, 651], "content": "YouTube "}
+icon 8: {"type": "icon", "bbox": [184, 413, 257, 525], "content": "Amazon Sponsored "}
+icon 9: {"type": "icon", "bbox": [421, 414, 496, 525], "content": "Idas Adidas Sponsored "}
+icon 10: {"type": "icon", "bbox": [406, 554, 516, 671], "content": "Pastebin com past: "}
+icon 11: {"type": "icon", "bbox": [301, 414, 378, 526], "content": "Temu Sponsored "}
+icon 12: {"type": "icon", "bbox": [302, 556, 380, 669], "content": "Directory listing "}
+icon 13: {"type": "icon", "bbox": [68, 732, 187, 751], "content": "WWWgoogle com "}
+icon 14: {"type": "icon", "bbox": [241, 121, 325, 141], "content": "YouTube "}
+icon 15: {"type": "icon", "bbox": [463, 76, 499, 120], "content": "Save to Pocket"}
+icon 16: {"type": "icon", "bbox": [574, 0, 601, 31], "content": "Power"}
+icon 17: {"type": "icon", "bbox": [108, 79, 144, 113], "content": "Forward"}
+icon 18: {"type": "icon", "bbox": [65, 31, 106, 77], "content": "Firefox View"}
+icon 19: {"type": "icon", "bbox": [570, 76, 606, 119], "content": "Hide"}
+icon 20: {"type": "icon", "bbox": [308, 43, 328, 66], "content": "Close"}
+icon 21: {"type": "icon", "bbox": [12, 368, 53, 415], "content": "Recycle Bin"}
+icon 22: {"type": "icon", "bbox": [7, 237, 58, 294], "content": "Help or Information"}
+icon 23: {"type": "icon", "bbox": [8, 699, 58, 749], "content": "Toggle"}
+icon 24: {"type": "icon", "bbox": [341, 39, 370, 72], "content": "New Project"}
+icon 25: {"type": "icon", "bbox": [583, 42, 608, 69], "content": "Close"}
+icon 26: {"type": "icon", "bbox": [1, 166, 63, 227], "content": "App Store"}
+icon 27: {"type": "icon", "bbox": [520, 5, 544, 26], "content": "Help & Support"}
+icon 28: {"type": "icon", "bbox": [6, 301, 59, 355], "content": "Print"}
+icon 29: {"type": "icon", "bbox": [549, 41, 573, 67], "content": "Maximize"}
+icon 30: {"type": "icon", "bbox": [515, 42, 539, 68], "content": "Minimize"}
+icon 31: {"type": "icon", "bbox": [555, 697, 589, 731], "content": "Settings"}
+icon 32: {"type": "icon", "bbox": [111, 38, 135, 68], "content": "More options"}
+icon 33: {"type": "icon", "bbox": [442, 44, 460, 65], "content": "Ribbon"}
+icon 34: {"type": "icon", "bbox": [76, 122, 94, 140], "content": "Right arrow"}
+icon 36: {"type": "icon", "bbox": [49, 10, 57, 21], "content": "Page 2"}
+icon 37: {"type": "icon", "bbox": [250, 198, 317, 265], "content": "Firefox"}
